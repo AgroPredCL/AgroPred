@@ -7,6 +7,7 @@ A brief description of what this project does and its purpose.
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
+- [Team](#team)
 - [License](#license)
 - [Contact](#contact)
 
