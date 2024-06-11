@@ -41,3 +41,6 @@ npm install
 
 - **Name 5** - *Role/Responsibility* - [GitHub Profile](https://github.com/username5)
   - **Email**: [name5@example.com](mailto:name5@example.com)
+
+- **Name 6** - *Role/Responsibility* - [GitHub Profile](https://github.com/username5)
+  - **Email**: [name6@example.com](mailto:name6@example.com)
