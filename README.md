@@ -24,6 +24,7 @@ cd AgroPred
 
 # Install dependencies
 npm install
+```
 
 ## Team
 - **Name 1** - *Role/Responsibility* - [GitHub Profile](https://github.com/username1)
