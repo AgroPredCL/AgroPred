@@ -41,7 +41,7 @@ const createTablaUbicacion = `
     );
 `;
 //---------------------Tablas azules-----------------
-
+ // ESTO ES UN COMENTARIO
 const createTablaUsuarios = `
     CREATE TABLE Usuario (
         email           VARCHAR(320)    NOT NULL,
