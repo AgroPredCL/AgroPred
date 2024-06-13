@@ -24,9 +24,7 @@ for(let i = 0; i < queries.length; i++) {
             console.error(`Error executing query ${i}:`, err);
         } else {
             console.log(`Query ${i} executed successfully`);
+            client.end();
         }
     });
 }
-
-
-//client.end();
