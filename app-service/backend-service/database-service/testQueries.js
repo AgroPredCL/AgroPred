@@ -1,5 +1,5 @@
 const { Client } = require('pg');
-const config = require('./config');
+const config = require('./configTables');
 
 // Configure connection to your PostgreSQL server
 const client = new Client(config);
@@ -9,7 +9,7 @@ client.connect();
 
 // SQL query to test
 const testQuery = `
-    SELECT * FROM users;
+    SELECT * FROM Ubicacion WHERE comuna = 'Viña' ;
 `;
 
 // Execute the SQL query
