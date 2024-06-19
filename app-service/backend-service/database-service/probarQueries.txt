@@ -1,7 +1,0 @@
-INSERT INTO Ubicacion (region,comuna,calle,numero,codigo_postal,nom_predio)
-VALUES ('Araucania','Temuco','Los Olivos',123,12345,'Diego');
-
-INSERT INTO Predio (nombre, area)
-    VALUES ('Diego',123)
-
-SELECT * FROM Ubicacion WHERE comuna = 'Viña' ;
