@@ -16,16 +16,17 @@
 
 
 ## PRED05
-- Antracnosis:
-    - Descripcion:
+- Antracnosis (HOJAS Y FRUTAS):
+    - Descripcion:  Enfermedad fúngica causada por diversos hongos. Esta enfermedad afecta principalmente a las hojas, tallos y frutos de los árboles de aguacate (paltos). Los síntomas típicos incluyen la formación de manchas oscuras y hundidas en las hojas, las cuales pueden expandirse y unirse, provocando la caída prematura de las hojas. En los frutos, la antracnosis causa lesiones que se vuelven necróticas y pueden producir moho. Esta enfermedad puede reducir la calidad y el rendimiento de los frutos, y su manejo suele incluir prácticas de control cultural, como la poda adecuada y el manejo de la humedad, junto con el uso de fungicidas específicos cuando es necesario.
     - Parametros:
         - ...
         - ...
         - ...
         - ...
-    - Estrategia: ...
+    - Estrategia: 
+    
 
-- Asfixia radicular:
+- Asfixia radicular (SUELO):
     - Descripcion: Condición en la que las raíces de los árboles de paltos se ven
     privadas de oxígeno debido a la saturación del suelo con agua.
     Esto ocurre cuando el suelo permanece excesivamente húmedo durante períodos
