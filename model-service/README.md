@@ -18,11 +18,7 @@
 ## PRED05
 - Antracnosis (HOJAS Y FRUTAS):
     - Descripcion:  Enfermedad fúngica causada por diversos hongos. Esta enfermedad afecta principalmente a las hojas, tallos y frutos de los árboles de aguacate (paltos). Los síntomas típicos incluyen la formación de manchas oscuras y hundidas en las hojas, las cuales pueden expandirse y unirse, provocando la caída prematura de las hojas. En los frutos, la antracnosis causa lesiones que se vuelven necróticas y pueden producir moho. Esta enfermedad puede reducir la calidad y el rendimiento de los frutos, y su manejo suele incluir prácticas de control cultural, como la poda adecuada y el manejo de la humedad, junto con el uso de fungicidas específicos cuando es necesario.
-    - Parametros:
-        - ...
-        - ...
-        - ...
-        - ...
+
     - Estrategia: 
     
 
@@ -38,22 +34,23 @@
     puede ser causada por factores como el riego excesivo, suelos mal drenados, o
     condiciones de suelo compactado que impiden el flujo de oxígeno hacia las
     raíces.
+
     - Parametros:
         - PH: [5, 8]
         - Temperatura: [13, 32]
         - Humedad: [80, 100]
+
     - Estrategia: ...
 
-- Deficiencia de ...:
+- Deficiencia de Potasio, Fosforo o Cloruros:
     - Descripcion:
-    - Parametros:
-        - ...
-        - ...
-        - ...
-        - ...
-    - Estrategia: ...
+
+    - Estrategia: 
+        1. Identificar hoja
+        2. 
 
 
 
 ## Tecnologias
 - [PlantCV](https://plantcv.readthedocs.io/en/stable/):
+- [Roboflow](https://roboflow.com/)
