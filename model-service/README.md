@@ -3,9 +3,9 @@
 - [Prediccion de estado de nutrientes (PRED03)](#pred03)
 
 - [Prediccion de enfermedades (PRED05)](#pred05)
-    - [Antracnosis](#antrac)
-    - [Asfixia Radicular](#asfrad)
-    - [Deficiencia de Nitrogeno](#defnit)
+    - Antracnosis
+    - Asfixia Radicular
+    - Deficiencia de Nitrogeno
 
 - [Tecnologias](#TECNOLOGIAS)
 
