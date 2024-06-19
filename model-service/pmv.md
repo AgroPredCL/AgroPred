@@ -1,4 +1,49 @@
-## Table of Contents
+## PMV HU's
 
-- [HU](#HU)
--
+- [Prediccion de estado de nutrientes](#pred03)
+
+- [Prediccion de enfermedades](#pred05)
+    - [Antracnosis](#antrac)
+    - [Asfixia Radicular](#asfrad)
+    - [Deficiencia de Nitrogeno](#defnit)
+
+- [Tecnologias](#TECNOLOGIAS)
+
+
+## Prediccion de estado de nutrientes
+- Estrategia:
+- Predicciones:
+
+
+## Prediccion de enfermedades
+- Antracnosis:
+    - Descripcion:
+    - Parametros:
+        - ...
+        - ...
+        - ...
+        - ...
+    - Estrategia: ...
+
+- Asfixia radicular:
+    - Descripcion:
+    - Parametros:
+        - ...
+        - ...
+        - ...
+        - ...
+    - Estrategia: ...
+
+- Deficiencia de ...:
+    - Descripcion:
+    - Parametros:
+        - ...
+        - ...
+        - ...
+        - ...
+    - Estrategia: ...
+
+
+
+## Tecnologias
+- [PlantCV](https://plantcv.readthedocs.io/en/stable/):
