@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize"
 import { sequelize } from "../database/database.js"
+import { Predio } from "./Predio.js"
 
 export const Ubicacion = sequelize.define('ubicacion', {
     id: {
@@ -23,4 +24,3 @@ export const Ubicacion = sequelize.define('ubicacion', {
         type: DataTypes.INTEGER,
     },
 })
-
