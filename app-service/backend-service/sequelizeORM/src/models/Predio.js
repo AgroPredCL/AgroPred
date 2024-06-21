@@ -2,6 +2,7 @@ import { DataTypes } from "sequelize";
 import { sequelize } from '../database/database.js'
 import { Ubicacion } from './Ubicacion.js'
 import { Usuario } from "./Usuario.js";
+import { Cuartel } from "./Cuartel.js";
 
 export const Predio = sequelize.define('predio', {
     nombre: {
@@ -34,3 +35,16 @@ Usuario.belongsTo(Predio,{
     foreignKey: 'predioNombre',
     targetId: 'nombre'
 })
+
+//------------------------------------------------
+
+Predio.hasMany(Cuartel,{
+    foreignKey: 'predioNombre',
+    sourceKey: 'nombre'
+})
+
+Cuartel.belongsTo(Predio,{
+    foreignKey: 'predioNombre',
+    sourceKey: 'nombre'
+})
+

@@ -1,5 +1,7 @@
 import { DataTypes } from "sequelize"
 import { sequelize } from "../database/database.js"
+import { Rol_Usuario } from "./Rol_Usuario.js";
+import { Rol } from "./Rol.js";
 
 export const Usuario = sequelize.define('usuario',{
     email : {
@@ -15,8 +17,16 @@ export const Usuario = sequelize.define('usuario',{
     num_telefono :{
         type: DataTypes.INTEGER
     },
-});
+})
 
+Usuario.hasMany(Rol_Usuario,{
+    foreignKey: 'email',
+    sourceKey: 'email'
+})
 
+Rol_Usuario.belongsTo(Usuario,{
+    foreignKey: 'email',
+    targetId: 'email'
+})
 
 
