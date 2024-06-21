@@ -49,7 +49,7 @@ export const deleteEstado = async (req, res) => {
         });
         await fechad.destroy();
         res.json({
-            message: 'Ubicacion deleted'
+            message: 'Estado deleted'
         });
     } catch (error) {
         res.status(500).json({
@@ -79,7 +79,7 @@ export const updateEstado = async (req, res) => {
             potasio
         });
         res.json({
-            message: 'Ubicacion updated'
+            message: 'Estado updated'
         });
     } catch (error) {
         res.status(500).json({

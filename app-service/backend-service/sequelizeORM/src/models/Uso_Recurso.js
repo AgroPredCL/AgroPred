@@ -1,21 +1,23 @@
 import { DataTypes } from "sequelize"
 import { sequelize } from "../database/database.js"
+import { Cuartel } from "./Cuartel.js"
 
-
-export const Cuartel = sequelize.define('cuartel',{
+export const Uso_Recurso = sequelize.define('uso_recurso',{
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    area: {
-        type: DataTypes.FLOAT
+    fecha: {
+        type: DataTypes.DATE
+
     },
-    descripcion: {
+    tipo: {
+        type: DataTypes.STRING(30)
+    },
+    observacion: {
         type: DataTypes.STRING(400)
     },
-    cant_paltos: {
-        type: DataTypes.INTEGER
-    },
+   
 
 })

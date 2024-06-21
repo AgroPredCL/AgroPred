@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize"
 import { sequelize } from "../database/database.js"
+import { Recomendacion } from "./Recomendacion.js"
 
 export const Estado = sequelize.define('estado',{
     fecha: {
