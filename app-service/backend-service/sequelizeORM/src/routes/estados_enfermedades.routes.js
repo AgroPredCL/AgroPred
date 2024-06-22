@@ -8,7 +8,7 @@ router.get('/estados_enfermedades',getEstados_Enfermedades);
 
 router.post('/estado_enfermedad',createEstado_Enfermedad);
 
-router.delete('/estado_enfermdad/:fecha_estado',deleteEstado_Enfermedad);
+router.delete('/estado_enfermedad/:fecha_estado/:nom_enfermedad',deleteEstado_Enfermedad);
 
 router.get('/estado_enfermedad/:fecha_estado',getEstado_EnfermedadByFecha);
 

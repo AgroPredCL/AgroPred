@@ -7,7 +7,7 @@ export const getInventarios= async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -23,7 +23,7 @@ export const createInventario= async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -43,7 +43,48 @@ export const deleteInventario = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
+        });
+    }
+}
+
+export const updateInventario = async (req, res) => {
+    try {
+        const {categoria} = req.params;
+        const {nom_predio} = req.body;
+        const inventario = await Inventario.findOne({
+            where: {
+                categoria
+            }
+        });
+        await inventario.update({
+            nom_predio
+        });
+        res.json({
+            message: 'Producto updated'
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: 'Something went wrong',
+            data: {error}
+        });
+    }
+}
+
+
+export const getInventarioByCategoria = async (req, res) => {
+    try {
+        const {categoria} = req.params;
+        const inventario = await Inventario.findOne({
+            where: {
+                categoria
+            }
+        });
+        res.json(inventario);
+    } catch (error) {
+        res.status(500).json({
+            message: 'Something went wrong',
+            data: {error}
         });
     }
 }

@@ -8,27 +8,27 @@ export const getUbicaciones = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
 
 export const createUbicacion = async (req, res) => {
     try {
-        const {region, comuna, calle, numero, codigoPostal, predioNombre} = req.body;
+        const {region, comuna, calle, numero, codigoPostal,nom_predio} = req.body;
         const newUbicacion = await Ubicacion.create({
             region,
             comuna,
             calle,
             numero,
             codigoPostal,
-            predioNombre
+            nom_predio
         })
         res.json(newUbicacion);
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -48,7 +48,7 @@ export const deleteUbicacion = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -56,7 +56,7 @@ export const deleteUbicacion = async (req, res) => {
 export const updateUbicacion = async (req, res) => {
     try {
         const {id} = req.params;
-        const {region, comuna, calle, numero, codigoPostal} = req.body;
+        const {region, comuna, calle, numero, codigoPostal,nom_predio} = req.body;
         const ubicacion = await Ubicacion.findOne({
             where: {
                 id
@@ -67,7 +67,8 @@ export const updateUbicacion = async (req, res) => {
             comuna,
             calle,
             numero,
-            codigoPostal
+            codigoPostal,
+            nom_predio
         });
         res.json({
             message: 'Ubicacion updated'
@@ -75,7 +76,7 @@ export const updateUbicacion = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -92,7 +93,7 @@ export const getUbicacionById = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }

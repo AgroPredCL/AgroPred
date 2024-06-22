@@ -7,7 +7,7 @@ export const getPredios = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -23,7 +23,7 @@ export const createPredio = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -43,7 +43,7 @@ export const deletePredio = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -66,7 +66,7 @@ export const updatePredio = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -83,7 +83,7 @@ export const getPredioById = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }

@@ -7,7 +7,7 @@ export const getRol_Usuarios = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -23,7 +23,7 @@ export const createRol_Usuario = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -44,7 +44,7 @@ export const deleteRol_Usuario = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -69,7 +69,7 @@ export const updateRol_Usuario_rol = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -86,7 +86,7 @@ export const getRol_UsuarioByEmail = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }

@@ -23,4 +23,8 @@ export const Ubicacion = sequelize.define('ubicacion', {
     codigoPostal: {
         type: DataTypes.INTEGER,
     },
+    nom_predio: {
+        type: DataTypes.STRING(45)
+    }
 })
+ 

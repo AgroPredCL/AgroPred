@@ -7,25 +7,26 @@ export const getUsos_Recursos = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
 
 export const createUso_Recurso= async (req, res) => {
     try {
-        const {fecha,tipo,observacion} = req.body;
+        const {fecha,tipo,observacion,cuartelID} = req.body;
         const newUso_recurso= await Uso_Recurso.create({
             fecha,
             tipo,
-            observacion
+            observacion,
+            cuartelID
             
         })
         res.json(newUso_recurso);
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -45,7 +46,7 @@ export const deleteUso_Recurso = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -53,7 +54,7 @@ export const deleteUso_Recurso = async (req, res) => {
 export const updateUso_Recurso = async (req, res) => {
     try {
         const {id} = req.params;
-        const {fecha,tipo,observacion} = req.body;
+        const {fecha,tipo,observacion,cuartelID} = req.body;
         const uso_recurso = await Uso_Recurso.findOne({
             where: {
                 id
@@ -62,7 +63,8 @@ export const updateUso_Recurso = async (req, res) => {
         await uso_recurso.update({
             fecha,
             tipo,
-            observacion
+            observacion,
+            cuartelID
         });
         res.json({
             message: 'Uso-recurso updated'
@@ -70,7 +72,7 @@ export const updateUso_Recurso = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -86,9 +88,9 @@ export const getUso_RecursoById = async (req, res) => {
         });
         res.json(uso_recurso);
     } catch (error) {
-        res.status(500).json({
+        res.status(500).json({ 
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }

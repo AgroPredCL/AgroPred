@@ -17,7 +17,12 @@ export const Usuario = sequelize.define('usuario',{
     num_telefono :{
         type: DataTypes.INTEGER
     },
+    nom_predio :{
+        type: DataTypes.STRING(45)
+    }
 })
+
+
 
 Usuario.hasMany(Rol_Usuario,{
     foreignKey: 'email',

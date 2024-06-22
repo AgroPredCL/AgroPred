@@ -24,5 +24,8 @@ export const Producto = sequelize.define('producto',{
     },
     vencimiento : {
         type : DataTypes.DATE
+    },
+    categoria : {
+        type: DataTypes.STRING(30)
     }
-})
+}) 

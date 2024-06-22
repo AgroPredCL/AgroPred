@@ -7,7 +7,7 @@ export const getRecomendaciones = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -15,16 +15,17 @@ export const getRecomendaciones = async (req, res) => {
 
 export const createRecomendacion = async (req, res) => {
     try {
-        const {nombre,recomendacion_json} = req.body;
+        const {nombre,recomendacion_json,EstadoID} = req.body;
         const newRecomendacion = await Recomendacion.create({
             nombre,
-            recomendacion_json
+            recomendacion_json,
+            EstadoID
         })
         res.json(newRecomendacion);
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -45,7 +46,7 @@ export const deleteRecomendacion = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -54,14 +55,15 @@ export const deleteRecomendacion = async (req, res) => {
 export const updateRecomendacion = async (req, res) => {
     try {
         const {nombre} = req.params;
-        const {recomendacion_json} = req.body;
+        const {recomendacion_json,EstadoID} = req.body;
         const recomendacion = await Recomendacion.findOne({
             where: {
                 nombre
             }
         });
         await recomendacion.update({
-            recomendacion_json
+            recomendacion_json,
+            EstadoID
         });
         res.json({
             message: 'Recomendacion updated'
@@ -69,7 +71,7 @@ export const updateRecomendacion = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -87,7 +89,7 @@ export const getRecomendacionByNombre = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }

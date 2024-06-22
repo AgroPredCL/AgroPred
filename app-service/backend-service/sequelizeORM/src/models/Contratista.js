@@ -26,5 +26,8 @@ export const Contratista = sequelize.define('contratista',{
     },
     costo  : {
         type: DataTypes.INTEGER
+    },
+    categoria:{
+        type: DataTypes.STRING(30)
     }
 })

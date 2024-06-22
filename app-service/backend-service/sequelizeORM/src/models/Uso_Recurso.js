@@ -18,6 +18,9 @@ export const Uso_Recurso = sequelize.define('uso_recurso',{
     observacion: {
         type: DataTypes.STRING(400)
     },
+    cuartelID: {
+        type: DataTypes.STRING(5)
+    }
    
 
 })

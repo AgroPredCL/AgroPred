@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize"
 import { sequelize } from "../database/database.js"
+import { Estado } from "./Estado.js"
 
 export const Recomendacion = sequelize.define('recomendacion',{
     nombre: {
@@ -9,4 +10,7 @@ export const Recomendacion = sequelize.define('recomendacion',{
     recomendacion_json: {
         type: DataTypes.JSON
     },
+    EstadoID:{
+        type: DataTypes.STRING(5)
+    }
 }) 

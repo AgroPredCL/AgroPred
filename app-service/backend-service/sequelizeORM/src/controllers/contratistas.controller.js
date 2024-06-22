@@ -7,14 +7,14 @@ export const getContratistas = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
 
 export const createContratista= async (req, res) => {
     try {
-        const {rut,full_name,num_telefono,email,nom_empresa,descripcion,cant_empleados,costo} = req.body;
+        const {rut,full_name,num_telefono,email,nom_empresa,descripcion,cant_empleados,costo,categoria} = req.body;
         const newContratista= await Contratista.create({
             rut,
             full_name,
@@ -23,13 +23,14 @@ export const createContratista= async (req, res) => {
             nom_empresa,
             descripcion,
             cant_empleados,
-            costo
+            costo,
+            categoria
         })
         res.json(newContratista);
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -49,7 +50,7 @@ export const deleteContratista = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -58,7 +59,7 @@ export const deleteContratista = async (req, res) => {
 export const updateContratista = async (req, res) => {
     try {
         const {rut} = req.params;
-        const {full_name,num_telefono,email,nom_empresa,descripcion,cant_empleados,costo} = req.body;
+        const {full_name,num_telefono,email,nom_empresa,descripcion,cant_empleados,costo,categoria} = req.body;
         const contratista = await Contratista.findOne({
             where: {
                 rut
@@ -67,11 +68,12 @@ export const updateContratista = async (req, res) => {
         await contratista.update({
             full_name,
             num_telefono,
-            email,
+            email, 
             nom_empresa,
             descripcion,
             cant_empleados,
-            costo
+            costo,
+            categoria
         });
         res.json({
             message: 'Contratista updated'
@@ -96,7 +98,7 @@ export const getContratistaByRut = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }

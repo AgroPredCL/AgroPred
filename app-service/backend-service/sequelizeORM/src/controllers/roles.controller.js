@@ -8,7 +8,7 @@ export const getRoles =  async (req, res) => {
     } catch (error) {
     res.status(500).json({
         message: 'Something went wrong',
-        data: {}
+        data: {error}
     });
     }
 }
@@ -23,7 +23,7 @@ export const createRol= async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -43,7 +43,7 @@ export const deleteRol = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }

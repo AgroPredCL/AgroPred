@@ -7,25 +7,26 @@ export const getUsuarios =  async (req, res) => {
     } catch (error) {
     res.status(500).json({
         message: 'Something went wrong',
-        data: {}
+        data: {error}
     });
     }
 }
 
 export const createUsuario = async (req, res) => {
     try {
-        const {email,full_name,password,num_telefono} = req.body;
+        const {email,full_name,password,num_telefono,nom_predio} = req.body;
         const newUsuario = await Usuario.create({
             email,
             full_name,
             password,
             num_telefono,
+            nom_predio
         })
         res.json(newUsuario);
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -45,7 +46,7 @@ export const deleteUsuario = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -54,7 +55,7 @@ export const deleteUsuario = async (req, res) => {
 export const updateUsuario = async (req, res) => {
     try {
         const {email} = req.params;
-        const {full_name,password,num_telefono} = req.body;
+        const {full_name,password,num_telefono,nom_predio} = req.body;
         const usuario = await Usuario.findOne({
             where: {
                 email
@@ -64,6 +65,7 @@ export const updateUsuario = async (req, res) => {
             full_name,
             password,
             num_telefono,
+            nom_predio
         });
         res.json({
             message: 'Usuario updated'
@@ -71,7 +73,7 @@ export const updateUsuario = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
 }
@@ -88,7 +90,7 @@ export const getUsuarioByEmail = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {}
+            data: {error}
         });
     }
-}
+} 
