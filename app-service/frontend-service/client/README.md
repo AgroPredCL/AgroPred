@@ -22,6 +22,17 @@ npm run dev
 Los siguientes tutoriales son en los que me basé para aprender pero obviamente son libres de aprender en otro lado.
 - React: https://www.youtube.com/watch?v=7iobxzd_2wY&list=PLUofhDIg_38q4D0xNWp7FEHOTcZhjWJ29
 - TailWind: https://www.youtube.com/watch?v=h5HQVHTpeHs
+- React y TailWind: https://www.youtube.com/watch?v=GAcq61I9IVM
+
+**Observación:**
+Los nombres de los componentes tienen que ser **PascalCase**.
+_Contextualización:_ Las distintas formas de nombramiento son:
+- **PascalCase**
+- camelCase
+- snake_case
+- kebab-case
+
+La razón es porque para React es la única forma de entender que esos son componentes y poder manejarlos correctamente. 
 
 # React + Vite
 
