@@ -7,10 +7,10 @@ router.get('/recomendaciones',getRecomendaciones);
 
 router.post('/recomendacion',createRecomendacion);
 
-router.put('/recomedacion/:nombre',updateRecomendacion);
+router.put('/recomendacion/:nombre',updateRecomendacion);
 
-router.delete('/recomedacion/:nombre',deleteRecomendacion);
+router.delete('/recomendacion/:nombre',deleteRecomendacion);
 
-router.get('/recomedacion/:nombre',getRecomendacionByNombre);
+router.get('/recomendacion/:nombre',getRecomendacionByNombre);
 
 export default router;

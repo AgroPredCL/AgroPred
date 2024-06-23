@@ -3,7 +3,7 @@ import { Recomendacion } from "../models/Recomendacion.js";
 export const getRecomendaciones = async (req, res) => {
     try {
         const recomendaciones = await Recomendacion.findAll();
-        res.json(rescomendaciones);
+        res.json(recomendaciones);
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',

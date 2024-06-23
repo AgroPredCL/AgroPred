@@ -8,6 +8,6 @@ router.get('/roles',getRoles);
 
 router.post('/rol',createRol);
 
-router.delete('rol/:rol_user',deleteRol);
+router.delete('/rol/:rol_user',deleteRol);
 
 export default router;

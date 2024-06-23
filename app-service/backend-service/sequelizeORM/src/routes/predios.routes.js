@@ -8,11 +8,11 @@ router.get('/predios', getPredios);
 
 router.post('/predio', createPredio);
 
-router.put('/predio/:id', updatePredio);
+router.put('/predio/:nombre', updatePredio);
 
-router.delete('/predio/:id', deletePredio);
+router.delete('/predio/:nombre', deletePredio);
 
-router.get('/predio/:id', getPredioById);
+router.get('/predio/:nombre', getPredioById);
 
 
 export default router;
