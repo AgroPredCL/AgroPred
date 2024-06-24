@@ -13,9 +13,9 @@ function App() {
       <EstadoSalud /> 
     </> }*/
     <div className="flex flex-col h-screen">
-      <Header />
+      {/* <Header /> */}
       <div className="flex flex-1 overflow-hidden">
-        <MenuLateral />
+        {/* <MenuLateral /> */}
         <MainContent />
       </div>
     </div>
