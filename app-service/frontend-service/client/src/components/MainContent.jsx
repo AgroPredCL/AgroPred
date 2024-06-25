@@ -1,5 +1,5 @@
 import React from 'react';
-import EstadoSalud from './HealthStatus.jsx';
+import EstadoSalud from './NutritionalPrediction.jsx';
 
 
 
