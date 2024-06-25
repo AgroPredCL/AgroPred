@@ -12,9 +12,9 @@ function App() {
       <NutritionalPrediction /> 
       <EstadoSalud /> 
     </> }*/
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen overflow-auto">
       {/* <Header /> */}
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-auto">
         {/* <MenuLateral /> */}
         <MainContent />
       </div>

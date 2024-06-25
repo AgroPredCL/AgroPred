@@ -1,15 +1,13 @@
 import React from 'react';
-import EstadoSalud from './NutritionalPrediction.jsx';
-
-
+import NutritionalPrediction from './NutritionalPrediction.jsx';
 
 const MainContent = () => {
   return (
     <main className="flex-1 p-4">
-        <EstadoSalud />
-
+        <NutritionalPrediction />
     </main>
   );
 };
 
 export default MainContent;
+
