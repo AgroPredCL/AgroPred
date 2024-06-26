@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'sans': ['kanit'],
+        'kanit': ['Kanit', 'sans-serif'],
       },
     },
   },
