@@ -13,8 +13,9 @@ function App() {
       <EstadoSalud /> 
     </> }*/
     <div className="flex flex-col h-screen overflow-auto">
-      {/* <Header /> */}
-      <div className="flex flex-1 overflow-auto">
+      {/* <Header /> 
+      <div className="flex flex-1 overflow-auto">*/}
+      <div className="flex ">
         {/* <MenuLateral /> */}
         <MainContent />
       </div>
