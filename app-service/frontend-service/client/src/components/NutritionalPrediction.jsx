@@ -23,42 +23,50 @@ ChartJS.register(
 );
 
 const NutritionalPrediction = () => {
-  const [period, setPeriod] = useState({ start: 'Enero', end: 'Junio' });
+  // Estado local para el período, vista y secciones colapsables
+  const [period, setPeriod] = useState({ start: 'Enero', end: 'Marzo' });
   const [view, setView] = useState('graph'); // 'graph' or 'table'
   const [sections, setSections] = useState({
-    NPK: false,
-    Temperature: false,
+    NPK: true,  // NPK se muestra por defecto al inicio
+    Temperatura: false,
     PH: false,
-    Conductivity: false,
-    Humidity: false,
+    ConductividadElectrica: false,
+    Humedad: false,
   });
 
-  // Función para simular cambio de datos según el periodo seleccionado
-  const getDataForPeriod = (start, end) => {
-    // Aquí puedes reemplazar con la lógica para obtener datos de la base de datos
-    // Vamos a simular datos random para mostrar cómo se cambiarían
+  // Meses y cálculo de índices de inicio y fin del período
+  const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'];
+  const currentMonthIndex = new Date().getMonth();
+  const startIdx = months.indexOf(period.start);
+  const endIdx = months.indexOf(period.end);
+  const labels = months.slice(startIdx, endIdx + 1);
+
+  // Generación de datos de ejemplo para el período seleccionado
+  const getDataForPeriod = (startIdx, endIdx) => {
+    const weeks = Array.from({ length: (endIdx - startIdx + 1) * 4 }, (_, i) => `Semana ${i + 1}`);
+
     const newData = {
-      labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+      labels: weeks,
       datasets: [
         {
           label: 'Nitrógeno',
-          data: Array.from({ length: 6 }, () => Math.floor(Math.random() * 10) + 25),
+          data: Array.from({ length: weeks.length }, () => Math.floor(Math.random() * 10) + 25),
           fill: false,
-          borderColor: 'rgb(75, 192, 192)',
+          borderColor: '#95C11F',
           tension: 0.1,
         },
         {
           label: 'Fósforo',
-          data: Array.from({ length: 6 }, () => Math.floor(Math.random() * 10) + 20),
+          data: Array.from({ length: weeks.length }, () => Math.floor(Math.random() * 10) + 20),
           fill: false,
-          borderColor: 'rgb(255, 99, 132)',
+          borderColor: '#023E8A',
           tension: 0.1,
         },
         {
           label: 'Potasio',
-          data: Array.from({ length: 6 }, () => Math.floor(Math.random() * 10) + 30),
+          data: Array.from({ length: weeks.length }, () => Math.floor(Math.random() * 10) + 30),
           fill: false,
-          borderColor: 'rgb(54, 162, 235)',
+          borderColor: '#FF0303',
           tension: 0.1,
         },
       ],
@@ -67,19 +75,25 @@ const NutritionalPrediction = () => {
     return newData;
   };
 
-  // Función para cambiar el periodo
+  // Manejar cambios en el período seleccionado
   const handlePeriodChange = (e) => {
     const { name, value } = e.target;
-    setPeriod((prev) => ({ ...prev, [name]: value }));
+    const newPeriod = { ...period, [name]: value };
 
-    // Aquí deberías llamar a una función que obtenga datos actualizados de la base de datos
-    // y actualizar el estado de 'data' con los nuevos datos.
-    // Esto es solo un ejemplo utilizando datos random.
-    const newData = getDataForPeriod(period.start, period.end);
-    setData(newData);
+    const startIdx = months.indexOf(newPeriod.start);
+    const endIdx = months.indexOf(newPeriod.end);
+
+    if (endIdx - startIdx <= 2) {
+      setPeriod(newPeriod);
+      const newData = getDataForPeriod(startIdx, endIdx);
+      setData(newData);
+    } else {
+      alert('El período seleccionado debe ser de un máximo de 3 meses.');
+    }
   };
 
-  const [data, setData] = useState(getDataForPeriod(period.start, period.end));
+  // Estado local para los datos y opciones de gráfico
+  const [data, setData] = useState(getDataForPeriod(startIdx, endIdx));
 
   const options = {
     responsive: true,
@@ -96,56 +110,50 @@ const NutritionalPrediction = () => {
     },
   };
 
+  // Función para cambiar entre vista de gráfico y tabla
   const toggleView = (viewType) => {
     setView(viewType);
   };
 
+  // Función para expandir/colapsar secciones de información adicional
   const toggleSection = (section) => {
     setSections((prev) => ({
-      ...Object.keys(prev).reduce((acc, key) => {
-        acc[key] = key === section ? !prev[key] : false;
-        return acc;
-      }, {})
+      ...prev,
+      [section]: !prev[section],
     }));
   };
 
   return (
     <div className="p-4 overflow-y-auto">
-      <h2 className='text-blue-500 text-2xl mb-4'>Predicción Estado Nutricional</h2>
-      <div className="bg-white shadow-md rounded-lg p-6 mb-4">
+      <h2 className='text-green-700 text-2xl mb-4'>Predicción Estado Nutricional</h2>
+      <div className="bg-white shadow-md rounded-lg p-6 mb-4 border-t-4 border-green-700">
         <div className="flex justify-between items-center cursor-pointer" onClick={() => toggleSection('NPK')}>
-          <div className="mb-2 font-semibold">NPK</div>
-          <div>{sections.NPK ? '−' : '+'}</div>
+          <div className="mb-2 font-semibold text-gray-700">NPK</div>
+          <div className="text-green-700">{sections.NPK ? <span>&#9650;</span> : <span>&#9660;</span>}</div>
         </div>
         {sections.NPK && (
           <div className="mt-4">
             <div className="flex justify-between items-center mb-4">
               <label>
                 Inicio:
-                <select name="start" value={period.start} onChange={handlePeriodChange}>
-                  <option value="Enero">Enero</option>
-                  <option value="Febrero">Febrero</option>
-                  <option value="Marzo">Marzo</option>
-                  <option value="Abril">Abril</option>
-                  <option value="Mayo">Mayo</option>
-                  <option value="Junio">Junio</option>
+                <select name="start" value={period.start} onChange={handlePeriodChange} className="ml-2 border rounded px-2 py-1">
+                  {months.map((month) => (
+                    <option key={month} value={month}>{month}</option>
+                  ))}
                 </select>
               </label>
               <label className="ml-4">
                 Fin:
-                <select name="end" value={period.end} onChange={handlePeriodChange}>
-                  <option value="Enero">Enero</option>
-                  <option value="Febrero">Febrero</option>
-                  <option value="Marzo">Marzo</option>
-                  <option value="Abril">Abril</option>
-                  <option value="Mayo">Mayo</option>
-                  <option value="Junio">Junio</option>
+                <select name="end" value={period.end} onChange={handlePeriodChange} className="ml-2 border rounded px-2 py-1">
+                  {months.map((month) => (
+                    <option key={month} value={month}>{month}</option>
+                  ))}
                 </select>
               </label>
             </div>
             <div className="flex justify-between items-center mb-4">
-              <button onClick={() => toggleView('graph')} className={`px-2 py-1 ${view === 'graph' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>Gráfico</button>
-              <button onClick={() => toggleView('table')} className={`px-2 py-1 ml-2 ${view === 'table' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>Tabla</button>
+              <button onClick={() => toggleView('graph')} className={`px-4 py-2 border ${view === 'graph' ? 'bg-green-700 text-white' : 'bg-gray-200'}`}>Gráfico</button>
+              <button onClick={() => toggleView('table')} className={`px-4 py-2 border ml-2 ${view === 'table' ? 'bg-green-700 text-white' : 'bg-gray-200'}`}>Tabla</button>
             </div>
             {view === 'graph' && (
               <>
@@ -154,22 +162,22 @@ const NutritionalPrediction = () => {
               </>
             )}
             {view === 'table' && (
-              <table className="w-full text-left">
+              <table className="w-full text-left border-collapse">
                 <thead>
                   <tr>
-                    <th>Mes</th>
-                    <th>Nitrógeno</th>
-                    <th>Fósforo</th>
-                    <th>Potasio</th>
+                    <th className="border-b">Semana</th>
+                    <th className="border-b">Nitrógeno</th>
+                    <th className="border-b">Fósforo</th>
+                    <th className="border-b">Potasio</th>
                   </tr>
                 </thead>
                 <tbody>
                   {data.labels.map((label, index) => (
                     <tr key={label}>
-                      <td>{label}</td>
-                      <td>{data.datasets[0].data[index]}</td>
-                      <td>{data.datasets[1].data[index]}</td>
-                      <td>{data.datasets[2].data[index]}</td>
+                      <td className="border-b py-1">{label}</td>
+                      <td className="border-b py-1">{data.datasets[0].data[index]}</td>
+                      <td className="border-b py-1">{data.datasets[1].data[index]}</td>
+                      <td className="border-b py-1">{data.datasets[2].data[index]}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -178,50 +186,19 @@ const NutritionalPrediction = () => {
           </div>
         )}
       </div>
-      <div className="bg-white shadow-md rounded-lg p-6 mb-4">
-        <div className="flex justify-between items-center cursor-pointer" onClick={() => toggleSection('Temperature')}>
-          <div className="mb-2 font-semibold">Temperatura</div>
-          <div>{sections.Temperature ? '−' : '+'}</div>
-        </div>
-        {sections.Temperature && (
-          <div>
-            <p>Información sobre Temperatura.</p>
+      {['Temperatura', 'PH', 'Conductividad Eléctrica', 'Humedad'].map((section) => (
+        <div key={section} className="bg-white shadow-md rounded-lg p-6 mb-4 border-t-4 border-green-700">
+          <div className="flex justify-between items-center cursor-pointer" onClick={() => toggleSection(section)}>
+            <div className="mb-2 font-semibold text-gray-700">{section}</div>
+            <div className="text-green-700">{sections[section] ? <span>&#9650;</span> : <span>&#9660;</span>}</div>
           </div>
-        )}
-      </div>
-      <div className="bg-white shadow-md rounded-lg p-6 mb-4">
-        <div className="flex justify-between items-center cursor-pointer" onClick={() => toggleSection('PH')}>
-          <div className="mb-2 font-semibold">PH</div>
-          <div>{sections.PH ? '−' : '+'}</div>
+          {sections[section] && (
+            <div>
+              <p>Información sobre {section}.</p>
+            </div>
+          )}
         </div>
-        {sections.PH && (
-          <div>
-            <p>Información sobre PH.</p>
-          </div>
-        )}
-      </div>
-      <div className="bg-white shadow-md rounded-lg p-6 mb-4">
-        <div className="flex justify-between items-center cursor-pointer" onClick={() => toggleSection('Conductivity')}>
-          <div className="mb-2 font-semibold">Conductividad eléctrica</div>
-          <div>{sections.Conductivity ? '−' : '+'}</div>
-        </div>
-        {sections.Conductivity && (
-          <div>
-            <p>Información sobre Conductividad eléctrica.</p>
-          </div>
-        )}
-      </div>
-      <div className="bg-white shadow-md rounded-lg p-6 mb-4">
-        <div className="flex justify-between items-center cursor-pointer" onClick={() => toggleSection('Humidity')}>
-          <div className="mb-2 font-semibold">Humedad</div>
-          <div>{sections.Humidity ? '−' : '+'}</div>
-        </div>
-        {sections.Humidity && (
-          <div>
-            <p>Información sobre Humedad.</p>
-          </div>
-        )}
-      </div>
+      ))}
     </div>
   );
 };
