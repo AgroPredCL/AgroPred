@@ -3,19 +3,8 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import numpy as np
 from tensorflow.keras.applications.inception_v3 import preprocess_input
-<<<<<<< HEAD
 from typing import Optional
 from functions import stateController, predictController, tieneAsfixiaRadicular, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad, tieneEnfermedadFruta
-=======
-
-def preprocess_image(img_path):
-    img = image.load_img(img_path, target_size=(128, 128))
-    img_array = image.img_to_array(img)
-    img_array_expanded_dims = np.expand_dims(img_array, axis=0)
-    return preprocess_input(img_array_expanded_dims)
-
-model = load_model('./Avocado_classification_Inception_v1.h5')
->>>>>>> 16dd08ec5f6e49e2f027e4cdc73b5ebcab1dfe78
 
 app = FastAPI()
 
@@ -23,7 +12,6 @@ app = FastAPI()
 async def root():
     return {"how to test?": "http://localhost:8000/disease/fruit/{number of image (xxxx)}"}
 
-<<<<<<< HEAD
 @app.get("/state")
 async def stateHistoricoGeneral(start_date: Optional[str] = Query(None, description="Start date in format YYYY-MM-DD"), end_date: Optional[str] = Query(None, description="End date in format YYYY-MM-DD")):
     if not start_date or not end_date:
@@ -81,22 +69,10 @@ async def currentState(diasAPredecir: Optional[int] = Query(None, description="f
 
 @app.get("/diseases")
 async def process_image(image_number: Optional[str] = Query(None, description="Image number")):
-=======
-@app.get("/disease/fruit/")
-async def process_image(image_number: str = Query(..., description="Image number")):
-    processed_image = preprocess_image(f'./images/Avocado {image_number}.jpg')
-    prediction = model.predict(processed_image)
-
-    states = ["scab", "healthy", "anthracnose"]
-    max_index = np.argmax(prediction)
-    state = states[max_index]
-
->>>>>>> 16dd08ec5f6e49e2f027e4cdc73b5ebcab1dfe78
     # Give description of the state
     description = {
         "scab": "Scab is a disease that affects the leaves and fruit of the avocado tree. It is caused by the fungus Elsinoe spp. and is characterized by dark, raised spots on the fruit and leaves.",
         "healthy": "The avocado is healthy and free from any disease.",
-<<<<<<< HEAD
         "anthracnose": "Anthracnose is a fungal disease that affects the leaves, fruit, and stems of the avocado tree. It is caused by the fungus Colletotrichum spp. and is characterized by dark, sunken lesions on the fruit and leaves.",
         "asfixiaRadicular": "Asfixia Radicular is a disease that affects the roots of the avocado tree. It is caused by poor drainage and waterlogging of the soil, which leads to a lack of oxygen in the root zone."}
 
@@ -136,19 +112,3 @@ async def process_image(image_number: str = Query(..., description="Image number
         "enfermedades": output
     }
 
-=======
-        "anthracnose": "Anthracnose is a fungal disease that affects the leaves, fruit, and stems of the avocado tree. It is caused by the fungus Colletotrichum spp. and is characterized by dark, sunken lesions on the fruit and leaves."
-    }
-
-    # Give impact of the state
-    impacto = {
-        "scab": "Scab can reduce the quality and yield of the avocado fruit. It can also weaken the tree and make it more susceptible to other diseases.",
-        "healthy": "The avocado is healthy and will produce a good crop of fruit.",
-        "anthracnose": "Anthracnose can reduce the quality and yield of the avocado fruit. It can also weaken the tree and make it more susceptible to other diseases."
-    }
-
-    return {"from": "fruit",
-            "state": state,
-            "description": description[state],
-            "impact": impacto[state]}
->>>>>>> 16dd08ec5f6e49e2f027e4cdc73b5ebcab1dfe78
