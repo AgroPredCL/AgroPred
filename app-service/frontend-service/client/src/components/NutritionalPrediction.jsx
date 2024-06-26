@@ -162,26 +162,31 @@ const NutritionalPrediction = () => {
               </>
             )}
             {view === 'table' && (
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr>
-                    <th className="border-b">Semana</th>
-                    <th className="border-b">Nitrógeno</th>
-                    <th className="border-b">Fósforo</th>
-                    <th className="border-b">Potasio</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.labels.map((label, index) => (
-                    <tr key={label}>
-                      <td className="border-b py-1">{label}</td>
-                      <td className="border-b py-1">{data.datasets[0].data[index]}</td>
-                      <td className="border-b py-1">{data.datasets[1].data[index]}</td>
-                      <td className="border-b py-1">{data.datasets[2].data[index]}</td>
+              <>
+                <div className="flex justify-between items-center mb-4">
+                  <p className="text-right text-sm text-gray-500">Confiabilidad: 95%</p>
+                </div>
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr>
+                      <th className="border-b">Semana</th>
+                      <th className="border-b">Nitrógeno</th>
+                      <th className="border-b">Fósforo</th>
+                      <th className="border-b">Potasio</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {data.labels.map((label, index) => (
+                      <tr key={label}>
+                        <td className="border-b py-1">{label}</td>
+                        <td className="border-b py-1">{data.datasets[0].data[index]}</td>
+                        <td className="border-b py-1">{data.datasets[1].data[index]}</td>
+                        <td className="border-b py-1">{data.datasets[2].data[index]}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </>
             )}
           </div>
         )}
