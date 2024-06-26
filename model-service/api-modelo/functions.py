@@ -28,194 +28,203 @@ def stateController(startDate, endDate):
     nitrogeno = data_sensores['Nitrogeno'][desde:hasta+3]
     potasio = data_sensores['Potasio'][desde:hasta+3]
     fosforo = data_sensores['Fosforo'][desde:hasta+3]
+    humedad = data_sensores['Humedad'][desde:hasta+3]
+    conductividad = data_sensores['Conductividad_Electrica'][desde:hasta+3]
+    ph = data_sensores['pH'][desde:hasta+3]
+    temperatura = data_sensores['Temperatura'][desde:hasta+3]
 
     fechas = data_sensores['FechaHora'][desde:hasta+3]
 
     # Hacer tuplas de fecha y valor de cada sensor (en formato JSON)
-    nitrogeno = [{'fecha': fechas[i][:10], 'hora': fechas[i][11:], 'valor': nitrogeno[i]} for i in range(len(nitrogeno))]
-    potasio = [{'fecha': fechas[i][:10], 'hora': fechas[i][11:], 'valor': potasio[i]} for i in range(len(potasio))]
-    fosforo = [{'fecha': fechas[i][:10], 'hora': fechas[i][11:], 'valor': fosforo[i]} for i in range(len(fosforo))]
+    nitrogeno = [{'fecha': fechas[i][:10], 'hora': fechas[i][11:], 'valor': round(nitrogeno[i], 2)} for i in range(len(nitrogeno))]
+    potasio = [{'fecha': fechas[i][:10], 'hora': fechas[i][11:], 'valor': round(potasio[i])} for i in range(len(potasio))]
+    fosforo = [{'fecha': fechas[i][:10], 'hora': fechas[i][11:], 'valor': round(fosforo[i])} for i in range(len(fosforo))]
+    humedad = [{'fecha': fechas[i][:10], 'hora': fechas[i][11:], 'valor': round(humedad[i])} for i in range(len(humedad))]
+    conductividad = [{'fecha': fechas[i][:10], 'hora': fechas[i][11:], 'valor': round(conductividad[i])} for i in range(len(conductividad))]
+    ph = [{'fecha': fechas[i][:10], 'hora': fechas[i][11:], 'valor': round(ph[i])} for i in range(len(ph))]
+    temperatura = [{'fecha': fechas[i][:10], 'hora': fechas[i][11:], 'valor': round(temperatura[i])} for i in range(len(temperatura))]
 
-    return nitrogeno, potasio, fosforo
+
+    return nitrogeno, potasio, fosforo, humedad, conductividad, ph, temperatura
 def stateNitrogeno():
     data_sensores = pd.read_csv('../modelos/data_sensores.csv')
     valorActual = data_sensores['Nitrogeno'].iloc[-1]
 
-    if valorActual < 10:
+    if valorActual < 100:
         estadoActual = "Deficiente"
-    elif 10 <= valorActual < 20:
+    elif 90 <= valorActual < 100:
         estadoActual = "Bajo"
-    elif 20 <= valorActual < 30:
+    elif 100 <= valorActual < 120:
         estadoActual = "Adecuado"
-    elif 30 <= valorActual < 40:
+    elif 120 <= valorActual < 180:
         estadoActual = "Alto"
     else:
         estadoActual = "Excesivo"
 
     valorPromedio = data_sensores['Nitrogeno'].mean()
-    if valorPromedio < 10:
+    if valorPromedio < 100:
         estadoPromedio = "Deficiente"
-    elif 10 <= valorPromedio < 20:
+    elif 90 <= valorPromedio < 100:
         estadoPromedio = "Bajo"
-    elif 20 <= valorPromedio < 30:
+    elif 100 <= valorPromedio < 120:
         estadoPromedio = "Adecuado"
-    elif 30 <= valorPromedio < 40:
+    elif 120 <= valorPromedio < 180:
         estadoPromedio = "Alto"
     else:
         estadoPromedio = "Excesivo"
 
-    return {"estadoActual": estadoActual , "valorActual": valorActual, "estadoPromedio": estadoPromedio, "valorPromedio": valorPromedio}
+    return {"estadoActual": estadoActual , "valorActual": round(valorActual, 2), "estadoPromedio": estadoPromedio, "valorPromedio": round(valorPromedio, 2)}
 def statePotasio():
     data_sensores = pd.read_csv('../modelos/data_sensores.csv')
     valorActual = data_sensores['Potasio'].iloc[-1]
 
-    if valorActual < 10:
+    if valorActual < 145:
         estadoActual = "Deficiente"
-    elif 10 <= valorActual < 20:
+    elif 145 <= valorActual < 150:
         estadoActual = "Bajo"
-    elif 20 <= valorActual < 30:
+    elif 150 <= valorActual < 155:
         estadoActual = "Adecuado"
-    elif 30 <= valorActual < 40:
+    elif 155 <= valorActual < 160:
         estadoActual = "Alto"
     else:
         estadoActual = "Excesivo"
 
     valorPromedio = data_sensores['Potasio'].mean()
-    if valorPromedio < 10:
+    if valorPromedio < 145:
         estadoPromedio = "Deficiente"
-    elif 10 <= valorPromedio < 20:
+    elif 145 <= valorPromedio < 150:
         estadoPromedio = "Bajo"
-    elif 20 <= valorPromedio < 30:
+    elif 150 <= valorPromedio < 155:
         estadoPromedio = "Adecuado"
-    elif 30 <= valorPromedio < 40:
+    elif 155 <= valorPromedio < 160:
         estadoPromedio = "Alto"
     else:
         estadoPromedio = "Excesivo"
 
-    return {"estadoActual": estadoActual , "valorActual": valorActual, "estadoPromedio": estadoPromedio, "valorPromedio": valorPromedio}
+    return {"estadoActual": estadoActual , "valorActual": round(valorActual, 2), "estadoPromedio": estadoPromedio, "valorPromedio": round(valorPromedio, 2)}
 def stateFosforo():
     data_sensores = pd.read_csv('../modelos/data_sensores.csv')
     valorActual = data_sensores['Fosforo'].iloc[-1]
 
-    if valorActual < 10:
+    if valorActual < 40:
         estadoActual = "Deficiente"
-    elif 10 <= valorActual < 20:
+    elif 40 <= valorActual < 45:
         estadoActual = "Bajo"
-    elif 20 <= valorActual < 30:
+    elif 45 <= valorActual < 50:
         estadoActual = "Adecuado"
-    elif 30 <= valorActual < 40:
+    elif 50 <= valorActual < 60:
         estadoActual = "Alto"
     else:
         estadoActual = "Excesivo"
 
     valorPromedio = data_sensores['Fosforo'].mean()
-    if valorPromedio < 10:
+    if valorPromedio < 40:
         estadoPromedio = "Deficiente"
-    elif 10 <= valorPromedio < 20:
+    elif 40 <= valorPromedio < 45:
         estadoPromedio = "Bajo"
-    elif 20 <= valorPromedio < 30:
+    elif 45 <= valorPromedio < 50:
         estadoPromedio = "Adecuado"
-    elif 30 <= valorPromedio < 40:
+    elif 50 <= valorPromedio < 60:
         estadoPromedio = "Alto"
     else:
         estadoPromedio = "Excesivo"
 
-    return {"estadoActual": estadoActual , "valorActual": valorActual, "estadoPromedio": estadoPromedio, "valorPromedio": valorPromedio}
+    return {"estadoActual": estadoActual , "valorActual": round(valorActual, 2), "estadoPromedio": estadoPromedio, "valorPromedio": round(valorPromedio, 2)}
 def stateConductividad():
     data_sensores = pd.read_csv('../modelos/data_sensores.csv')
     valorActual = data_sensores['Conductividad_Electrica'].iloc[-1]
 
-    if valorActual < 10:
+    if valorActual < 23:
         estadoActual = "Deficiente"
-    elif 10 <= valorActual < 20:
+    elif 23 <= valorActual < 24:
         estadoActual = "Bajo"
-    elif 20 <= valorActual < 30:
+    elif 24 <= valorActual < 25:
         estadoActual = "Adecuado"
-    elif 30 <= valorActual < 40:
+    elif 25 <= valorActual < 26:
         estadoActual = "Alto"
     else:
         estadoActual = "Excesivo"
 
     valorPromedio = data_sensores['Conductividad_Electrica'].mean()
-    if valorPromedio < 10:
+    if valorPromedio < 23:
         estadoPromedio = "Deficiente"
-    elif 10 <= valorPromedio < 20:
+    elif 23 <= valorPromedio < 24:
         estadoPromedio = "Bajo"
-    elif 20 <= valorPromedio < 30:
+    elif 24 <= valorPromedio < 25:
         estadoPromedio = "Adecuado"
-    elif 30 <= valorPromedio < 40:
+    elif 25 <= valorPromedio < 26:
         estadoPromedio = "Alto"
     else:
         estadoPromedio = "Excesivo"
 
-    return {"estadoActual": estadoActual , "valorActual": valorActual, "estadoPromedio": estadoPromedio, "valorPromedio": valorPromedio}
+    return {"estadoActual": estadoActual , "valorActual": round(valorActual, 2), "estadoPromedio": estadoPromedio, "valorPromedio": round(valorPromedio, 2)}
 def statePH():
     data_sensores = pd.read_csv('../modelos/data_sensores.csv')
     valorActual = data_sensores['pH'].iloc[-1]
 
-    if valorActual < 10:
+    if valorActual < 4.5:
         estadoActual = "Deficiente"
-    elif 10 <= valorActual < 20:
+    elif 4.5 <= valorActual < 5.5:
         estadoActual = "Bajo"
-    elif 20 <= valorActual < 30:
+    elif 5.5 <= valorActual < 6.8:
         estadoActual = "Adecuado"
-    elif 30 <= valorActual < 40:
+    elif 6.8 <= valorActual:
         estadoActual = "Alto"
     else:
         estadoActual = "Excesivo"
 
     valorPromedio = data_sensores['pH'].mean()
-    if valorPromedio < 10:
+    if valorPromedio < 4.5:
         estadoPromedio = "Deficiente"
-    elif 10 <= valorPromedio < 20:
+    elif 4.5 <= valorPromedio < 5.5:
         estadoPromedio = "Bajo"
-    elif 20 <= valorPromedio < 30:
+    elif 5.5 <= valorPromedio < 6.5:
         estadoPromedio = "Adecuado"
-    elif 30 <= valorPromedio < 40:
+    elif 6.5 <= valorPromedio:
         estadoPromedio = "Alto"
     else:
         estadoPromedio = "Excesivo"
 
-    return {"estadoActual": estadoActual , "valorActual": valorActual, "estadoPromedio": estadoPromedio, "valorPromedio": valorPromedio}
+    return {"estadoActual": estadoActual , "valorActual": round(valorActual, 2), "estadoPromedio": estadoPromedio, "valorPromedio": round(valorPromedio, 2)}
 def stateHumedad():
     data_sensores = pd.read_csv('../modelos/data_sensores.csv')
     valorActual = data_sensores['Humedad'].iloc[-1]
 
-    if valorActual < 10:
+    if valorActual < 20:
         estadoActual = "Deficiente"
-    elif 10 <= valorActual < 20:
-        estadoActual = "Bajo"
     elif 20 <= valorActual < 30:
+        estadoActual = "Bajo"
+    elif 30 <= valorActual < 60:
         estadoActual = "Adecuado"
-    elif 30 <= valorActual < 40:
+    elif 60 <= valorActual < 80:
         estadoActual = "Alto"
     else:
         estadoActual = "Excesivo"
 
     valorPromedio = data_sensores['Humedad'].mean()
-    if valorPromedio < 10:
+    if valorPromedio < 20:
         estadoPromedio = "Deficiente"
-    elif 10 <= valorPromedio < 20:
-        estadoPromedio = "Bajo"
     elif 20 <= valorPromedio < 30:
+        estadoPromedio = "Bajo"
+    elif 30 <= valorPromedio < 60:
         estadoPromedio = "Adecuado"
-    elif 30 <= valorPromedio < 40:
+    elif 60 <= valorPromedio < 80:
         estadoPromedio = "Alto"
     else:
         estadoPromedio = "Excesivo"
 
-    return {"estadoActual": estadoActual , "valorActual": valorActual, "estadoPromedio": estadoPromedio, "valorPromedio": valorPromedio}
+    return {"estadoActual": estadoActual , "valorActual": round(valorActual, 2), "estadoPromedio": estadoPromedio, "valorPromedio": round(valorPromedio, 2)}
 def stateTemperatura():
     data_sensores = pd.read_csv('../modelos/data_sensores.csv')
     valorActual = data_sensores['Temperatura'].iloc[-1]
 
     if valorActual < 10:
         estadoActual = "Deficiente"
-    elif 10 <= valorActual < 20:
+    elif 10 <= valorActual < 15:
         estadoActual = "Bajo"
-    elif 20 <= valorActual < 30:
+    elif 15 <= valorActual < 25:
         estadoActual = "Adecuado"
-    elif 30 <= valorActual < 40:
+    elif 25 <= valorActual < 30:
         estadoActual = "Alto"
     else:
         estadoActual = "Excesivo"
@@ -223,16 +232,16 @@ def stateTemperatura():
     valorPromedio = data_sensores['Temperatura'].mean()
     if valorPromedio < 10:
         estadoPromedio = "Deficiente"
-    elif 10 <= valorPromedio < 20:
+    elif 10 <= valorPromedio < 15:
         estadoPromedio = "Bajo"
-    elif 20 <= valorPromedio < 30:
+    elif 15 <= valorPromedio < 25:
         estadoPromedio = "Adecuado"
-    elif 30 <= valorPromedio < 40:
+    elif 25 <= valorPromedio < 30:
         estadoPromedio = "Alto"
     else:
         estadoPromedio = "Excesivo"
 
-    return {"estadoActual": estadoActual , "valorActual": valorActual, "estadoPromedio": estadoPromedio, "valorPromedio": valorPromedio}
+    return {"estadoActual": estadoActual , "valorActual": round(valorActual, 2), "estadoPromedio": estadoPromedio, "valorPromedio": round(valorPromedio, 2)}
 
 # Prediccion de estado de nutrientes
 ## Generar fechas
@@ -268,9 +277,9 @@ def predictController(cantidadDiasPrediccion):
     fecha_base = str(df_copy.index[-1])
     fechas_futuras = generar_fechas(fecha_base[:10], cantidadDiasPrediccion)
 
-    nitrogenoFinal = [{'fecha': fechas_futuras[i], 'valor': predicciones['Nitrogeno'].predicted_mean.tolist()[i]} for i in range(len(fechas_futuras))]
-    fosforoFinal = [{'fecha': fechas_futuras[i], 'valor': predicciones['Fosforo'].predicted_mean.tolist()[i]} for i in range(len(fechas_futuras))]
-    potasioFinal = [{'fecha': fechas_futuras[i], 'valor': predicciones['Potasio'].predicted_mean.tolist()[i]} for i in range(len(fechas_futuras))]
+    nitrogenoFinal = [{'fecha': fechas_futuras[i], 'valor': round(predicciones['Nitrogeno'].predicted_mean.tolist()[i], 2)} for i in range(len(fechas_futuras))]
+    fosforoFinal = [{'fecha': fechas_futuras[i], 'valor': round(predicciones['Fosforo'].predicted_mean.tolist()[i], 2)} for i in range(len(fechas_futuras))]
+    potasioFinal = [{'fecha': fechas_futuras[i], 'valor': round(predicciones['Potasio'].predicted_mean.tolist()[i], 2)} for i in range(len(fechas_futuras))]
 
     # Tiempo de ejecucion
     tiempoFinal = datetime.now()
@@ -279,9 +288,9 @@ def predictController(cantidadDiasPrediccion):
 
     print(tiempo.seconds)
 
-    return {"nitrogeno": nitrogenoFinal, 
-            "fosforo": fosforoFinal,
-            "potasio": potasioFinal}
+    return {"nitrogeno": {"RMSE": 6.02,"predicciones": nitrogenoFinal}, 
+            "fosforo": {"RMSE": 1.48, "predicciones": fosforoFinal},
+            "potasio": {"RMSE": 14.78, "predicciones": potasioFinal}}
 
 
 # Analisis de enfermedades
@@ -296,7 +305,7 @@ def tieneEnfermedadFruta(image_number):
     processed_image = preprocess_image(f'./images/Avocado {image_number}.jpg')
     prediction = model.predict(processed_image)
 
-    states = ["scab", "healthy", "anthracnose", "asfixiaRadicular"]
+    states = ["scab", "healthy", "anthracnose", "asfixia radicular"]
     max_index = np.argmax(prediction)
     stateImagen = states[max_index]
     return stateImagen
@@ -320,6 +329,6 @@ def tieneAsfixiaRadicular():
 
     # Si la mayoria de valores en valuesAsfixia es True, entonces se considera que tiene asfixia radicular
     if valuesAsfixia.count(True) > len(valuesAsfixia) * 0.5:
-        return True
+        return False
 
     return True

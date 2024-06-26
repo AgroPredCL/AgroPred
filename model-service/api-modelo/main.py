@@ -17,11 +17,16 @@ async def stateHistoricoGeneral(start_date: Optional[str] = Query(None, descript
     if not start_date or not end_date:
         return {"error": "Por favor agrega fecha de inicio y fin para entregar el estado, en formato 'YYYY-MM-DD'."}
     
-    nitrogeno, potasio, fosforo = stateController(start_date, end_date)
+    nitrogeno, potasio, fosforo, humedad, conductividad, ph, temperatura  = stateController(start_date, end_date)
     
     return {"nitrogeno": nitrogeno, 
             "potasio": potasio, 
-            "fosforo": fosforo}
+            "fosforo": fosforo,
+            "humedad": humedad,
+            "conductividad": conductividad,
+            "ph": ph,
+            "temperatura": temperatura
+            }
 
 @app.get("/state/nitrogeno")
 async def currentStateNitrogeno():
@@ -74,14 +79,14 @@ async def process_image(image_number: Optional[str] = Query(None, description="I
         "scab": "Scab is a disease that affects the leaves and fruit of the avocado tree. It is caused by the fungus Elsinoe spp. and is characterized by dark, raised spots on the fruit and leaves.",
         "healthy": "The avocado is healthy and free from any disease.",
         "anthracnose": "Anthracnose is a fungal disease that affects the leaves, fruit, and stems of the avocado tree. It is caused by the fungus Colletotrichum spp. and is characterized by dark, sunken lesions on the fruit and leaves.",
-        "asfixiaRadicular": "Asfixia Radicular is a disease that affects the roots of the avocado tree. It is caused by poor drainage and waterlogging of the soil, which leads to a lack of oxygen in the root zone."}
+        "asfixia radicular": "Asfixia Radicular is a disease that affects the roots of the avocado tree. It is caused by poor drainage and waterlogging of the soil, which leads to a lack of oxygen in the root zone."}
 
     # Give impact of the state (bajo medio alto)
     impacto = {
-        "scab": 2,
-        "healthy": 0,
-        "anthracnose": 3,
-        "asfixiaRadicular": 3
+        "scab": "medio",
+        "healthy": "sin impacto",
+        "anthracnose": "alto",
+        "asfixia radicular": "alto"
     }
 
     if image_number:
@@ -91,10 +96,10 @@ async def process_image(image_number: Optional[str] = Query(None, description="I
     output = {}
 
     if flasAsfixiaRadicular:
-        output["asfixiaRadicular"] = {
-            "estado": "asfixiaRadicular",
-            "descripcion": description["asfixiaRadicular"],
-            "impacto": impacto["asfixiaRadicular"],
+        output["asfixia radicular"] = {
+            "estado": "asfixia radicular",
+            "descripcion": description["asfixia radicular"],
+            "impacto": impacto["asfixia radicular"],
             "confiabilidad": "x%"
         }
     if image_number:
