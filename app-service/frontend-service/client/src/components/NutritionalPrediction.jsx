@@ -89,15 +89,6 @@ const NutritionalPrediction = () => {
     }));
   };
 
-  // Estado local para los datos y opciones de gráfico
-  const [data, setData] = useState(getDataForPeriod(startIdx, endIdx));
-
-  // Función para cambiar entre vista de gráfico y tabla
-  const toggleView = (viewType) => {
-    setView(viewType);
-  };
-
-
   return (
     <div className="overflow-y-auto">
       <Content titulo='NPK' tituloGrafico='Nutrientes [mg/kg] vs Tiempo [meses]' />
