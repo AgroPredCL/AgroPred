@@ -3,8 +3,6 @@ import { Seccion } from './components/UI/Seccion';
 import { Table } from './components/estado_salud/Table';
 import { Estado } from './components/nutricion/Estado';
 import { Caracteristica } from './components/nutricion/Caracteristica';
-import NutritionalPrediction from './components/NutritionalPrediction'; // Importar NutritionalPrediction
-import { fetchData } from './components/apiservice';
 
 const dataPredeterminada = [
     {
@@ -28,9 +26,9 @@ const dataPredeterminada = [
         Descripcion: "Agregar fertilizante con potasio.",
         Confiabilidad: 85,
     },
-];
-
-const fechasPredeterminadas = [
+  ];
+  
+  const fechas = [
     { nombre: "Enero", dia: 1 },
     { nombre: "Febrero", dia: 28 },
     { nombre: "Marzo", dia: 2 },
@@ -60,12 +58,12 @@ export function App() {
 
     return (
         <>
-            <Seccion titulo='Estado de Salud'>
-                <div className='grid grid-cols-2 gap-4'>
-                    <Table titulo='Actualidad' data={enfermedades} fechas={[]} />
-                    <Table titulo='Predicciones' filtro={true} data={data} fechas={fechas} confiabilidad='12' />
-                </div>
-            </Seccion>
+          <Seccion titulo='Estado de Salud'>
+              <div className='grid grid-cols-2 gap-4'>
+                  <Table titulo='Actualidad' data={[]} fechas={[]} />
+                  <Table titulo='Predicciones' filtro={true} data={data} fechas={fechas} confiabilidad='12' />
+              </div>
+          </Seccion>
 
             <Seccion titulo='Estado Nutricional' actualizacion='Última lectura' ultimaLectura='24 junio 2024, 06:00'>
                 <div className="flex space-x-2 py-2 text-sm">
