@@ -140,3 +140,44 @@ body {
   .max-height-full {
     max-height: 500px; /* Ajusta este valor según sea necesario */
   }
+
+  #nutrientes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* Ajusta el espaciado según sea necesario */
+  }
+  
+  #nutrientes > * {
+    flex: 1 1 calc(25% - 16px); /* Ajusta el cálculo según el gap */
+    box-sizing: border-box;
+  }
+  
+  #nutrientes::after {
+    content: '';
+    flex: 1 1 calc(25% - 16px);
+    box-sizing: border-box;
+  }
+  
+  #nutrientes::after:nth-last-child(4) {
+    content: '';
+    flex: 1 1 calc(25% - 16px);
+    box-sizing: border-box;
+  }
+  
+  #nutrientes::after:nth-last-child(3) {
+    content: '';
+    flex: 1 1 calc(25% - 16px);
+    box-sizing: border-box;
+  }
+  
+  #nutrientes::after:nth-last-child(2) {
+    content: '';
+    flex: 1 1 calc(25% - 16px);
+    box-sizing: border-box;
+  }
+  
+  #nutrientes::after:nth-last-child(1) {
+    content: '';
+    flex: 1 1 calc(25% - 16px);
+    box-sizing: border-box;
+  }
