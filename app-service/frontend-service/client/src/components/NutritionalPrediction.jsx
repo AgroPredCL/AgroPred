@@ -1,26 +1,6 @@
-import React, { useState } from 'react';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
+import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
-
-// Registrar los componentes necesarios de Chart.js
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import { fetchData } from './apiservice';
 
 const NutritionalPrediction = () => {
   // Estado local para el período, vista y secciones colapsables
@@ -41,60 +21,81 @@ const NutritionalPrediction = () => {
   const endIdx = months.indexOf(period.end);
   const labels = months.slice(startIdx, endIdx + 1);
 
-  // Generación de datos de ejemplo para el período seleccionado
-  const getDataForPeriod = (startIdx, endIdx) => {
-    const weeks = Array.from({ length: (endIdx - startIdx + 1) * 4 }, (_, i) => `Semana ${i + 1}`);
+  // Estado local para los datos de gráfico
+  const [data, setData] = useState({
+    labels: [],
+    datasets: [
+      { label: 'Nitrógeno', data: [], fill: false, borderColor: '#95C11F', tension: 0.1 },
+      { label: 'Fósforo', data: [], fill: false, borderColor: '#023E8A', tension: 0.1 },
+      { label: 'Potasio', data: [], fill: false, borderColor: '#FF0303', tension: 0.1 },
+    ],
+  });
 
-    const newData = {
-      labels: weeks,
-      datasets: [
-        {
-          label: 'Nitrógeno',
-          data: Array.from({ length: weeks.length }, () => Math.floor(Math.random() * 10) + 25),
-          fill: false,
-          borderColor: '#95C11F',
-          tension: 0.1,
-        },
-        {
-          label: 'Fósforo',
-          data: Array.from({ length: weeks.length }, () => Math.floor(Math.random() * 10) + 20),
-          fill: false,
-          borderColor: '#023E8A',
-          tension: 0.1,
-        },
-        {
-          label: 'Potasio',
-          data: Array.from({ length: weeks.length }, () => Math.floor(Math.random() * 10) + 30),
-          fill: false,
-          borderColor: '#FF0303',
-          tension: 0.1,
-        },
-      ],
-    };
+  // Función para obtener los datos de predicción según el número de días a predecir
+  const getPredictionData = async (daysToPredict) => {
+    try {
+      const result = await fetchData(`/prediction/NPK?diasAPredecir=${daysToPredict}`);
+      console.log("Resultado de la API de predicción:", result);
 
-    return newData;
+      // Actualizar los datos del estado con las nuevas predicciones
+      const newData = {
+        labels: result.nitrogeno.predicciones.map(item => item.fecha),
+        datasets: [
+          {
+            label: 'Nitrógeno',
+            data: result.nitrogeno.predicciones.map(item => item.valor),
+            fill: false,
+            borderColor: '#95C11F',
+            tension: 0.1,
+          },
+          {
+            label: 'Fósforo',
+            data: result.fosforo.predicciones.map(item => item.valor),
+            fill: false,
+            borderColor: '#023E8A',
+            tension: 0.1,
+          },
+          {
+            label: 'Potasio',
+            data: result.potasio.predicciones.map(item => item.valor),
+            fill: false,
+            borderColor: '#FF0303',
+            tension: 0.1,
+          },
+        ],
+      };
+
+      setData(newData);
+    } catch (error) {
+      console.error('Error fetching prediction data', error);
+    }
   };
+
+  // Efecto para cargar los datos iniciales al montar el componente
+  useEffect(() => {
+    getPredictionData(7); // Cargar predicciones por defecto para 7 días al montar
+  }, []);
 
   // Manejar cambios en el período seleccionado
   const handlePeriodChange = (e) => {
     const { name, value } = e.target;
-    const newPeriod = { ...period, [name]: value };
-
-    const startIdx = months.indexOf(newPeriod.start);
-    const endIdx = months.indexOf(newPeriod.end);
-
-    if (endIdx - startIdx <= 2) {
-      setPeriod(newPeriod);
-      const newData = getDataForPeriod(startIdx, endIdx);
-      setData(newData);
-    } else {
-      alert('El período seleccionado debe ser de un máximo de 3 meses.');
-    }
+    setPeriod(prevPeriod => ({ ...prevPeriod, [name]: value }));
   };
 
-  // Estado local para los datos y opciones de gráfico
-  const [data, setData] = useState(getDataForPeriod(startIdx, endIdx));
+  // Función para cambiar entre vista de gráfico y tabla
+  const toggleView = (viewType) => {
+    setView(viewType);
+  };
 
+  // Función para expandir/colapsar secciones de información adicional
+  const toggleSection = (section) => {
+    setSections(prevSections => ({
+      ...prevSections,
+      [section]: !prevSections[section],
+    }));
+  };
+
+  // Opciones de configuración del gráfico
   const options = {
     responsive: true,
     plugins: {
@@ -108,19 +109,6 @@ const NutritionalPrediction = () => {
         beginAtZero: true,
       },
     },
-  };
-
-  // Función para cambiar entre vista de gráfico y tabla
-  const toggleView = (viewType) => {
-    setView(viewType);
-  };
-
-  // Función para expandir/colapsar secciones de información adicional
-  const toggleSection = (section) => {
-    setSections((prev) => ({
-      ...prev,
-      [section]: !prev[section],
-    }));
   };
 
   return (
@@ -169,7 +157,7 @@ const NutritionalPrediction = () => {
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr>
-                      <th className="border-b">Semana</th>
+                      <th className="border-b">Fecha</th>
                       <th className="border-b">Nitrógeno</th>
                       <th className="border-b">Fósforo</th>
                       <th className="border-b">Potasio</th>

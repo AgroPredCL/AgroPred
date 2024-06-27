@@ -71,9 +71,8 @@ export function App() {
 
     //AQUI AILYN SE CONECTA A LA API Y OBTIENE LOS DATOS DE LA API DE PREDICCION
     const [fecha, setFecha] = useState('');
-    const [enfermedades, setEnfermedades] = useState([]);            
-    /////////////////////////const [data, setData] = useState(dataPredeterminada);
-    //const [fechas, setFechas] = useState(fechasPredeterminadas);
+    const [enfermedades, setEnfermedades] = useState([]);
+    const [predictionData, setPredictionData] = useState(null); // Cambiado a null
 
     useEffect(() => {
         const getData = async () => {
@@ -82,6 +81,10 @@ export function App() {
                 console.log("Resultado de la API: ", result.fecha, result.enfermedades);
                 setFecha(result.fecha);
                 setEnfermedades(result.enfermedades);
+
+                const predictionResult = await fetchData("/prediction/NPK?diasAPredecir=7");
+                console.log("Resultado de la predicción: ", predictionResult);
+                setPredictionData(predictionResult);
             } catch (error) {
                 console.error('Error fetching data', error);
             }
