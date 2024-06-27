@@ -46,6 +46,30 @@ const fechas = [
 ];
 
 export function App() {
+
+    //AQUI PACHI SE CONECTA A LA API Y OBTIENE LAS ENFERMEDAES
+    const [fecha, setFecha] = useState('');
+    const [enfermedades, setEnfermedades] = useState([]);            
+    /////////////////////////const [data, setData] = useState(dataPredeterminada);
+    //const [fechas, setFechas] = useState(fechasPredeterminadas);
+
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const result = await fetchData("/diseases?image_number=0005");
+                console.log("Resultado de la API: ", result.fecha, result.enfermedades);
+                setFecha(result.fecha);
+                setEnfermedades(result.enfermedades);
+            } catch (error) {
+                console.error('Error fetching data', error);
+            }
+        };
+
+        getData();
+    }, []);
+
+
+    //AQUI AILYN SE CONECTA A LA API Y OBTIENE LOS DATOS DE LA API DE PREDICCION
     const [fecha, setFecha] = useState('');
     const [enfermedades, setEnfermedades] = useState([]);            
     /////////////////////////const [data, setData] = useState(dataPredeterminada);
