@@ -6,48 +6,56 @@ import { Caracteristica } from './components/nutricion/Caracteristica';
 import NutritionalPrediction from './components/NutritionalPrediction'; // Importar NutritionalPrediction
 import { fetchData } from './components/apiservice';
 
-const dataPredeterminada = [
+const data = [
     {
-        fecha: "Enero",
-        Enfermedad: "Antracnosis",
-        Impacto: "Alto",
-        Descripcion: "Aparece en condiciones húmedas y cálidas.",
-        Confiabilidad: 55,
+      fecha: "Enero",
+      Enfermedad: "Antracnosis",
+      Impacto: "Alto",
+      Descripcion: "Aparece en condiciones húmedas y cálidas.",
+      Confiabilidad: 55,
     },
     {
-        fecha: "Febrero",
-        Enfermedad: "Asfixia Raidicular",
-        Impacto: "Alto",
-        Descripcion: "Aparece en condiciones de alta humedad.",
-        Confiabilidad: 75,
-    },
-    {
-        fecha: "Marzo",
-        Enfermedad: "Deficiente Potasio",
-        Impacto: "Medio",
-        Descripcion: "Agregar fertilizante con potasio.",
-        Confiabilidad: 85,
-    },
-];
+      fecha: "Febrero",
+      Enfermedad: "Asfixia Raidicular",
+      Impacto: "Alto",
+      Descripcion: "Aparece en condiciones de alta humedad.",
+      Confiabilidad: 75,
 
-const fechasPredeterminadas = [
+    
+    },
+    {
+      fecha: "Marzo",
+      Enfermedad: "Deficiente Potasio",
+      Impacto: "Medio",
+      Descripcion: "Agregar fertilizante con potasio.",
+      Confiabilidad: 85,
+
+
+     
+    },
+  ];
+  
+
+
+const fechas = [
     { nombre: "Enero", dia: 1 },
     { nombre: "Febrero", dia: 28 },
-    { nombre: "Marzo", dia: 2 },
-    { nombre: "Abril", dia: 2 },
+    { nombre: "Marzo", dia: 2 }, // Añadido Marzo para que coincida con los datos
+    { nombre: "Abril", dia: 2 }, // Añadido Marzo para que coincida con los datos
+ 
 ];
 
 export function App() {
     const [fecha, setFecha] = useState('');
-    const [enfermedades, setEnfermedades] = useState([]);
-    const [data, setData] = useState(dataPredeterminada);
-    const [fechas, setFechas] = useState(fechasPredeterminadas);
+    const [enfermedades, setEnfermedades] = useState([]);            
+    /////////////////////////const [data, setData] = useState(dataPredeterminada);
+    //const [fechas, setFechas] = useState(fechasPredeterminadas);
 
     useEffect(() => {
         const getData = async () => {
             try {
                 const result = await fetchData("/diseases?image_number=0005");
-                console.log("Resultado de la API: ", result);
+                console.log("Resultado de la API: ", result.fecha, result.enfermedades);
                 setFecha(result.fecha);
                 setEnfermedades(result.enfermedades);
             } catch (error) {
@@ -62,8 +70,8 @@ export function App() {
         <>
             <Seccion titulo='Estado de Salud'>
                 <div className='grid grid-cols-2 gap-4'>
-                    <Table titulo='Actualidad' data={enfermedades} fechas={[]} />
-                    <Table titulo='Predicciones' filtro={true} data={data} fechas={fechas} confiabilidad='12' />
+                <Table titulo='Actualidad' data={[]} fechas={[]} />
+                <Table titulo='Predicciones' filtro={true} data={data} fechas={fechas} confiabilidad='12' />
                 </div>
             </Seccion>
 
