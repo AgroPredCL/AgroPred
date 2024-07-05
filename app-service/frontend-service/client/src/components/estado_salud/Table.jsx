@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const DiseaseTable = ({ data }) => {
-  console.log("Info para la tabla", data);
+  console.log("Info entrada para la tabla", data);
 
   return (
     <div className='py-2'>
@@ -54,15 +54,14 @@ export function Table({ titulo, filtro, data, fechas }) {
         <h2 className="text-center text-lg border-b-2 border-gray-400">{titulo}</h2>
         {filtro && (
             <div className="flex-grow flex my-2 items-center justify-between">
-                <select id="month-select" value={selectedMonth} onChange={handleChange} className="ml-2 border p-1">
-                    <option value="Periodo">Elige un mes</option>
-                    {fechas.map((fecha) => (
-                        <option key={fecha.nombre} value={fecha.nombre}>
-                            {fecha.nombre}
-                        </option>
-                    ))}
-                </select>
-                
+              <select id="month-select" value={selectedMonth} onChange={handleChange} className="ml-2 border p-1">
+                <option value="Periodo">Elige un mes</option>
+                {fechas.map((fecha) => (
+                  <option key={fecha.nombre} value={fecha.nombre}>
+                    {fecha.nombre}
+                  </option>
+                ))}
+              </select>
             </div>
         )}
         <DiseaseTable data={filtro ? filteredData : data} />

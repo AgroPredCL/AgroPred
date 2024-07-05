@@ -137,7 +137,7 @@ export function Content({ titulo, tituloGrafico }) {
                     </div>
                 </div>
                 <p className="text-sm text-gray-500">
-                    <span className="kanit-medium">Confiabilidad:</span> 95%
+                    <span className="kanit-medium">Confiabilidad:</span> 55%
                 </p>
                 {view === 'graph' && (
                     <>
