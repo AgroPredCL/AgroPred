@@ -4,6 +4,7 @@ import { Estado } from './components/nutricion/Estado';
 import { Caracteristica } from './components/nutricion/Caracteristica';
 import NutritionalPrediction from './components/NutritionalPrediction'; // Importar NutritionalPrediction
 
+// Estos datos cambiar por JSON de API
 const data = [
     {
         fecha: "Enero",
