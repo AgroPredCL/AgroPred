@@ -123,6 +123,10 @@ body {
     transition: transform 1s ease;
   }
   
+.rotate-minus-90 {
+    transform: rotate(90deg);
+    transition: transform 1s ease;
+}
   .rotate-0 {
     transform: rotate(0deg);
     transition: transform 1s ease;
@@ -138,7 +142,7 @@ body {
   }
   
   .max-height-full {
-    max-height: 500px; /* Ajusta este valor según sea necesario */
+    max-height: auto; /* Ajusta este valor según sea necesario */
   }
 
   #nutrientes {

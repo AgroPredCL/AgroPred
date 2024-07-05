@@ -1,12 +1,23 @@
 from fastapi import FastAPI, Query
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
+from fastapi.middleware.cors import CORSMiddleware
+
 import numpy as np
 from tensorflow.keras.applications.inception_v3 import preprocess_input
 from typing import Optional
 from functions import stateController, predictController, tieneAsfixiaRadicular, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad, tieneEnfermedadFruta
 
 app = FastAPI()
+
+# Configurar CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permitir todas las solicitudes CORS. Ajusta según sea necesario.
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 async def root():

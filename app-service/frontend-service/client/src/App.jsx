@@ -1,48 +1,105 @@
+import React, { useEffect, useState } from 'react';
 import { Seccion } from './components/UI/Seccion';
 import { Table } from './components/estado_salud/Table';
 import { Estado } from './components/nutricion/Estado';
 import { Caracteristica } from './components/nutricion/Caracteristica';
 import NutritionalPrediction from './components/NutritionalPrediction'; // Importar NutritionalPrediction
+import { fetchData } from './components/apiservice';
 
 // Estos datos cambiar por JSON de API
 const data = [
     {
-        fecha: "Enero",
-        Enfermedad: "Antracnosis",
-        Impacto: "Alto",
-        Descripcion: "Aparece en condiciones húmedas y cálidas.",
-        Confiabilidad: 55,
+      fecha: "Enero",
+      Enfermedad: "Antracnosis",
+      Impacto: "Alto",
+      Descripcion: "Aparece en condiciones húmedas y cálidas.",
+      Confiabilidad: 55,
     },
     {
-        fecha: "Febrero",
-        Enfermedad: "Asfixia Raidicular",
-        Impacto: "Alto",
-        Descripcion: "Aparece en condiciones de alta humedad.",
-        Confiabilidad: 75,
+      fecha: "Febrero",
+      Enfermedad: "Asfixia Raidicular",
+      Impacto: "Alto",
+      Descripcion: "Aparece en condiciones de alta humedad.",
+      Confiabilidad: 75,
+
+    
     },
     {
-        fecha: "Marzo",
-        Enfermedad: "Deficiente Potasio",
-        Impacto: "Medio",
-        Descripcion: "Agregar fertilizante con potasio.",
-        Confiabilidad: 85,
+      fecha: "Marzo",
+      Enfermedad: "Deficiente Potasio",
+      Impacto: "Medio",
+      Descripcion: "Agregar fertilizante con potasio.",
+      Confiabilidad: 85,
+
+
+     
     },
-];
+  ];
+  
+
 
 const fechas = [
     { nombre: "Enero", dia: 1 },
     { nombre: "Febrero", dia: 28 },
-    { nombre: "Marzo", dia: 2 },
-    { nombre: "Abril", dia: 2 },
+    { nombre: "Marzo", dia: 2 }, // Añadido Marzo para que coincida con los datos
+    { nombre: "Abril", dia: 2 }, // Añadido Marzo para que coincida con los datos
+ 
 ];
 
 export function App() {
+
+    //AQUI PACHI SE CONECTA A LA API Y OBTIENE LAS ENFERMEDAES
+    const [fecha, setFecha] = useState('');
+    const [enfermedades, setEnfermedades] = useState([]);            
+    /////////////////////////const [data, setData] = useState(dataPredeterminada);
+    //const [fechas, setFechas] = useState(fechasPredeterminadas);
+
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const result = await fetchData("/diseases?image_number=0005");
+                console.log("Resultado de la API: ", result.fecha, result.enfermedades);
+                setFecha(result.fecha);
+                setEnfermedades(result.enfermedades);
+            } catch (error) {
+                console.error('Error fetching data', error);
+            }
+        };
+
+        getData();
+    }, []);
+
+
+    //AQUI AILYN SE CONECTA A LA API Y OBTIENE LOS DATOS DE LA API DE PREDICCION
+    const [fecha, setFecha] = useState('');
+    const [enfermedades, setEnfermedades] = useState([]);
+    const [predictionData, setPredictionData] = useState(null); // Cambiado a null
+
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const result = await fetchData("/diseases?image_number=0005");
+                console.log("Resultado de la API: ", result.fecha, result.enfermedades);
+                setFecha(result.fecha);
+                setEnfermedades(result.enfermedades);
+
+                const predictionResult = await fetchData("/prediction/NPK?diasAPredecir=7");
+                console.log("Resultado de la predicción: ", predictionResult);
+                setPredictionData(predictionResult);
+            } catch (error) {
+                console.error('Error fetching data', error);
+            }
+        };
+
+        getData();
+    }, []);
+
     return (
         <>
             <Seccion titulo='Estado de Salud'>
                 <div className='grid grid-cols-2 gap-4'>
-                    <Table titulo='Actualidad' data={[]} fechas={[]} />
-                    <Table titulo='Predicciones' filtro={true} data={data} fechas={fechas} confiabilidad='12' />
+                <Table titulo='Actualidad' data={[]} fechas={[]} />
+                <Table titulo='Predicciones' filtro={true} data={data} fechas={fechas} confiabilidad='12' />
                 </div>
             </Seccion>
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const DiseaseTable = ({ data }) => {
-  console.log("Info entrada para la tabla", data);
+  console.log("Info para la tabla", data);
 
   return (
     <div className='py-2'>
@@ -34,7 +34,7 @@ const DiseaseTable = ({ data }) => {
   );
 };
 
-export function Table({ titulo, filtro, data, fechas, confiabilidad }) {
+export function Table({ titulo, filtro, data, fechas }) {
   // Hook de estado para seleccionar el mes
   const [selectedMonth, setSelectedMonth] = useState('');
 
@@ -62,9 +62,7 @@ export function Table({ titulo, filtro, data, fechas, confiabilidad }) {
                         </option>
                     ))}
                 </select>
-                <p className="text-sm text-gray-500">
-                    <span className="kanit-medium">Confiabilidad:</span> {confiabilidad}
-              </p>
+                
             </div>
         )}
         <DiseaseTable data={filtro ? filteredData : data} />
