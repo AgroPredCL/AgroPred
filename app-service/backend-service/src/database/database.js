@@ -1,5 +1,6 @@
-import Sequelize from 'sequelize'
+import { Sequelize } from 'sequelize'
 
+/*
 export const sequelize = new Sequelize(
     'agropred', 
     'postgres', 
@@ -10,3 +11,23 @@ export const sequelize = new Sequelize(
         freezeTableName: true // Deshabilita la pluralización globalmente
       }
 });
+*/
+
+/*
+// config/database.js
+module.exports = {
+  development: {
+    username: process.env.DB_USER || 'postgres',
+    password: process.env.DB_PASS || '1234',
+    database: process.env.DB_NAME || 'agropred',
+    host: process.env.DB_HOST || '127.0.0.1',
+    port: process.env.DB_PORT || '5432',
+    dialect: 'postgres',
+  },
+  // Other environments (test, production) can be configured similarly
+};
+*/
+
+const sequelize = new Sequelize('postgres://postgres:1234@db:5432/agropred');
+
+export { sequelize };
