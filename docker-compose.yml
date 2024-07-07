@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres-container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: agropred
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  api-backend:
+    build:
+      context: ./app-service/backend-service
+      dockerfile: Dockerfile
+    container_name: api-backend-container
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASS: 1234
+      DB_NAME: agropred
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./app-service/frontend-service
+      dockerfile: Dockerfile
+    container_name: frontend-container
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api-backend
+
+  model-service:
+    build:
+      context: ./model-service
+      dockerfile: Dockerfile
+    container_name: model-service-container
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./model-service/modelos:/model-service/modelos
+    environment:
+      - PYTHONUNBUFFERED=1
+
+volumes:
+  postgres-data:
+  modelos:

@@ -9,4 +9,3 @@
 
 2. revisar
     - puerto y direccion para comunicarse con el contenedor de la API de los modelos
-    - crear docker-compose para container de frontend-service
