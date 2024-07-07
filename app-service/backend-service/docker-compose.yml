@@ -3,7 +3,7 @@ version: '3.9'
 services:
   db:
     image: postgres:latest
-    container_name: postgres-container
+    container_name: postgres-container-individual
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1234
@@ -15,7 +15,7 @@ services:
 
   api-backend:
     build: .
-    container_name: api-backend-container
+    container_name: api-backend-container-individual
     environment:
       DB_HOST: db
       DB_PORT: 5432
