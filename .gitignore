@@ -1,4 +1,5 @@
 **/node_modules/
+**/__pycache__/
 /model-service/modelos/model_fit_F.joblib
 /model-service/modelos/model_fit_K.joblib
 /model-service/modelos/model_fit_N.joblib
