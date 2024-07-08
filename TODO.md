@@ -1,5 +1,6 @@
 1. investigar relacionado a:
-    - docker compose
+    - docker-compose remoto
+    - docker registry
     - docker hub
     - github ci (e.g github actions)
     - como modificar codigo de forma local, dentro de un container,
