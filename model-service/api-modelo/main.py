@@ -8,6 +8,10 @@ from tensorflow.keras.applications.inception_v3 import preprocess_input
 from typing import Optional
 from functions import stateController, predictController, tieneAsfixiaRadicular, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad, tieneEnfermedadFruta
 
+from motor.motor_asyncio import AsyncIOMotorClient
+import os
+
+
 app = FastAPI()
 
 # Configurar CORS
@@ -128,3 +132,8 @@ async def process_image(image_number: Optional[str] = Query(None, description="I
         "enfermedades": output
     }
 
+
+# Endpoint para manejar el subir imagenes a Mongodb
+@app.get("/subir-imagen")
+async def process_image():
+    return None
