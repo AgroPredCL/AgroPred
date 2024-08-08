@@ -1,5 +1,17 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
+import base64
+from pymongo import MongoClient
+import gridfs
+
+from io import BytesIO
+import numpy as np
+import matplotlib.pyplot as plt
+
+from PIL import Image
+
+# Conexion
+
 
 # Configurar los detalles de la conexión a MongoDB
 MONGO_DETAILS = os.getenv("MONGO_DETAILS", "mongodb+srv://admin:admin@model-related.5l2ez.mongodb.net/?retryWrites=true&w=majority&appName=model-related")
