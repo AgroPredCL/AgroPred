@@ -48,6 +48,7 @@ services:
       - "8000:8000"
     volumes:
       - ./model-service/modelos:/model-service/modelos
+      - ./model-service:/model-service/
     environment:
       - PYTHONUNBUFFERED=1
 
