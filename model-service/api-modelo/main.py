@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, UploadFile, File, HTTPException
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,9 +8,9 @@ from tensorflow.keras.applications.inception_v3 import preprocess_input
 from typing import Optional
 from functions import stateController, predictController, tieneAsfixiaRadicular, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad, tieneEnfermedadFruta
 
-from motor.motor_asyncio import AsyncIOMotorClient
-import os
-
+import pymongo
+from pymongo import MongoClient
+from bson.binary import Binary
 
 app = FastAPI()
 
@@ -134,6 +134,21 @@ async def process_image(image_number: Optional[str] = Query(None, description="I
 
 
 # Endpoint para manejar el subir imagenes a Mongodb
-@app.get("/subir-imagen")
-async def process_image():
-    return None
+@app.post("/uploadImage")
+async def uploadImage(image: UploadFile = File(...)):
+    client = MongoClient("mongodb+srv://admin:admin@modelcluster.5l2ez.mongodb.net/?retryWrites=true&w=majority&appName=modelCluster")
+    db = client.modelDatabase
+    collection = db.imagesFruits
+
+    try:
+        image_data = await image.read()
+        image_for_mongo = {
+            "filename": image.filename,
+            "content_type": image.content_type,
+            "image_data": Binary(image_data)
+        }
+        result = collection.insert_one(image_for_mongo)
+        return {"message": f"Documento insertado con ID: {result.inserted_id}"}
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error saving image to database: {str(e)}")
