@@ -9,7 +9,6 @@ cd model-service/api-modelo/
 
 # Ejecutar API
 uvicorn main:app --reload
-
 ```
 
 ## Queries
