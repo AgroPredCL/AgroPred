@@ -132,7 +132,6 @@ async def process_image(image_number: Optional[str] = Query(None, description="I
         "enfermedades": output
     }
 
-
 # Endpoint para manejar el subir imagenes a Mongodb
 @app.post("/uploadImage")
 async def uploadImage(image: UploadFile = File(...)):
