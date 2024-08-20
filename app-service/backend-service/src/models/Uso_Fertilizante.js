@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize"
 import { sequelize } from "../database/database.js"
 import { Cuartel } from "./Cuartel.js"
 
-export const Uso_Recurso = sequelize.define('uso_recurso',{
+export const Uso_Fertilizante = sequelize.define('uso_fertilizante',{
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -21,6 +21,5 @@ export const Uso_Recurso = sequelize.define('uso_recurso',{
     cuartelID: {
         type: DataTypes.STRING(5)
     }
-   
 
 })

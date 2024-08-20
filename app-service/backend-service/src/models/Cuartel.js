@@ -1,7 +1,8 @@
 import { DataTypes } from "sequelize"
 import { sequelize } from "../database/database.js"
-import { Uso_Recurso } from "./Uso_Recurso.js"
+import { Uso_Fertilizante } from "./Uso_Fertilizante.js"
 import { Estado } from "./Estado.js"
+import { Uso_Riego } from "./Uso_Riego.js"
 
 export const Cuartel = sequelize.define('cuartel',{
     id: {
@@ -25,12 +26,24 @@ export const Cuartel = sequelize.define('cuartel',{
 })
 
 
-Cuartel.hasMany(Uso_Recurso,{
+Cuartel.hasMany(Uso_Fertilizante,{
     foreignKey: 'cuartelID',
     sourceKey: 'id'
 })
 
-Uso_Recurso.belongsTo(Cuartel,{
+Uso_Fertilizante.belongsTo(Cuartel,{
+    foreignKey: 'cuartelID',
+    targetId: 'id'
+})
+
+//------------------------------------
+
+Cuartel.hasMany(Uso_Riego,{
+    foreignKey: 'cuartelID',
+    sourceKey: 'id'
+})
+
+Uso_Riego.belongsTo(Cuartel,{
     foreignKey: 'cuartelID',
     targetId: 'id'
 })
@@ -46,3 +59,6 @@ Estado.belongsTo(Cuartel,{
     foreignKey: 'cuartelID',
     targetId: 'id'
 })
+
+//------------------------------------
+

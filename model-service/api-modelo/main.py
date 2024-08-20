@@ -8,9 +8,6 @@ from tensorflow.keras.applications.inception_v3 import preprocess_input
 from typing import Optional
 from functions import stateController, predictController, tieneAsfixiaRadicular, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad, tieneEnfermedadFruta
 
-import pymongo
-from pymongo import MongoClient
-from bson.binary import Binary
 
 app = FastAPI()
 
@@ -133,6 +130,7 @@ async def process_image(image_number: Optional[str] = Query(None, description="I
     }
 
 # Endpoint para manejar el subir imagenes a Mongodb
+"""
 @app.post("/uploadImage")
 async def uploadImage(image: UploadFile = File(...)):
     client = MongoClient("mongodb+srv://admin:admin@modelcluster.5l2ez.mongodb.net/?retryWrites=true&w=majority&appName=modelCluster")
@@ -151,3 +149,4 @@ async def uploadImage(image: UploadFile = File(...)):
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error saving image to database: {str(e)}")
+"""

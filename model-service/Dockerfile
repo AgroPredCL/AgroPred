@@ -18,7 +18,6 @@ COPY api-modelo /model-service/api-modelo
 COPY requirements.txt /model-service/requirements.txt
 
 # Instala las dependencias necesarias
-RUN pip install python-multipart
 RUN pip install -r requirements.txt
 
 WORKDIR /model-service/api-modelo

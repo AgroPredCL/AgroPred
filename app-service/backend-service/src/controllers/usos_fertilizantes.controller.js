@@ -1,9 +1,9 @@
-import { Uso_Recurso } from "../models/Uso_Recurso.js";
+import { Uso_Fertilizante } from "../models/Uso_Fertilizante.js";
 
-export const getUsos_Recursos = async (req, res) => {
+export const getUsos_Fertilizantes = async (req, res) => {
     try {
-        const usos_recursos  = await Uso_Recurso.findAll();
-        res.json(usos_recursos);
+        const usos_fertilizantes  = await Uso_Fertilizante.findAll();
+        res.json(usos_fertilizantes);
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
@@ -12,17 +12,17 @@ export const getUsos_Recursos = async (req, res) => {
     }
 }
 
-export const createUso_Recurso= async (req, res) => {
+export const createUso_Fertilizante= async (req, res) => {
     try {
         const {fecha,tipo,observacion,cuartelID} = req.body;
-        const newUso_recurso= await Uso_Recurso.create({
+        const newUso_Fertilizante= await Uso_Fertilizante.create({
             fecha,
             tipo,
             observacion,
             cuartelID
             
         })
-        res.json(newUso_recurso);
+        res.json(newUso_Fertilizante);
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
@@ -31,17 +31,17 @@ export const createUso_Recurso= async (req, res) => {
     }
 }
 
-export const deleteUso_Recurso = async (req, res) => {
+export const deleteUso_Fertilizante = async (req, res) => {
     try {
         const {id} = req.params;
-        const uso_recurso = await Uso_Recurso.findOne({
+        const Uso_Fertilizante = await Uso_Fertilizante.findOne({
             where: {
                 id
             }
         });
-        await uso_recurso.destroy();
+        await Uso_Fertilizante.destroy();
         res.json({
-            message: 'Uso-recurso deleted'
+            message: 'Uso-fertilizante deleted'
         });
     } catch (error) {
         res.status(500).json({
@@ -51,23 +51,23 @@ export const deleteUso_Recurso = async (req, res) => {
     }
 }
 
-export const updateUso_Recurso = async (req, res) => {
+export const updateUso_Fertilizante = async (req, res) => {
     try {
         const {id} = req.params;
         const {fecha,tipo,observacion,cuartelID} = req.body;
-        const uso_recurso = await Uso_Recurso.findOne({
+        const Uso_Fertilizante = await Uso_Fertilizante.findOne({
             where: {
                 id
             }
         });
-        await uso_recurso.update({
+        await Uso_Fertilizante.update({
             fecha,
             tipo,
             observacion,
             cuartelID
         });
         res.json({
-            message: 'Uso-recurso updated'
+            message: 'Uso-fertilizante updated'
         });
     } catch (error) {
         res.status(500).json({
@@ -78,15 +78,15 @@ export const updateUso_Recurso = async (req, res) => {
 }
 
 
-export const getUso_RecursoById = async (req, res) => {
+export const getUso_FertilizanteById = async (req, res) => {
     try {
         const {id} = req.params;
-        const uso_recurso = await Uso_Recurso.findOne({
+        const Uso_Fertilizante = await Uso_Fertilizante.findOne({
             where: {
                 id
             }
         });
-        res.json(uso_recurso);
+        res.json(Uso_Fertilizante);
     } catch (error) {
         res.status(500).json({ 
             message: 'Something went wrong',
