@@ -129,24 +129,15 @@ async def process_image(image_number: Optional[str] = Query(None, description="I
         "enfermedades": output
     }
 
-# Endpoint para manejar el subir imagenes a Mongodb
-"""
-@app.post("/uploadImage")
-async def uploadImage(image: UploadFile = File(...)):
-    client = MongoClient("mongodb+srv://admin:admin@modelcluster.5l2ez.mongodb.net/?retryWrites=true&w=majority&appName=modelCluster")
-    db = client.modelDatabase
-    collection = db.imagesFruits
 
-    try:
-        image_data = await image.read()
-        image_for_mongo = {
-            "filename": image.filename,
-            "content_type": image.content_type,
-            "image_data": Binary(image_data)
-        }
-        result = collection.insert_one(image_for_mongo)
-        return {"message": f"Documento insertado con ID: {result.inserted_id}"}
-    
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error saving image to database: {str(e)}")
 """
+Revisar parametros necesarios:
+- Tipo de riego
+- otros (?)
+"""
+@app.get("/state/hidrico")
+async def stateHidrico():
+
+    estado = {"estado": "normal"}
+
+    return estado
