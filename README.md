@@ -1,6 +1,6 @@
 # AgroPred
 
-A brief description of what this project does and its purpose.
+Proyecto de AgroPred
 
 ## Table of Contents
 
