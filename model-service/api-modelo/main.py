@@ -85,7 +85,7 @@ async def currentState(diasAPredecir: Optional[int] = Query(None, description="f
     return output
 
 @app.get("/diseases")
-async def process_image(image_number: Optional[str] = Query(None, description="Image number")):
+async def process_image_diseases(image_number: Optional[str] = Query(None, description="Image number")):
     # Give description of the state
     description = {
         "scab": "Scab is a disease that affects the leaves and fruit of the avocado tree. It is caused by the fungus Elsinoe spp. and is characterized by dark, raised spots on the fruit and leaves.",
@@ -129,24 +129,26 @@ async def process_image(image_number: Optional[str] = Query(None, description="I
         "enfermedades": output
     }
 
-# Endpoint para manejar el subir imagenes a Mongodb
-"""
-@app.post("/uploadImage")
-async def uploadImage(image: UploadFile = File(...)):
-    client = MongoClient("mongodb+srv://admin:admin@modelcluster.5l2ez.mongodb.net/?retryWrites=true&w=majority&appName=modelCluster")
-    db = client.modelDatabase
-    collection = db.imagesFruits
-
-    try:
-        image_data = await image.read()
-        image_for_mongo = {
-            "filename": image.filename,
-            "content_type": image.content_type,
-            "image_data": Binary(image_data)
-        }
-        result = collection.insert_one(image_for_mongo)
-        return {"message": f"Documento insertado con ID: {result.inserted_id}"}
+@app.get("/uploadImage/fruta")
+async def process_image_fruit():
     
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error saving image to database: {str(e)}")
+    return {"message": "Subida de imagen de fruta exitosa"} 
+
+
+@app.get("/uploadImage/hoja")
+async def process_image_hoja():
+    
+    return {"message": "Subida de imagen de hoja exitosa"} 
+
+
 """
+Revisar parametros necesarios:
+- Tipo de riego
+- otros (?)
+"""
+@app.get("/state/hidrico")
+async def stateHidrico():
+
+    estado = {"estado": "normal"}
+
+    return estado
