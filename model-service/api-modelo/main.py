@@ -85,7 +85,7 @@ async def currentState(diasAPredecir: Optional[int] = Query(None, description="f
     return output
 
 @app.get("/diseases")
-async def process_image(image_number: Optional[str] = Query(None, description="Image number")):
+async def process_image_diseases(image_number: Optional[str] = Query(None, description="Image number")):
     # Give description of the state
     description = {
         "scab": "Scab is a disease that affects the leaves and fruit of the avocado tree. It is caused by the fungus Elsinoe spp. and is characterized by dark, raised spots on the fruit and leaves.",
@@ -128,6 +128,17 @@ async def process_image(image_number: Optional[str] = Query(None, description="I
         "fecha": fecha,
         "enfermedades": output
     }
+
+@app.get("/uploadImage/fruta")
+async def process_image_fruit():
+    
+    return {"message": "Subida de imagen de fruta exitosa"} 
+
+
+@app.get("/uploadImage/hoja")
+async def process_image_hoja():
+    
+    return {"message": "Subida de imagen de hoja exitosa"} 
 
 
 """
