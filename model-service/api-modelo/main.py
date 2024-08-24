@@ -143,8 +143,9 @@ async def process_image_hoja():
 
 """
 Revisar parametros necesarios:
-- Tipo de riego
-- otros (?)
+- Kr: float
+- Tipo de riego: string
+- Tipo de suelo: 
 """
 @app.get("/state/hidrico")
 async def stateHidrico():
