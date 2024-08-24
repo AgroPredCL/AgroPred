@@ -74,6 +74,20 @@ cd AgroPred
 - backend
 - frontend
 
+## Usage
+
+### Queries posibles:
+#### app-service:
+- http://localhost:3000/predios
+- http://localhost:3000/uploadImage ||| Aun sin funcionar
+
+### api-modelo
+- http://0.0.0.0:8000/state/temperatura
+- http://0.0.0.0:8000/state/<humedad ~ ph ~ fosforo ~ potasio ~ nitrogeno ~ conductividad>
+- http://127.0.0.1:8000/diseases?image_number=0001
+- http://127.0.0.1:8000/state?start_date=2023-01-01&end_date=2023-01-02
+- http://127.0.0.1:8000/prediction/NPK?diasAPredecir=14
+
 ## Team
 - **Name 1** - *Role/Responsibility* - [GitHub Profile](https://github.com/username1)
   - **Email**: [name1@example.com](mailto:name1@example.com)
