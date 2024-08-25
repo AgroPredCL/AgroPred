@@ -76,15 +76,54 @@ cd AgroPred
 
 ## Usage
 
-### Queries posibles:
-#### app-service:
-- http://localhost:3000/predios
+### Queries de las apis:
+#### app-service (port: 3000):
+- 
+
+- http://localhost:3000/predios : Entrega todos 
 - http://localhost:3000/uploadImage ||| Aun sin funcionar
 
-### api-modelo
-- http://0.0.0.0:8000/state/temperatura
-- http://0.0.0.0:8000/state/<humedad ~ ph ~ fosforo ~ potasio ~ nitrogeno ~ conductividad>
-- http://127.0.0.1:8000/diseases?image_number=0001
+### api-modelo (port: 8000)
+- GET stateHistoricoGeneral: Entrega los valores historicos de nitrogeno, potasio, fosforo, humedad, conductividad electrica, ph y temperatura.
+    - http://0.0.0.0:8000/state
+    - return:
+``` {"nitrogeno": nitrogeno, "potasio": potasio, "fosforo": fosforo,"humedad": humedad,"conductividad": conductividad,"ph": ph,"temperatura": temperatura} ```
+
+    donde cada variables tiene la forma:
+``` {"nitrogeno": [{"fecha": "2023-01-01", "hora": "03:00:00", "valor": 183.22}, {...}], ... }```
+
+- GET state<valor>: Entrega el estado actual, el valor actual, el estado promedio y el valor promedio del valor pedido.
+    - http://0.0.0.0:8000/state/conductividad
+    - http://0.0.0.0:8000/state/nitrogeno
+    - http://0.0.0.0:8000/state/potasio
+    - http://0.0.0.0:8000/state/fosforo
+    - http://0.0.0.0:8000/state/ph
+    - http://0.0.0.0:8000/state/humedad
+    - http://0.0.0.0:8000/state/temperatura
+
+    - return:
+    ``` {"estadoActual": "Adecuado", "valorActual": 6.32, "estadoPromedio": "Adecuado", "valorPromedio": 6.5} ```
+
+- GET enfermedad segun imagen: Dada el numero de imagen (0001 en este caso)
+    - http://127.0.0.1:8000/diseases?image_number=0001
+    - return: ``` {
+  "fecha": "2021-10-10",
+  "enfermedades": {
+    "asfixia radicular": {
+      "estado": "asfixia radicular",
+      "descripcion": "Asfixia Radicular is a disease that affects the roots of the avocado tree. It is caused by poor drainage and waterlogging of the soil, which leads to a lack of oxygen in the root zone.",
+      "impacto": "alto",
+      "confiabilidad": "x%"
+    },
+    "healthy": {
+      "estado": "healthy",
+      "descripcion": "The avocado is healthy and free from any disease.",
+      "impacto": "sin impacto",
+      "confiabilidad": "75%"
+    }
+  }
+} ```
+
 - http://127.0.0.1:8000/state?start_date=2023-01-01&end_date=2023-01-02
 - http://127.0.0.1:8000/prediction/NPK?diasAPredecir=14
 
