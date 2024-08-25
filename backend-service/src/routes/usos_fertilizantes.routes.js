@@ -5,14 +5,14 @@ import { getUsos_Fertilizantes,createUso_Fertilizante,deleteUso_Fertilizante,upd
 
 const router = Router();
 
-router.get('/usos_Fertilizantes',getUsos_Fertilizantes);
+router.get('/usos_fertilizantes',getUsos_Fertilizantes);
 
-router.post('/uso_Fertilizante',createUso_Fertilizante);
+router.post('/uso_fertilizante',createUso_Fertilizante);
 
-router.delete('/uso_Fertilizante/:id',deleteUso_Fertilizante);
+router.delete('/uso_fertilizante/:id',deleteUso_Fertilizante);
 
-router.put('/uso_Fertilizante/:id',updateUso_Fertilizante);
+router.put('/uso_fertilizante/:id',updateUso_Fertilizante);
 
-router.get('/uso_Fertilizante/:id',getUso_FertilizanteById);
+router.get('/uso_fertilizante/:id',getUso_FertilizanteById);
 
 export default router;

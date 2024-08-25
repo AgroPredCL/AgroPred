@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import numpy as np
 from tensorflow.keras.applications.inception_v3 import preprocess_input
 from typing import Optional
+
 from predictionController import predictController, tieneAsfixiaRadicular, tieneEnfermedadFruta
 from stateController import stateEnPeriodoEspecifico, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad
 
@@ -78,7 +79,7 @@ async def currentStateConductividad():
 @app.get("/prediction/NPK")
 async def currentState(diasAPredecir: Optional[int] = Query(None, description="fecha hasta la cual predecir")):
     if not diasAPredecir:
-        return {"error": "Por favor agrega una fecha a predecir en formato 'YYYY-MM-DD'."}
+        return {"error": "por favor ingresa la cantida de dias a predecir."}
     output = predictController(diasAPredecir)
     return output
 

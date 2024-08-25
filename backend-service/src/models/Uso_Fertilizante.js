@@ -19,6 +19,6 @@ export const Uso_Fertilizante = sequelize.define('uso_fertilizante',{
         type: DataTypes.STRING(400)
     },
     cuartelID: {
-        type: DataTypes.STRING(5)
+        type: DataTypes.STRING(15)
     }
 })

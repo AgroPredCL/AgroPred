@@ -1,5 +1,9 @@
 import { Sequelize } from 'sequelize'
 
+const sequelize = new Sequelize('postgres://postgres:1234@db:5432/agropred');
+
+export { sequelize };
+
 /*
 export const sequelize = new Sequelize(
     'agropred', 
@@ -27,7 +31,3 @@ module.exports = {
   // Other environments (test, production) can be configured similarly
 };
 */
-
-const sequelize = new Sequelize('postgres://postgres:1234@db:5432/agropred');
-
-export { sequelize };

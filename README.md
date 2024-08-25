@@ -48,7 +48,9 @@ y para los modelos, es decir, se utilizaran los modelos locales que esten dentro
 
 ## APIS
 
-DOCUMENTACION EN PROCESO
+- Documentacion API de Modelos: [Postman](https://documenter.getpostman.com/view/22100892/2sAXjF9uxF)
+
+- Documentacion API de Gestión: [Postman](https://documenter.getpostman.com/view/22100892/2sAXjF9uxG)
 
 
 

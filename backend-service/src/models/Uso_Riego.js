@@ -18,7 +18,7 @@ export const Uso_Riego = sequelize.define('uso_riego',{
         type: DataTypes.STRING(400)
     },
     cuartelID: {
-        type: DataTypes.STRING(5)
+        type: DataTypes.STRING(15)
     }
 
 })
