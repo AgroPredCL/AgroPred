@@ -6,8 +6,8 @@ from fastapi.middleware.cors import CORSMiddleware
 import numpy as np
 from tensorflow.keras.applications.inception_v3 import preprocess_input
 from typing import Optional
-from functions import stateController, predictController, tieneAsfixiaRadicular, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad, tieneEnfermedadFruta
-
+from predictionController import predictController, tieneAsfixiaRadicular, tieneEnfermedadFruta
+from stateController import stateEnPeriodoEspecifico, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad
 
 app = FastAPI()
 
@@ -25,11 +25,11 @@ async def root():
     return {"how to test?": "http://localhost:8000/disease/fruit/{number of image (xxxx)}"}
 
 @app.get("/state")
-async def stateHistoricoGeneral(start_date: Optional[str] = Query(None, description="Start date in format YYYY-MM-DD"), end_date: Optional[str] = Query(None, description="End date in format YYYY-MM-DD")):
+async def stateEnPeriodoDeTiempo(start_date: Optional[str] = Query(None, description="Start date in format YYYY-MM-DD"), end_date: Optional[str] = Query(None, description="End date in format YYYY-MM-DD")):
     if not start_date or not end_date:
         return {"error": "Por favor agrega fecha de inicio y fin para entregar el estado, en formato 'YYYY-MM-DD'."}
     
-    nitrogeno, potasio, fosforo, humedad, conductividad, ph, temperatura  = stateController(start_date, end_date)
+    nitrogeno, potasio, fosforo, humedad, conductividad, ph, temperatura  = stateEnPeriodoEspecifico(start_date, end_date)
     
     return {"nitrogeno": nitrogeno, 
             "potasio": potasio, 
@@ -79,9 +79,7 @@ async def currentStateConductividad():
 async def currentState(diasAPredecir: Optional[int] = Query(None, description="fecha hasta la cual predecir")):
     if not diasAPredecir:
         return {"error": "Por favor agrega una fecha a predecir en formato 'YYYY-MM-DD'."}
-    
     output = predictController(diasAPredecir)
-    
     return output
 
 @app.get("/diseases")

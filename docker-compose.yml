@@ -13,7 +13,7 @@ services:
 
   api-backend:
     build:
-      context: ./app-service/backend-service
+      context: ./backend-service
       dockerfile: Dockerfile
     container_name: api-backend-container
     environment:
@@ -29,7 +29,7 @@ services:
 
   frontend:
     build:
-      context: ./app-service/frontend-service
+      context: ./frontend-service
       dockerfile: Dockerfile
     container_name: frontend-container
     ports:
