@@ -7,6 +7,7 @@ import numpy as np
 def stateEnPeriodoEspecifico(startDate, endDate):
     data_sensores = pd.read_csv('../modelos/data_sensores.csv')
 
+
     for i in range(len(data_sensores)):
         if data_sensores['FechaHora'][i][:10] == startDate:
             desde = i
@@ -27,15 +28,42 @@ def stateEnPeriodoEspecifico(startDate, endDate):
 
     fechas = data_sensores['FechaHora'][desde:hasta+3]
 
-    nitrogeno = [{'fecha': fechas[i][:10], 'hora': fechas[i][11:], 'valor': round(nitrogeno[i], 2)} for i in range(len(nitrogeno))]
-    potasio = [{'fecha': fechas[i][:10], 'hora': fechas[i][11:], 'valor': round(potasio[i])} for i in range(len(potasio))]
-    fosforo = [{'fecha': fechas[i][:10], 'hora': fechas[i][11:], 'valor': round(fosforo[i])} for i in range(len(fosforo))]
-    humedad = [{'fecha': fechas[i][:10], 'hora': fechas[i][11:], 'valor': round(humedad[i])} for i in range(len(humedad))]
-    conductividad = [{'fecha': fechas[i][:10], 'hora': fechas[i][11:], 'valor': round(conductividad[i])} for i in range(len(conductividad))]
-    ph = [{'fecha': fechas[i][:10], 'hora': fechas[i][11:], 'valor': round(ph[i])} for i in range(len(ph))]
-    temperatura = [{'fecha': fechas[i][:10], 'hora': fechas[i][11:], 'valor': round(temperatura[i])} for i in range(len(temperatura))]
+    nitrogenoFinal = []
+    for j in range(len(nitrogeno)):
+        j = j + desde
+        nitrogenoFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(nitrogeno[j], 2)})
 
-    return nitrogeno, potasio, fosforo, humedad, conductividad, ph, temperatura
+    potasioFinal = []
+    for j in range(len(potasio)):
+        j = j + desde
+        potasioFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(potasio[j], 2)})
+
+    fosforoFinal = []
+    for j in range(len(fosforo)):
+        j = j + desde
+        fosforoFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(fosforo[j], 2)})
+    
+    humedadFinal = []
+    for j in range(len(humedad)):
+        j = j + desde
+        humedadFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(humedad[j], 2)})
+
+    conductividadFinal = []
+    for j in range(len(conductividad)):
+        j = j + desde
+        conductividadFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(conductividad[j], 2)})
+    
+    phFinal = []
+    for j in range(len(ph)):
+        j = j + desde
+        phFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(ph[j], 2)})
+
+    temperaturaFinal = []
+    for j in range(len(temperatura)):
+        j = j + desde
+        temperaturaFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(temperatura[j], 2)})
+
+    return nitrogenoFinal, potasioFinal, fosforoFinal, humedadFinal, conductividadFinal, phFinal, temperaturaFinal
 
 def stateNitrogeno():
     data_sensores = pd.read_csv('../modelos/data_sensores.csv')
