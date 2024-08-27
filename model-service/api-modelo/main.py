@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import numpy as np
 from tensorflow.keras.applications.inception_v3 import preprocess_input
 from typing import Optional
+import pandas as pd
 
 from predictionController import predictController, tieneAsfixiaRadicular, tieneEnfermedadFruta
 from stateController import stateEnPeriodoEspecifico, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad
@@ -24,6 +25,17 @@ app.add_middleware(
 @app.get("/")
 async def root():
     return {"how to test?": "http://localhost:8000/disease/fruit/{number of image (xxxx)}"}
+
+@app.get("/fechasLimite")
+async def fechasLimite():
+    data_sensores = pd.read_csv('../modelos/data_sensores.csv')
+
+    fechaInicio = data_sensores['FechaHora'].iloc[0]
+    fechaFin = data_sensores['FechaHora'].iloc[-1]
+
+    print(fechaInicio, fechaFin)
+
+    return {"fechaInicio": fechaInicio, "fechaFin": fechaFin}
 
 @app.get("/state")
 async def stateEnPeriodoDeTiempo(start_date: Optional[str] = Query(None, description="Start date in format YYYY-MM-DD"), end_date: Optional[str] = Query(None, description="End date in format YYYY-MM-DD")):
