@@ -100,3 +100,10 @@ def tieneAsfixiaRadicular():
         return False
 
     return True
+
+def predecirAsfixiaRadicular():
+    valoresPredecidos = predictController(14)
+
+    ## Falta predecir ph, humedad y temperatura para poder usar la funcion tieneAsfixiaRadicular()
+
+    return {"estado": "funciona"}

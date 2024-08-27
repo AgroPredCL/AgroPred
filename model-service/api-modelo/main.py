@@ -8,7 +8,7 @@ from tensorflow.keras.applications.inception_v3 import preprocess_input
 from typing import Optional
 import pandas as pd
 
-from predictionController import predictController, tieneAsfixiaRadicular, tieneEnfermedadFruta
+from predictionController import predictController, tieneAsfixiaRadicular, tieneEnfermedadFruta, predecirAsfixiaRadicular
 from stateController import stateEnPeriodoEspecifico, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad
 
 app = FastAPI()
@@ -139,6 +139,11 @@ async def process_image_diseases(image_number: Optional[str] = Query(None, descr
         "fecha": fecha,
         "enfermedades": output
     }
+
+@app.get("/diseases/asfixiaRadicular")
+async def predecirAsfixiaRadicularEndpoint():
+    output = predecirAsfixiaRadicular()
+    return output
 
 @app.get("/uploadImage/fruta")
 async def process_image_fruit():
