@@ -3,6 +3,9 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 from fastapi.middleware.cors import CORSMiddleware
 
+import time
+from pathlib import Path
+
 import numpy as np
 from tensorflow.keras.applications.inception_v3 import preprocess_input
 from typing import Optional
@@ -145,16 +148,34 @@ async def predecirAsfixiaRadicularEndpoint():
     output = predecirAsfixiaRadicular()
     return output
 
-@app.get("/uploadImage/fruta")
-async def process_image_fruit():
+@app.post("/uploadImage/fruta")
+async def process_image_hoja(file: UploadFile = File(...)):
+    # Generar un nombre de archivo unico
+    filename = filename = f"{int(time.time())}{Path(file.filename).suffix}"
+    file_path = Path(f"./img/frutas/{filename}")
     
-    return {"message": "Subida de imagen de fruta exitosa"} 
+    try:
+        with open(file_path, "wb") as f:
+            f.write(await file.read())
+        
+        return {"message": "Subida de imagen de fruta exitosa", "filename": filename}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error al subir la imagen: {str(e)}")
 
 
-@app.get("/uploadImage/hoja")
-async def process_image_hoja():
+@app.post("/uploadImage/hoja")
+async def process_image_hoja(file: UploadFile = File(...)):
+    # Generar un nombre de archivo unico
+    filename = filename = f"{int(time.time())}{Path(file.filename).suffix}"
+    file_path = Path(f"./img/hojas/{filename}")
     
-    return {"message": "Subida de imagen de hoja exitosa"} 
+    try:
+        with open(file_path, "wb") as f:
+            f.write(await file.read())
+        
+        return {"message": "Subida de imagen de hoja exitosa", "filename": filename}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error al subir la imagen: {str(e)}")
 
 
 """
