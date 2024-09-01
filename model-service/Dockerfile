@@ -14,12 +14,12 @@ RUN apt-get update \
 WORKDIR /model-service
 
 # Copia los archivos de tu aplicación al directorio de trabajo del contenedor
-COPY api-modelo /model-service/api-modelo
-COPY requirements.txt /model-service/requirements.txt
+COPY requirements.txt .
 
 # Instala las dependencias necesarias
-RUN pip install -r requirements.txt
-RUN pip install pymongo 
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY api-modelo /model-service/api-modelo
 
 WORKDIR /model-service/api-modelo
 

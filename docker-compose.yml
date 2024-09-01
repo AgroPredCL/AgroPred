@@ -47,9 +47,11 @@ services:
     volumes:
       - ./model-service/modelos:/model-service/modelos
       - ./model-service:/model-service/
+      - ./model-service/api-modelo/img:/model-service/api-modelo/img
     environment:
       - PYTHONUNBUFFERED=1
 
 volumes:
   postgres-data:
   modelos:
+  img:
