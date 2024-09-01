@@ -197,28 +197,17 @@ async def process_image_hoja(file: UploadFile = File(...), image_number: str | N
         "scab": "Scab is a disease that affects the leaves and fruit of the avocado tree. It is caused by the fungus Elsinoe spp. and is characterized by dark, raised spots on the fruit and leaves.",
         "healthy": "The avocado is healthy and free from any disease.",
         "anthracnose": "Anthracnose is a fungal disease that affects the leaves, fruit, and stems of the avocado tree. It is caused by the fungus Colletotrichum spp. and is characterized by dark, sunken lesions on the fruit and leaves.",
-        "asfixia radicular": "Asfixia Radicular is a disease that affects the roots of the avocado tree. It is caused by poor drainage and waterlogging of the soil, which leads to a lack of oxygen in the root zone."}
-
+        }
     # Give impact of the state (bajo medio alto)
     impacto = {
         "scab": "medio",
         "healthy": "sin impacto",
-        "anthracnose": "alto",
-        "asfixia radicular": "alto"
+        "anthracnose": "alto"
     }
 
     stateImagen = tieneEnfermedadFruta(image_number)
 
-    flasAsfixiaRadicular = tieneAsfixiaRadicular()
     output = {}
-
-    if flasAsfixiaRadicular:
-        output["asfixia radicular"] = {
-            "estado": "asfixia radicular",
-            "descripcion": description["asfixia radicular"],
-            "impacto": impacto["asfixia radicular"],
-            "confiabilidad": "x%"
-        }
 
     output[stateImagen] = {
         "estado": stateImagen,
@@ -274,28 +263,17 @@ async def process_image_hoja(file: UploadFile = File(...), image_number: str | N
         "scab": "Scab is a disease that affects the leaves and fruit of the avocado tree. It is caused by the fungus Elsinoe spp. and is characterized by dark, raised spots on the fruit and leaves.",
         "healthy": "The avocado is healthy and free from any disease.",
         "anthracnose": "Anthracnose is a fungal disease that affects the leaves, fruit, and stems of the avocado tree. It is caused by the fungus Colletotrichum spp. and is characterized by dark, sunken lesions on the fruit and leaves.",
-        "asfixia radicular": "Asfixia Radicular is a disease that affects the roots of the avocado tree. It is caused by poor drainage and waterlogging of the soil, which leads to a lack of oxygen in the root zone."}
-
+        }
     # Give impact of the state (bajo medio alto)
     impacto = {
         "scab": "medio",
         "healthy": "sin impacto",
-        "anthracnose": "alto",
-        "asfixia radicular": "alto"
+        "anthracnose": "alto"
     }
 
     stateImagen = tieneEnfermedadFruta(image_number)
 
-    flasAsfixiaRadicular = tieneAsfixiaRadicular()
     output = {}
-
-    if flasAsfixiaRadicular:
-        output["asfixia radicular"] = {
-            "estado": "asfixia radicular",
-            "descripcion": description["asfixia radicular"],
-            "impacto": impacto["asfixia radicular"],
-            "confiabilidad": "x%"
-        }
 
     output[stateImagen] = {
         "estado": stateImagen,
