@@ -19,6 +19,7 @@ COPY requirements.txt /model-service/requirements.txt
 
 # Instala las dependencias necesarias
 RUN pip install -r requirements.txt
+RUN pip install pymongo 
 
 WORKDIR /model-service/api-modelo
 

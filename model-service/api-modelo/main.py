@@ -2,6 +2,7 @@ from fastapi import FastAPI, Query, UploadFile, File, HTTPException
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 from fastapi.middleware.cors import CORSMiddleware
+from pymongo import MongoClient
 
 import time
 from pathlib import Path
@@ -24,6 +25,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+# Conexion con la base de datos mongo
+MONGO_URI = "mongodb+srv://admin:1234@modelcluster.5l2ez.mongodb.net/?retryWrites=true&w=majority&appName=modelCluster"
+DB_NAME = "AgroPred-modelo" 
+COLLECTION_NAME = "imagesFruits"  
+
+client = MongoClient(MONGO_URI)
+db = client[DB_NAME]
+fs = gridfs.GridFS(db, collection=COLLECTION_NAME)
 
 @app.get("/")
 async def root():
