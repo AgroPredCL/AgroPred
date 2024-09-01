@@ -55,15 +55,6 @@ app.add_middleware(
 )
 
 
-# Conexion con la base de datos mongo
-MONGO_URI = "mongodb+srv://admin:1234@modelcluster.5l2ez.mongodb.net/?retryWrites=true&w=majority&appName=modelCluster"
-DB_NAME = "AgroPred-modelo" 
-COLLECTION_NAME = "imagesFruits"  
-
-client = MongoClient(MONGO_URI)
-db = client[DB_NAME]
-fs = gridfs.GridFS(db, collection=COLLECTION_NAME)
-
 @app.get("/")
 async def root():
     return {"how to test?": "http://localhost:8000/disease/fruit/{number of image (xxxx)}"}
@@ -201,8 +192,6 @@ async def process_image_hoja(file: UploadFile = File(...), image_number: str | N
     if not image_number:
         image_number = "0005"
 
-    print(image_number)
-
     # Give description of the state
     description = {
         "scab": "Scab is a disease that affects the leaves and fruit of the avocado tree. It is caused by the fungus Elsinoe spp. and is characterized by dark, raised spots on the fruit and leaves.",
@@ -279,8 +268,6 @@ async def process_image_hoja(file: UploadFile = File(...), image_number: str | N
 
     if not image_number:
         image_number = "0005"
-
-    print(image_number)
 
     # Give description of the state
     description = {
