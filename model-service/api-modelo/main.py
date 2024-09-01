@@ -3,6 +3,20 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 from fastapi.middleware.cors import CORSMiddleware
 
+from pymongo import MongoClient
+from pymongo.errors import ConnectionFailure
+from datetime import datetime
+
+import os
+import certifi 
+
+
+from bson import Binary
+
+
+import asyncio
+
+
 import time
 from pathlib import Path
 
@@ -15,6 +29,20 @@ from predictionController import predictController, tieneAsfixiaRadicular, tiene
 from stateController import stateEnPeriodoEspecifico, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad
 
 app = FastAPI()
+
+ca = certifi.where()
+uri = "mongodb+srv://admin:admin@modelcluster.5l2ez.mongodb.net/?retryWrites=true&w=majority"
+
+# Crear un cliente MongoClient
+client = MongoClient(uri, tlsCAFile=ca)
+
+
+
+db = client['modelDatabase']  # Reemplaza con el nombre de tu base de datos
+collection = db['imagesFruits']  # Reemplaza con el nombre de tu colección
+
+
+
 
 # Configurar CORS
 app.add_middleware(
@@ -165,15 +193,25 @@ async def process_image_hoja(file: UploadFile = File(...)):
 
 @app.post("/uploadImage/hoja")
 async def process_image_hoja(file: UploadFile = File(...)):
-    # Generar un nombre de archivo unico
-    filename = filename = f"{int(time.time())}{Path(file.filename).suffix}"
-    file_path = Path(f"./img/hojas/{filename}")
-    
     try:
-        with open(file_path, "wb") as f:
-            f.write(await file.read())
+        # Leer el archivo como bytes
+        file_bytes = await file.read()
+        filename = f"{int(time.time())}{Path(file.filename).suffix}"
         
-        return {"message": "Subida de imagen de hoja exitosa", "filename": filename}
+        # Crear el documento para insertar en MongoDB
+        document = {
+            "filename": filename,
+            "file_data": Binary(file_bytes),  # Convertir los bytes a formato binario para MongoDB
+            "content_type": file.content_type,  # Guardar el tipo de contenido (opcional)
+            "upload_time": time.time(),  # Guardar la hora de subida (opcional)
+            "queso":"eso",
+        }
+        
+        # Insertar el documento en la colección
+        result = collection.insert_one(document)
+        
+        return {"message": "Subida de imagen de hoja exitosa", "file_id": str(result.inserted_id)}
+    
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error al subir la imagen: {str(e)}")
 
