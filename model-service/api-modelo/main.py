@@ -8,8 +8,8 @@ from tensorflow.keras.applications.inception_v3 import preprocess_input
 from typing import Optional
 import pandas as pd
 
-from predictionController import predictController, tieneAsfixiaRadicular, tieneEnfermedadFruta
-from stateController import stateEnPeriodoEspecifico, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad
+from predictionController import predictController, tieneAsfixiaRadicular, tieneEnfermedadFruta, predecirEstadoHidrico
+from stateController import stateEnPeriodoEspecifico, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad, hacerRecomendacionFertilizante
 
 app = FastAPI()
 
@@ -161,6 +161,14 @@ Revisar parametros necesarios:
 @app.get("/state/hidrico")
 async def stateHidrico():
 
-    estado = {"estado": "normal"}
+    estado = predecirEstadoHidrico()
 
     return estado
+
+
+@app.get("/recomendacion/fertilizante")
+async def recomendacionFertilizante():
+    
+    recomendacion = hacerRecomendacionFertilizante()
+
+    return recomendacion

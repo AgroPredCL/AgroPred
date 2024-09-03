@@ -100,3 +100,8 @@ def tieneAsfixiaRadicular():
         return False
 
     return True
+
+
+def predecirEstadoHidrico():
+    
+    return None

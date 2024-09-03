@@ -267,3 +267,8 @@ def stateTemperatura():
         estadoPromedio = "Excesivo"
 
     return {"estadoActual": estadoActual , "valorActual": round(valorActual, 2), "estadoPromedio": estadoPromedio, "valorPromedio": round(valorPromedio, 2)}
+
+
+def hacerRecomendacionFertilizante():
+
+    return None
