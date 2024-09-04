@@ -270,5 +270,30 @@ def stateTemperatura():
 
 
 def hacerRecomendacionFertilizante():
+    data_sensores = pd.read_csv('../modelos/data_sensores.csv')
+    nitrogeno = data_sensores['Nitrogeno'].iloc[-1]
+    potasio = data_sensores['Potasio'].iloc[-1]
+    fosforo = data_sensores['Fosforo'].iloc[-1]
 
-    return None
+    if nitrogeno < 80:
+        recomendacionNitrogeno = "Aplicar fertilizante nitrogenado"
+    elif nitrogeno > 140:
+        recomendacionNitrogeno = "Reducir aplicacion de fertilizante nitrogenado"
+    else:
+        recomendacionNitrogeno = "No es necesario aplicar fertilizante nitrogenado"
+
+    if potasio < 125:
+        recomendacionPotasio = "Aplicar fertilizante potasico"
+    elif potasio > 145:
+        recomendacionPotasio = "Reducir aplicacion de fertilizante potasico"
+    else:
+        recomendacionPotasio = "No es necesario aplicar fertilizante potasico"
+
+    if fosforo < 15:
+        recomendacionFosforo = "Aplicar fertilizante fosforico"
+    elif fosforo > 45:
+        recomendacionFosforo = "Reducir aplicacion de fertilizante fosforico"
+    else:
+        recomendacionFosforo = "No es necesario aplicar fertilizante fosforico"
+
+    return {"nitrogeno": recomendacionNitrogeno, "potasio": recomendacionPotasio, "fosforo": recomendacionFosforo}
