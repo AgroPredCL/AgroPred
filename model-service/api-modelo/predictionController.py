@@ -6,6 +6,7 @@ from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.inception_v3 import preprocess_input
 import joblib
 from PIL import Image
+import math
 
 
 # Prediccion de estado de nutrientes
@@ -102,6 +103,122 @@ def tieneAsfixiaRadicular():
     return True
 
 
-def predecirEstadoHidrico():
+
+
+
+def predecirEstadoHidrico(
+    factorAreaSombreada, 
+    eficienciaRiego,
+    marcoM2Plantacion,
+    caudalEmisor,
+    numEmisoresPlanta,
+    coeficienteUniformidad,
+    retencionAguaSuelo,
+    profundidadRaices,
+    umbralRiego,
+    porcentajeSueloEmisores, 
+    piedrasPerfilSuelo):
+
+    # -------------------------------------------------------------------------------------------------- #
+    # Calculo de: Evapotranspiracion potencial
+    kp = 0.45 # considerando "sobre barbecho seco", "viento moderado 175 - 425" y "distancia 1metro"
+    eb = 45.5 # para la cruz durante AGOSTO en promedio entre los años 1993 y 1999
+    eto = kp * eb
     
-    return None
+    # Calculo de: EvoTranspiracion del cultivo
+    kc = 0.72 # considerando paltos en SETIEMBRE
+    kr = factorAreaSombreada
+    etc = eto * kc * kr
+    
+    # Calculo de: Demanda bruta de agua del cultivo
+    efa = eficienciaRiego # considera microaspercion
+    efa = 0.85
+    db = etc / efa
+
+    # Calculo de: Requerimiento de agua por planta (litros de agua por planta, por dia)
+    rap = db * marcoM2Plantacion
+    # -------------------------------------------------------------------------------------------------- #
+    
+    # -----------------------------------------RIEGOS DIARIOS------------------------------------------- #
+    # Calculo de: Caudal de agua aplicado a cada planta
+    qpl = caudalEmisor * numEmisoresPlanta * coeficienteUniformidad
+
+    # Calculo de: Intensidad de precipitacion del equipo 
+    ipp = qpl * marcoM2Plantacion
+
+    # Calculo de: Tiempo de riego
+    #tr = db / ipp
+    tr = rap / qpl
+    # -------------------------------------------------------------------------------------------------- #
+
+    # -------------------------------------RIEGOS BAJA FRECUENCIA--------------------------------------- #
+    # Calculo de: Agua disponible que las plantas pueden agotar desde el suelo, antes de volver a regar
+    ad = retencionAguaSuelo * profundidadRaices * umbralRiego * porcentajeSueloEmisores * (1 - piedrasPerfilSuelo)
+
+    # Calculo de: Frecuencia de riego en dias
+    fr = ad / etc
+    # -------------------------------------------------------------------------------------------------- #
+
+
+    # Calculo de recomendaciones riego diario
+    # Considerando que de alguna forma se obtienen los datos meteorologicos de la zona para 7 dias
+    semana = {"dia 0": False,
+              "dia 1": False,
+              "dia 2": True,
+              "dia 3": False,
+              "dia 4": False,
+              "dia 5": False,
+              "dia 6": False}
+    
+    # Recomendacio de si regar o no
+    recomendacionRiegoDiario = {}
+    for dia in semana:
+        if not semana[dia]:
+            recomendacionRiegoDiario[dia] = "Regar"
+        else:
+            recomendacionRiegoDiario[dia] = "No regar"
+
+    
+    # Calculo de recomendaciones de riego de baja frecuencia
+    # Considerando que regue hoy domingo y los valores de semana son de la siguiente semana, calculo cuando regar de acuerdo a fr
+    frReal = fr
+    frRedondeado = math.ceil(fr)
+    recomendacionRiegoBajaFrecuencia = {}
+    diasSinRegar = []
+    # Obtener los días en los que se debe regar según la frecuencia
+    for i in range(7):
+        if i % frRedondeado == 0:
+            diasSinRegar.append(i)
+
+    # Ajustar según días de lluvia
+    diasDeLluvia = [i for i, llueve in semana.items() if llueve]
+
+    # Crear un nuevo listado de días en los que se recomienda regar ajustando por lluvia
+    ajusteDiasSinRegar = []
+    for dia in diasSinRegar:
+        if dia in diasDeLluvia:
+            # Si el día de riego coincide con un día de lluvia, añadir un día extra
+            ajusteDiasSinRegar.append(dia + 1)
+        else:
+            ajusteDiasSinRegar.append(dia)
+    
+    # Aplicar recomendaciones de riego
+    for i in range(7):
+        if i in ajusteDiasSinRegar:
+            recomendacionRiegoBajaFrecuencia[f"dia {i}"] = "Regar"
+        else:
+            recomendacionRiegoBajaFrecuencia[f"dia {i}"] = "No regar"
+
+    response = {
+        "riegosDiarios": {
+            "horasDeRiegoDiario": tr,
+            "recomendacionRiegoDiario": recomendacionRiegoDiario 
+        },
+        "riegosBajaFrecuencia": {
+            "frecuenciaDeRiegoEnDias": fr,
+            "recomendacionRiegoBajaFrecuencia": recomendacionRiegoBajaFrecuencia
+        }
+    }
+    
+    return response
+

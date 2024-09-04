@@ -175,7 +175,7 @@ async def process_image_diseases(image_number: Optional[str] = Query(None, descr
 
 @app.get("/diseases/asfixiaRadicular")
 async def predecirAsfixiaRadicularEndpoint():
-    output = predecirAsfixiaRadicular()
+    output = tieneAsfixiaRadicular()
     return output
 
 @app.post("/uploadImage/fruta")
@@ -317,9 +317,32 @@ Revisar parametros necesarios:
 - Tipo de suelo: 
 """
 @app.get("/state/hidrico")
-async def stateHidrico():
+async def stateHidrico(
+    factorAreaSombreada: float,
+    eficienciaRiego: float,
+    marcoM2Plantacion: float,
+    caudalEmisor: float,
+    numEmisoresPlanta: int,
+    coefUniformidad: float,
+    retencionAguaSuelo: float,
+    profundidadRaices: float,
+    umbralRiego: float,
+    porcentajeSueloEmisores: float, 
+    piedrasPerfilSuelo: float):
 
-    estado = predecirEstadoHidrico()
+    estado = predecirEstadoHidrico(
+        factorAreaSombreada,
+        eficienciaRiego,
+        marcoM2Plantacion,
+        caudalEmisor,
+        numEmisoresPlanta,
+        coefUniformidad,
+        retencionAguaSuelo,
+        profundidadRaices,
+        umbralRiego,
+        porcentajeSueloEmisores,
+        piedrasPerfilSuelo
+    )
 
     return estado
 
