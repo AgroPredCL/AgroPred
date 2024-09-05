@@ -77,14 +77,18 @@ export default function EstadoCuarteles() {
                 <article className="mt-6 pt-2 border-t-2">
                     <h2 className="text-xl font-semibold text-gray-700 mb-4">Recomendación de Fertilizantes</h2>
                     <div className="flex justify-between flex-wrap">
-                        {dataRecomendaciones && Object.entries(dataRecomendaciones).map(([elemento, recomendacion], index) => (
-                        <div key={index} className="w-full md:w-1/3 lg:w-1/4 p-2">
-                            <div className={`p-4 shadow-lg rounded-lg hover:shadow-xl transition-shadow h-full ${colores[elemento] || 'bg-gray-100'}`}>
-                                <h3 className="text-lg font-semibold text-gray-800 capitalize">{elemento}</h3>
-                                <p className="text-gray-600 mt-2">{recomendacion}</p>
-                            </div>
-                        </div>
-                        ))}
+                        {dataRecomendaciones && Object.entries(dataRecomendaciones).length > 0 ? (
+                            Object.entries(dataRecomendaciones).map(([elemento, recomendacion], index) => (
+                                <div key={index} className="w-full md:w-1/3 lg:w-1/4 p-2">
+                                    <div className={`p-4 shadow-lg rounded-lg hover:shadow-xl transition-shadow h-full ${colores[elemento] || 'bg-gray-100'}`}>
+                                        <h3 className="text-lg font-semibold text-gray-800 capitalize">{elemento}</h3>
+                                        <p className="text-gray-600 mt-2">{recomendacion}</p>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-gray-600">No data available.</p>
+                        )}
                     </div>
                 </article>
                 
