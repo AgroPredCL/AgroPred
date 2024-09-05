@@ -12,7 +12,8 @@ const DiseaseTable = ({ data }) => {
               <th className="border-r-[#A0AEC0] border-r border-solid text-[rgba(0,0,0,0.40)] text-center text-[-16px] font-light">Enfermedad</th>
               <th className="border-r-[#A0AEC0] border-r border-solid text-[rgba(0,0,0,0.40)] text-center text-[-16px] font-light">Impacto</th>
               <th className="border-r-[#A0AEC0] border-r border-solid text-[rgba(0,0,0,0.40)] text-center text-[-16px] font-light">Descripción</th>
-              <th className="px-2 text-[rgba(0,0,0,0.40)] text-center text-[-16px] font-light">Confiabilidad</th>
+              <th className="border-r-[#A0AEC0] border-r border-solid text-[rgba(0,0,0,0.40)] text-center text-[-16px] font-light">Confiabilidad</th>
+              <th className="px-2 text-[rgba(0,0,0,0.40)] text-center text-[-16px] font-light">Recomendaciones</th>
             </tr>
           </thead>
           <tr className="h-2"></tr> {/* Espaciador */}
@@ -22,7 +23,8 @@ const DiseaseTable = ({ data }) => {
                 <td className="px-4 py-2 border-r-[#A0AEC0] border-r border-solid">{entry.Enfermedad}</td>
                 <td className="px-4 py-2 border-r-[#A0AEC0] border-r border-solid">{entry.Impacto}</td>
                 <td className="px-4 py-2 border-r-[#A0AEC0] border-r border-solid">{entry.Descripcion}</td>
-                <td className="px-4 py-2">{entry.Confiabilidad}%</td>
+                <td className="px-4 py-2 border-r-[#A0AEC0] border-r border-solid">{entry.Confiabilidad}%</td>
+                <td className="px-4 py-2">{entry.Recomendaciones}</td>
               </tr>
             ))}
           </tbody>

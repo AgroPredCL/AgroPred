@@ -4,6 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  background: #EEEEEE;
+  font-family: 'Kanit';
+}
+
 .kanit-thin {
     font-family: "Kanit", sans-serif;
     font-weight: 100;
@@ -111,12 +116,6 @@
     font-weight: 900;
     font-style: italic;
 }
-  
-body {
-    margin: 0;
-    background: #EEEEEE;
-    font-family: 'Kanit';
-}
 
 .rotate-90 {
     transform: rotate(-90deg);
@@ -184,4 +183,13 @@ body {
     content: '';
     flex: 1 1 calc(25% - 16px);
     box-sizing: border-box;
+  }
+
+  .boton_subir {
+    padding: '10px 20px';
+    border: 'none';
+    border-radius: '5px';
+    cursor: 'pointer';
+    font-size: '16px';
+
   }

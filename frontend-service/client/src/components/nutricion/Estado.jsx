@@ -2,17 +2,17 @@ export function Estado({ estado, valor }) {
     const getEstadoStyles = (estado) => {
       switch (estado.toLowerCase()) {
         case 'deficiente':
-          return 'bg-yellow-500';
+          return 'bg-deficiente';
         case 'bajo':
-          return 'bg-yellow-300';
+          return 'bg-bajo';
         case 'adecuado':
-          return 'bg-green-500';
+          return 'bg-adecuado';
         case 'alto':
-          return 'bg-orange-500';
+          return 'bg-alto';
         case 'excesivo':
-          return 'bg-red-500';
+          return 'bg-excesivo';
         default:
-          return 'bg-gray-300'; // Default color if estado is not recognized
+          return 'bg-gray-300'; // Color por defecto si estado no es reconocido
       }
     };
   

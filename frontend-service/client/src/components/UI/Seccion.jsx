@@ -12,7 +12,7 @@ export function Seccion({ titulo, actualizacion, ultimaLectura, children }) {
     const bodyClass = isOpen ? 'max-height-full' : 'max-height-0';
   
     return (
-      <section className="mx-8 font-kanit pb-6 bg-white border-b-4 border-b-green-600 my-6">
+      <section className="mx-8 font-kanit pb-6 bg-white border-b-4 border-b-agro my-6">
         <div id="Titulo" className="flex items-center cursor-pointer" onClick={toggleOpen}>
           <img
             src="/arrow-expand.png"
