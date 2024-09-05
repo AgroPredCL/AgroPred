@@ -30,19 +30,6 @@ from stateController import stateEnPeriodoEspecifico, stateNitrogeno, statePotas
 
 app = FastAPI()
 
-ca = certifi.where()
-uri = "mongodb+srv://admin:admin@modelcluster.5l2ez.mongodb.net/?retryWrites=true&w=majority"
-
-# Crear un cliente MongoClient
-client = MongoClient(uri, tlsCAFile=ca)
-
-
-
-db = client['modelDatabase']  # Reemplaza con el nombre de tu base de datos
-collection = db['imagesFruits']  # Reemplaza con el nombre de tu colección
-
-
-
 
 # Configurar CORS
 app.add_middleware(
