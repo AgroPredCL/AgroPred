@@ -44,9 +44,9 @@ def predictController(cantidadDiasPrediccion):
     fecha_base = str(df_copy.index[-1])
     fechas_futuras = generar_fechas(fecha_base[:10], cantidadDiasPrediccion)
 
-    nitrogenoFinal = [{'fecha': fechas_futuras[i], 'valor': round(predicciones['Nitrogeno'].predicted_mean.tolist()[i], 2)} for i in range(len(fechas_futuras))]
-    fosforoFinal = [{'fecha': fechas_futuras[i], 'valor': round(predicciones['Fosforo'].predicted_mean.tolist()[i], 2)} for i in range(len(fechas_futuras))]
-    potasioFinal = [{'fecha': fechas_futuras[i], 'valor': round(predicciones['Potasio'].predicted_mean.tolist()[i], 2)} for i in range(len(fechas_futuras))]
+    nitrogenoFinal = [{'fecha': fechas_futuras[i], 'hora': '03:00:00', 'valor': round(predicciones['Nitrogeno'].predicted_mean.tolist()[i], 2)} for i in range(len(fechas_futuras))]
+    fosforoFinal = [{'fecha': fechas_futuras[i], 'hora': '03:00:00', 'valor': round(predicciones['Fosforo'].predicted_mean.tolist()[i], 2)} for i in range(len(fechas_futuras))]
+    potasioFinal = [{'fecha': fechas_futuras[i], 'hora': '03:00:00', 'valor': round(predicciones['Potasio'].predicted_mean.tolist()[i], 2)} for i in range(len(fechas_futuras))]
 
     # Tiempo de ejecucion
     tiempoFinal = datetime.now()
