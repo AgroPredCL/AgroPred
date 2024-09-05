@@ -44,13 +44,13 @@ collection = db['imagesFruits']  # Reemplaza con el nombre de tu colección
 
 
 
-# Configuración de CORS
+# Configurar CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://3.15.175.198"],  # Ajusta los orígenes permitidos en producción
-    allow_credentials=True,  # Permitir el uso de cookies y autenticación
-    allow_methods=["GET", "POST"],  # Limitar a los métodos necesarios
-    allow_headers=["Authorization", "Content-Type"],  # Limitar a los encabezados permitidos
+    allow_origins=["*"],  # Permitir todas las solicitudes CORS. Ajusta según sea necesario.
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
