@@ -4,7 +4,6 @@ from tensorflow.keras.preprocessing import image
 from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
 
-from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
 from datetime import datetime
 
@@ -228,7 +227,7 @@ async def process_image_hoja(file: UploadFile = File(...), image_number: str | N
             "filename": filename,
             "file_data": Binary(file_bytes),  # Convertir los bytes a formato binario para MongoDB
             "content_type": file.content_type,  # Guardar el tipo de contenido (opcional)
-            "upload_time": time.time(),  # Guardar la hora de subida (opcional)
+            "upload_time": datetime.now(),  # Guardar la hora de subida (opcional)
             "queso":"eso",
         }
         
@@ -294,7 +293,7 @@ async def process_image_hoja(file: UploadFile = File(...), image_number: str | N
             "filename": filename,
             "file_data": Binary(file_bytes),  # Convertir los bytes a formato binario para MongoDB
             "content_type": file.content_type,  # Guardar el tipo de contenido (opcional)
-            "upload_time": time.time(),  # Guardar la hora de subida (opcional)
+            "upload_time": datetime.now(),  # Guardar la hora de subida (opcional)
             "queso":"eso",
         }
         

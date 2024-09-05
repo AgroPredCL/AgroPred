@@ -278,22 +278,22 @@ def hacerRecomendacionFertilizante():
     if nitrogeno < 80:
         recomendacionNitrogeno = "Aplicar fertilizante nitrogenado"
     elif nitrogeno > 140:
-        recomendacionNitrogeno = "Reducir aplicacion de fertilizante nitrogenado"
+        recomendacionNitrogeno = "Reducir aplicación de fertilizante nitrogenado"
     else:
         recomendacionNitrogeno = "No es necesario aplicar fertilizante nitrogenado"
 
     if potasio < 125:
-        recomendacionPotasio = "Aplicar fertilizante potasico"
+        recomendacionPotasio = "Aplicar fertilizante potásico"
     elif potasio > 145:
-        recomendacionPotasio = "Reducir aplicacion de fertilizante potasico"
+        recomendacionPotasio = "Reducir aplicación de fertilizante potásico"
     else:
-        recomendacionPotasio = "No es necesario aplicar fertilizante potasico"
+        recomendacionPotasio = "No es necesario aplicar fertilizante potásico"
 
     if fosforo < 15:
-        recomendacionFosforo = "Aplicar fertilizante fosforico"
+        recomendacionFosforo = "Aplicar fertilizante fosfórico"
     elif fosforo > 45:
-        recomendacionFosforo = "Reducir aplicacion de fertilizante fosforico"
+        recomendacionFosforo = "Reducir aplicación de fertilizante fosfórico"
     else:
-        recomendacionFosforo = "No es necesario aplicar fertilizante fosforico"
+        recomendacionFosforo = "No es necesario aplicar fertilizante fosfórico"
 
     return {"nitrogeno": recomendacionNitrogeno, "potasio": recomendacionPotasio, "fosforo": recomendacionFosforo}
