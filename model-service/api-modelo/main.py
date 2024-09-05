@@ -30,7 +30,6 @@ from stateController import stateEnPeriodoEspecifico, stateNitrogeno, statePotas
 
 app = FastAPI()
 
-
 # Configurar CORS
 app.add_middleware(
     CORSMiddleware,
