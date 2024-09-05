@@ -17,7 +17,7 @@ export function ArticleNutritional({ titulo, data, titleChart, children }) {
       <article className="mx-2 font-kanit py-6 bg-white border-b-1 border-b-gray-400 my-2">
         <div id="Titulo" className="flex items-center cursor-pointer" onClick={toggleOpen}>
           <div className="flex-grow flex items-center justify-between border-t-2 border-gray-400 pb-4">
-            <h1 className="text-lg">
+            <h1 className="text-xl font-semibold text-gray-700">
               {titulo}
             </h1>
             <img
@@ -30,7 +30,7 @@ export function ArticleNutritional({ titulo, data, titleChart, children }) {
   
         <div id="cuerpo" className={`px-4 transition-height ${bodyClass}`}>
           
-          <div className='flex items-center justify-items-center pb-4'>
+          <div className='flex items-center justify-items-center'>
             { children }
 
             <button

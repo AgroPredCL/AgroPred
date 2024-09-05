@@ -6,6 +6,8 @@ import { Caracteristica } from '../components/nutricion/Caracteristica';
 import NutritionalPredict from '../components/prediccion_nutrientes/NutritionalPredict';
 import UploadImage from '../components/Subir_imagen/ImageUploader';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const data = [
     {
         fecha: "Enero",
@@ -32,15 +34,20 @@ const fechas = [
     { nombre: "Abril", dia: 2 },
 ];
 
-const apiDataNitrogeno = fetchData("http://127.0.0.1:8000/state/nitrogeno");
-const apiDataPotasio = fetchData("http://127.0.0.1:8000/state/potasio");
-const apiDataFosforo = fetchData("http://127.0.0.1:8000/state/fosforo");
-const apiDataHumedad = fetchData("http://127.0.0.1:8000/state/humedad");
-const apiDataConductividad = fetchData("http://127.0.0.1:8000/state/conductividad");
-const apiDataTemperatura = fetchData("http://127.0.0.1:8000/state/temperatura");
-const apiDataPh = fetchData("http://127.0.0.1:8000/state/ph");
+// Usar URL dinámica para las peticiones API
+const apiRecomendaciones = fetchData(`${apiUrl}/recomendacion/fertilizante`);
+const apiDataFechaLimite = fetchData(`${apiUrl}/fechasLimite`);
+const apiDataNitrogeno = fetchData(`${apiUrl}/state/nitrogeno`);
+const apiDataPotasio = fetchData(`${apiUrl}/state/potasio`);
+const apiDataFosforo = fetchData(`${apiUrl}/state/fosforo`);
+const apiDataHumedad = fetchData(`${apiUrl}/state/humedad`);
+const apiDataConductividad = fetchData(`${apiUrl}/state/conductividad`);
+const apiDataTemperatura = fetchData(`${apiUrl}/state/temperatura`);
+const apiDataPh = fetchData(`${apiUrl}/state/ph`);
 
 export default function EstadoCuarteles() {
+    const dataRecomendaciones = apiRecomendaciones.read();
+    const dataFechaLimite = apiDataFechaLimite.read();
     const dataNitrogeno = apiDataNitrogeno.read();
     const dataPotasio = apiDataPotasio.read();
     const dataFosforo = apiDataFosforo.read();
@@ -49,18 +56,41 @@ export default function EstadoCuarteles() {
     const dataTemperatura = apiDataTemperatura.read();
     const dataPh = apiDataPh.read();
 
+    const colores = {
+        nitrogeno: 'bg-blue-100',
+        potasio: 'bg-green-100',
+        fosforo: 'bg-yellow-100',
+    };
+
     return (
         <>
             <UploadImage />
             <Seccion titulo='Estado de Salud'>
+                <article className="pt-2">
+                    <h2 className="text-xl font-semibold text-gray-700 mb-4">Enfermedades</h2>
+                    <div className='grid grid-cols-2 gap-4 pb-4'>
+                        <Table titulo='Actualidad' data={[]} fechas={[]} />
+                        <Table titulo='Predicciones' filtro={true} data={data} fechas={fechas} />
+                    </div>
+                </article>
 
-                <div className='grid grid-cols-2 gap-4'>
-                    <Table titulo='Actualidad' data={[]} fechas={[]} />
-                    <Table titulo='Predicciones' filtro={true} data={data} fechas={fechas} />
-                </div>
+                <article className="mt-6 pt-2 border-t-2">
+                    <h2 className="text-xl font-semibold text-gray-700 mb-4">Recomendación de Fertilizantes</h2>
+                    <div className="flex justify-between flex-wrap">
+                        {Object.entries(dataRecomendaciones).map(([elemento, recomendacion], index) => (
+                        <div key={index} className="w-full md:w-1/3 lg:w-1/4 p-2">
+                            <div className={`p-4 shadow-lg rounded-lg hover:shadow-xl transition-shadow h-full ${colores[elemento] || 'bg-gray-100'}`}>
+                                <h3 className="text-lg font-semibold text-gray-800 capitalize">{elemento}</h3>
+                                <p className="text-gray-600 mt-2">{recomendacion}</p>
+                            </div>
+                        </div>
+                        ))}
+                    </div>
+                </article>
+                
             </Seccion>
 
-            <Seccion titulo='Estado Nutricional' actualizacion='Última lectura' ultimaLectura='31 diciembre 2023, 21:00'>
+            <Seccion titulo='Estado del suelo' actualizacion='Última lectura' ultimaLectura={dataFechaLimite?.fechaFin}>
                 <div className="flex space-x-2 py-2 text-sm">
                     <Estado estado='Deficiente' valor='Deficiente' />
                     <Estado estado='Bajo' valor='Bajo' />
@@ -121,8 +151,8 @@ export default function EstadoCuarteles() {
                 </div>
             </Seccion>
 
-            <Seccion titulo='Análisis de datos histórico de Estado Nutricional'>
-                <NutritionalPredict /> /* Integrar Dashboard 
+            <Seccion titulo='Estado Nutricional'>
+                <NutritionalPredict />
             </Seccion>
         </>
     );

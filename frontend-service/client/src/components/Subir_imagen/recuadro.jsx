@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import CaptureButton from './camara'; // Importar CaptureButton que tendra el boton de la camara
 import PictureSelect from './archivos'; // Importar PictureSelect que tendra el boton de examinar archivos
-import Enviar_foto from './Enviar_foto'; // Importar Enviar_foto que tendra el boton de enviar la foto a la API
+import Enviar_foto from './EnviarFoto'; // Importar Enviar_foto que tendra el boton de enviar la foto a la API
 
 //Si bien da error, no lo borres, porque es necesario para que funcione porque asi actualza la info real
 const InfoBox = ({ onClose, onUploadSuccess }) => {  

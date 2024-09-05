@@ -20,7 +20,7 @@ export function Seccion({ titulo, actualizacion, ultimaLectura, children }) {
             className={arrowClass}
           />
           <div className="flex-grow flex items-center justify-between mr-12 border-b-2 border-gray-400">
-            <h1 className="text-2xl">
+            <h1 className="text-2xl font-semibold text-gray-700">
               {titulo}
             </h1>
             {actualizacion && (
