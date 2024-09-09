@@ -313,7 +313,8 @@ async def stateHidrico(
     profundidadRaices: float,
     umbralRiego: float,
     porcentajeSueloEmisores: float, 
-    piedrasPerfilSuelo: float):
+    piedrasPerfilSuelo: float,
+    cantidadDeDias: int):
 
     estado = predecirEstadoHidrico(
         factorAreaSombreada,
@@ -326,7 +327,8 @@ async def stateHidrico(
         profundidadRaices,
         umbralRiego,
         porcentajeSueloEmisores,
-        piedrasPerfilSuelo
+        piedrasPerfilSuelo,
+        cantidadDeDias
     )
 
     return estado

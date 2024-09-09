@@ -8,6 +8,7 @@ import joblib
 from PIL import Image
 import math
 
+from functions import obtenerAguaDisponible
 
 # Prediccion de estado de nutrientes
 ## Generar fechas
@@ -104,8 +105,6 @@ def tieneAsfixiaRadicular():
 
 
 
-
-
 def predecirEstadoHidrico(
     factorAreaSombreada, 
     eficienciaRiego,
@@ -117,7 +116,8 @@ def predecirEstadoHidrico(
     profundidadRaices,
     umbralRiego,
     porcentajeSueloEmisores, 
-    piedrasPerfilSuelo):
+    piedrasPerfilSuelo,
+    cantidadDeDias):
 
     # -------------------------------------------------------------------------------------------------- #
     # Calculo de: Evapotranspiracion potencial
@@ -159,7 +159,7 @@ def predecirEstadoHidrico(
     fr = ad / etc
     # -------------------------------------------------------------------------------------------------- #
 
-
+    """
     # Calculo de recomendaciones riego diario
     # Considerando que de alguna forma se obtienen los datos meteorologicos de la zona para 7 dias
     semana = {"dia 0": False,
@@ -178,7 +178,6 @@ def predecirEstadoHidrico(
         else:
             recomendacionRiegoDiario[dia] = "No regar"
 
-    
     # Calculo de recomendaciones de riego de baja frecuencia
     # Considerando que regue hoy domingo y los valores de semana son de la siguiente semana, calculo cuando regar de acuerdo a fr
     frReal = fr
@@ -219,6 +218,13 @@ def predecirEstadoHidrico(
             "recomendacionRiegoBajaFrecuencia": recomendacionRiegoBajaFrecuencia
         }
     }
+    """
+
+    adNew = 1000
+    rapNew = 100
+
+    aguaDisponible = obtenerAguaDisponible(adNew, rapNew, cantidadDeDias)
+
     
-    return response
+    return aguaDisponible
 
