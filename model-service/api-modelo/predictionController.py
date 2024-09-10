@@ -220,8 +220,8 @@ def predecirEstadoHidrico(
     }
     """
 
-    adNew = 1000
-    rapNew = 100
+    adNew = 100
+    rapNew = 8
 
     aguaDisponible = obtenerAguaDisponible(adNew, rapNew, cantidadDeDias)
 
