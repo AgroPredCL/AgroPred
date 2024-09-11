@@ -6,7 +6,8 @@ import { Caracteristica } from '../components/nutricion/Caracteristica';
 import NutritionalPredict from '../components/prediccion_nutrientes/NutritionalPredict';
 import UploadImage from '../components/Subir_imagen/ImageUploader';
 
-const apiUrl = import.meta.env.VITE_API_URL;
+/*const apiUrl = import.meta.env.VITE_API_URL;*/
+const apiUrl = 'http://13.59.114.86:8000';
 
 const data = [
     {
