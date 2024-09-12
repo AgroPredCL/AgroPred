@@ -12,7 +12,7 @@ const HydriclPredict = () => {
   const handlePredictionRequest = async () => {
     if (predictDays) {
       try {
-        const response = await fetch(f`${apiUrl}/state/hidrico?factorAreaSombreada=0.49&eficienciaRiego=0.85&marcoM2Plantacion=25&caudalEmisor=3&numEmisoresPlanta=16&coefUniformidad=0.75&retencionAguaSuelo=0.19&profundidadRaices=800&umbralRiego=0.35&porcentajeSueloEmisores=0.6&piedrasPerfilSuelo=0.1&cantidadDeDias=${predictDays}`);
+        const response = await fetch(`${apiUrl}/state/hidrico?factorAreaSombreada=0.49&eficienciaRiego=0.85&marcoM2Plantacion=25&caudalEmisor=3&numEmisoresPlanta=16&coefUniformidad=0.75&retencionAguaSuelo=0.19&profundidadRaices=800&umbralRiego=0.35&porcentajeSueloEmisores=0.6&piedrasPerfilSuelo=0.1&cantidadDeDias=${predictDays}`);
         if (!response.ok) {
           throw new Error('Error al obtener datos de la API');
         }
