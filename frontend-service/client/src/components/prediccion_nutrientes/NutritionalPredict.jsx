@@ -64,7 +64,13 @@ const NutritionalPredict = () => {
   };
 
   if (!data) return <div>Cargando...</div>;
-
+  
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    if (value === '' || (Number(value) >= 1 && Number(value) <= 14)) {
+      setPredictDays(value);
+    }
+  };
   const mergeData = (originalData, predictedData) => {
     return [
       ...originalData.map((item) => ({ fecha: item.fecha, valor: item.valor })),
@@ -115,8 +121,10 @@ const NutritionalPredict = () => {
               <input
                 type="number"
                 id="predict-date"
+                min="1"
+                max="14"
                 value={predictDays}
-                onChange={(e) => setPredictDays(e.target.value)}
+                onChange={handleInputChange} //Aqui se llama a una funcion que esta mas arriba que se asegura que cuando se ingrese el numero se cumpla que sea mayor/gual a 1 y menor/igual a 14
                 className="pl-3 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
               <button

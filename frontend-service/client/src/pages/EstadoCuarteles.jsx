@@ -4,6 +4,7 @@ import { Table } from '../components/estado_salud/Table';
 import { Estado } from '../components/nutricion/Estado';
 import { Caracteristica } from '../components/nutricion/Caracteristica';
 import NutritionalPredict from '../components/prediccion_nutrientes/NutritionalPredict';
+import HydriclPredict from '../components/prediccion_hidrica/PrediccionHidrica';
 import UploadImage from '../components/Subir_imagen/ImageUploader';
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -153,6 +154,10 @@ export default function EstadoCuarteles() {
 
             <Seccion titulo='Estado Nutricional'>
                 <NutritionalPredict />
+            </Seccion>
+
+            <Seccion titulo='Estado Hídrico'>
+                <HydriclPredict />
             </Seccion>
         </>
     );
