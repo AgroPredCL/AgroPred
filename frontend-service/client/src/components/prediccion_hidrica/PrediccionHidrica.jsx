@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ArticleHidrica from './ArticleHidrica';
 
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const HydriclPredict = () => {
   const [data, setData] = useState(null);
@@ -11,7 +12,7 @@ const HydriclPredict = () => {
   const handlePredictionRequest = async () => {
     if (predictDays) {
       try {
-        const response = await fetch(`http://localhost:8000/state/hidrico?factorAreaSombreada=0.49&eficienciaRiego=0.85&marcoM2Plantacion=25&caudalEmisor=3&numEmisoresPlanta=16&coefUniformidad=0.75&retencionAguaSuelo=0.19&profundidadRaices=800&umbralRiego=0.35&porcentajeSueloEmisores=0.6&piedrasPerfilSuelo=0.1&cantidadDeDias=${predictDays}`);
+        const response = await fetch(f`${apiUrl}/state/hidrico?factorAreaSombreada=0.49&eficienciaRiego=0.85&marcoM2Plantacion=25&caudalEmisor=3&numEmisoresPlanta=16&coefUniformidad=0.75&retencionAguaSuelo=0.19&profundidadRaices=800&umbralRiego=0.35&porcentajeSueloEmisores=0.6&piedrasPerfilSuelo=0.1&cantidadDeDias=${predictDays}`);
         if (!response.ok) {
           throw new Error('Error al obtener datos de la API');
         }
