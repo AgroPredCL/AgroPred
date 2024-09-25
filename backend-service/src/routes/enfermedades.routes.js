@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { getEnfermedades,createEnfermedad,deleteEnfermedad,updateEnfermedad,getEnfermedadByNombre } from '../controllers/enfermedades.controler.js';
+import { getEnfermedades,createEnfermedad,deleteEnfermedad,updateEnfermedad,getEnfermedadByNombre } from '../controllers/enfermedades.controller.js';
 
 const router = Router()
 
