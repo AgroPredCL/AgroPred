@@ -13,7 +13,7 @@ services:
 
   api-backend:
     build:
-      context: ./app-service/backend-service
+      context: ./backend-service
       dockerfile: Dockerfile
     container_name: api-backend-container
     environment:
@@ -29,7 +29,7 @@ services:
 
   frontend:
     build:
-      context: ./app-service/frontend-service
+      context: ./frontend-service
       dockerfile: Dockerfile
     container_name: frontend-container
     ports:
@@ -46,9 +46,12 @@ services:
       - "8000:8000"
     volumes:
       - ./model-service/modelos:/model-service/modelos
+      - ./model-service:/model-service/
+      - ./model-service/api-modelo/img:/model-service/api-modelo/img
     environment:
       - PYTHONUNBUFFERED=1
 
 volumes:
   postgres-data:
   modelos:
+  img:

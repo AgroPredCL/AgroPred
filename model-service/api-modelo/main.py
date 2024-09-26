@@ -1,12 +1,32 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, UploadFile, File, HTTPException
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 from fastapi.middleware.cors import CORSMiddleware
+from pymongo import MongoClient
+
+from pymongo.errors import ConnectionFailure
+from datetime import datetime
+
+import os
+import certifi 
+
+
+from bson import Binary
+
+
+import asyncio
+
+
+import time
+from pathlib import Path
 
 import numpy as np
 from tensorflow.keras.applications.inception_v3 import preprocess_input
 from typing import Optional
-from functions import stateController, predictController, tieneAsfixiaRadicular, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad, tieneEnfermedadFruta
+import pandas as pd
+
+from predictionController import predictController, tieneAsfixiaRadicular, tieneEnfermedadFruta, predecirEstadoHidrico
+from stateController import stateEnPeriodoEspecifico, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad, hacerRecomendacionFertilizante
 
 app = FastAPI()
 
@@ -19,16 +39,28 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/")
 async def root():
     return {"how to test?": "http://localhost:8000/disease/fruit/{number of image (xxxx)}"}
 
+@app.get("/fechasLimite")
+async def fechasLimite():
+    data_sensores = pd.read_csv('../modelos/data_sensores.csv')
+
+    fechaInicio = data_sensores['FechaHora'].iloc[0]
+    fechaFin = data_sensores['FechaHora'].iloc[-1]
+
+    print(fechaInicio, fechaFin)
+
+    return {"fechaInicio": fechaInicio, "fechaFin": fechaFin}
+
 @app.get("/state")
-async def stateHistoricoGeneral(start_date: Optional[str] = Query(None, description="Start date in format YYYY-MM-DD"), end_date: Optional[str] = Query(None, description="End date in format YYYY-MM-DD")):
+async def stateEnPeriodoDeTiempo(start_date: Optional[str] = Query(None, description="Start date in format YYYY-MM-DD"), end_date: Optional[str] = Query(None, description="End date in format YYYY-MM-DD")):
     if not start_date or not end_date:
         return {"error": "Por favor agrega fecha de inicio y fin para entregar el estado, en formato 'YYYY-MM-DD'."}
     
-    nitrogeno, potasio, fosforo, humedad, conductividad, ph, temperatura  = stateController(start_date, end_date)
+    nitrogeno, potasio, fosforo, humedad, conductividad, ph, temperatura  = stateEnPeriodoEspecifico(start_date, end_date)
     
     return {"nitrogeno": nitrogeno, 
             "potasio": potasio, 
@@ -77,14 +109,12 @@ async def currentStateConductividad():
 @app.get("/prediction/NPK")
 async def currentState(diasAPredecir: Optional[int] = Query(None, description="fecha hasta la cual predecir")):
     if not diasAPredecir:
-        return {"error": "Por favor agrega una fecha a predecir en formato 'YYYY-MM-DD'."}
-    
+        return {"error": "por favor ingresa la cantida de dias a predecir."}
     output = predictController(diasAPredecir)
-    
     return output
 
 @app.get("/diseases")
-async def process_image(image_number: Optional[str] = Query(None, description="Image number")):
+async def process_image_diseases(image_number: Optional[str] = Query(None, description="Image number")):
     # Give description of the state
     description = {
         "scab": "Scab is a disease that affects the leaves and fruit of the avocado tree. It is caused by the fungus Elsinoe spp. and is characterized by dark, raised spots on the fruit and leaves.",
@@ -128,3 +158,185 @@ async def process_image(image_number: Optional[str] = Query(None, description="I
         "enfermedades": output
     }
 
+@app.get("/diseases/asfixiaRadicular")
+async def predecirAsfixiaRadicularEndpoint():
+    output = tieneAsfixiaRadicular()
+    return output
+
+@app.post("/uploadImage/fruta")
+async def process_image_hoja(file: UploadFile = File(...), image_number: str | None = None):
+
+    ca = certifi.where()
+    uri = "mongodb+srv://admin:admin@modelcluster.5l2ez.mongodb.net/?retryWrites=true&w=majority"
+
+    client = MongoClient(uri, tlsCAFile=ca)
+
+    db = client['modelDatabase']
+    collection = db['imagesFruits'] 
+
+    if not image_number:
+        image_number = "0005"
+
+    # Give description of the state
+    description = {
+        "scab": "Scab is a disease that affects the leaves and fruit of the avocado tree. It is caused by the fungus Elsinoe spp. and is characterized by dark, raised spots on the fruit and leaves.",
+        "healthy": "The avocado is healthy and free from any disease.",
+        "anthracnose": "Anthracnose is a fungal disease that affects the leaves, fruit, and stems of the avocado tree. It is caused by the fungus Colletotrichum spp. and is characterized by dark, sunken lesions on the fruit and leaves.",
+        }
+    # Give impact of the state (bajo medio alto)
+    impacto = {
+        "scab": "medio",
+        "healthy": "sin impacto",
+        "anthracnose": "alto"
+    }
+
+    stateImagen = tieneEnfermedadFruta(image_number)
+
+    output = {}
+
+    output[stateImagen] = {
+        "estado": stateImagen,
+        "descripcion": description[stateImagen],
+        "impacto": impacto[stateImagen],
+        "confiabilidad": "75%" if stateImagen else None
+    }
+
+    fecha = "2021-10-10"
+
+    try:
+        # Leer el archivo como bytes
+        file_bytes = await file.read()
+        filename = f"{int(time.time())}{Path(file.filename).suffix}"
+        
+        # Crear el documento para insertar en MongoDB
+        document = {
+            "filename": filename,
+            "file_data": Binary(file_bytes),  # Convertir los bytes a formato binario para MongoDB
+            "content_type": file.content_type,  # Guardar el tipo de contenido (opcional)
+            "upload_time": datetime.now(),  # Guardar la hora de subida (opcional)
+            "queso":"eso",
+        }
+        
+        # Insertar el documento en la colección
+        result = collection.insert_one(document)
+        
+        return {
+                "fecha": fecha,
+                "enfermedades": output
+                }
+    
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error al subir la imagen: {str(e)}")
+
+
+@app.post("/uploadImage/hoja")
+async def process_image_hoja(file: UploadFile = File(...), image_number: str | None = None):
+
+    ca = certifi.where()
+    uri = "mongodb+srv://admin:admin@modelcluster.5l2ez.mongodb.net/?retryWrites=true&w=majority"
+
+    client = MongoClient(uri, tlsCAFile=ca)
+
+    db = client['modelDatabase']
+    collection = db['imagesLeafs'] 
+
+    if not image_number:
+        image_number = "0005"
+
+    # Give description of the state
+    description = {
+        "scab": "Scab is a disease that affects the leaves and fruit of the avocado tree. It is caused by the fungus Elsinoe spp. and is characterized by dark, raised spots on the fruit and leaves.",
+        "healthy": "The avocado is healthy and free from any disease.",
+        "anthracnose": "Anthracnose is a fungal disease that affects the leaves, fruit, and stems of the avocado tree. It is caused by the fungus Colletotrichum spp. and is characterized by dark, sunken lesions on the fruit and leaves.",
+        }
+    # Give impact of the state (bajo medio alto)
+    impacto = {
+        "scab": "medio",
+        "healthy": "sin impacto",
+        "anthracnose": "alto"
+    }
+
+    stateImagen = tieneEnfermedadFruta(image_number)
+
+    output = {}
+
+    output[stateImagen] = {
+        "estado": stateImagen,
+        "descripcion": description[stateImagen],
+        "impacto": impacto[stateImagen],
+        "confiabilidad": "75%" if stateImagen else None
+    }
+
+    fecha = "2021-10-10"
+
+    try:
+        # Leer el archivo como bytes
+        file_bytes = await file.read()
+        filename = f"{int(time.time())}{Path(file.filename).suffix}"
+        
+        # Crear el documento para insertar en MongoDB
+        document = {
+            "filename": filename,
+            "file_data": Binary(file_bytes),  # Convertir los bytes a formato binario para MongoDB
+            "content_type": file.content_type,  # Guardar el tipo de contenido (opcional)
+            "upload_time": datetime.now(),  # Guardar la hora de subida (opcional)
+            "queso":"eso",
+        }
+        
+        # Insertar el documento en la colección
+        result = collection.insert_one(document)
+        
+        return {
+                "fecha": fecha,
+                "enfermedades": output
+                }
+    
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error al subir la imagen: {str(e)}")
+
+
+"""
+Revisar parametros necesarios:
+- Kr: float
+- Tipo de riego: string
+- Tipo de suelo: 
+"""
+@app.get("/state/hidrico")
+async def stateHidrico(
+    factorAreaSombreada: float,
+    eficienciaRiego: float,
+    marcoM2Plantacion: float,
+    caudalEmisor: float,
+    numEmisoresPlanta: int,
+    coefUniformidad: float,
+    retencionAguaSuelo: float,
+    profundidadRaices: float,
+    umbralRiego: float,
+    porcentajeSueloEmisores: float, 
+    piedrasPerfilSuelo: float,
+    cantidadDeDias: int):
+
+    estado = predecirEstadoHidrico(
+        factorAreaSombreada,
+        eficienciaRiego,
+        marcoM2Plantacion,
+        caudalEmisor,
+        numEmisoresPlanta,
+        coefUniformidad,
+        retencionAguaSuelo,
+        profundidadRaices,
+        umbralRiego,
+        porcentajeSueloEmisores,
+        piedrasPerfilSuelo,
+        cantidadDeDias
+    )
+
+    return estado
+
+
+@app.get("/recomendacion/fertilizante")
+async def recomendacionFertilizante():
+
+    recomendacion = hacerRecomendacionFertilizante()
+
+    return recomendacion
