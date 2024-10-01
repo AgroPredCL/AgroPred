@@ -14,13 +14,13 @@ export const getUsos_Riegos = async (req, res) => {
 
 export const createUso_Riego= async (req, res) => {
     try {
-        const {fecha,tipo,observacion,cuartelID} = req.body;
+        const {fecha,cuartelID,tiempo_riego,litros_estimados,observacion} = req.body;
         const newUso_Riego= await Uso_Riego.create({
             fecha,
-            tipo,
-            observacion,
-            cuartelID
-            
+            cuartelID,
+            tiempo_riego,
+            litros_estimados,
+            observacion          
         })
         res.json(newUso_Riego);
     } catch (error) {
@@ -33,10 +33,10 @@ export const createUso_Riego= async (req, res) => {
 
 export const deleteUso_Riego = async (req, res) => {
     try {
-        const {id} = req.params;
+        const {fecha} = req.params;
         const Uso_Riego = await Uso_Riego.findOne({
             where: {
-                id
+                fecha
             }
         });
         await Uso_Riego.destroy();
@@ -53,18 +53,18 @@ export const deleteUso_Riego = async (req, res) => {
 
 export const updateUso_Riego = async (req, res) => {
     try {
-        const {id} = req.params;
-        const {fecha,tipo,observacion,cuartelID} = req.body;
+        const {fecha} = req.params;
+        const {cuartelID,tiempo_riego,litros_estimados,observacion} = req.body;
         const Uso_Riego = await Uso_Riego.findOne({
             where: {
-                id
+                fecha
             }
         });
         await Uso_Riego.update({
-            fecha,
-            tipo,
-            observacion,
-            cuartelID
+            cuartelID,
+            tiempo_riego,
+            litros_estimados,
+            observacion
         });
         res.json({
             message: 'Uso-riego updated'
@@ -78,12 +78,12 @@ export const updateUso_Riego = async (req, res) => {
 }
 
 
-export const getUso_RiegoById = async (req, res) => {
+export const getUso_RiegoByFecha = async (req, res) => {
     try {
-        const {id} = req.params;
+        const {fecha} = req.params;
         const Uso_Riego = await Uso_Riego.findOne({
             where: {
-                id
+                fecha
             }
         });
         res.json(Uso_Riego);

@@ -15,12 +15,17 @@ export const getCuarteles =  async (req, res) => {
 
 export const createCuartel= async (req, res) => {
     try {
-        const {id,area,descripcion,cant_paltos,nom_predio} = req.body;
+        const {id,area,marco_plantacion,cant_paltos,tipo_planta,tipo_suelo,sistema_riego,caudal_sist_riego,cant_emis_riego_planta,nom_predio} = req.body;
         const newCuartel = await Cuartel.create({
             id,
             area,
-            descripcion,
+            marco_plantacion,
             cant_paltos,
+            tipo_planta,
+            tipo_suelo,
+            sistema_riego,
+            caudal_sist_riego,
+            cant_emis_riego_planta,
             nom_predio
         })
         res.json(newCuartel);
@@ -56,7 +61,7 @@ export const deleteCuartel = async (req, res) => {
 export const updateCuartel = async (req, res) => {
     try {
         const {id} = req.params;
-        const {area,descripcion,cant_paltos,nom_predio} = req.body;
+        const {area,cant_paltos,tipo_planta,tipo_suelo} = req.body;
         const cuartel = await Cuartel.findOne({
             where: {
                 id
@@ -64,9 +69,10 @@ export const updateCuartel = async (req, res) => {
         });
         await cuartel.update({
             area,
-            descripcion,
             cant_paltos,
-            nom_predio
+            tipo_planta,
+            tipo_suelo
+
         });
         res.json({
             message: 'Cuartel updated'

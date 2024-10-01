@@ -13,11 +13,26 @@ export const Cuartel = sequelize.define('cuartel',{
     area: {
         type: DataTypes.FLOAT
     },
-    descripcion: {
-        type: DataTypes.STRING(400)
+    marco_plantacion: {
+        type: DataTypes.FLOAT
     },
     cant_paltos: {
         type: DataTypes.INTEGER
+    },
+    tipo_planta: {
+        type: DataTypes.STRING(50)
+    },
+    tipo_suelo: {
+        type: DataTypes.STRING(50)
+    },
+    sistema_riego: {
+        type: DataTypes.STRING(50)
+    },
+    caudal_sist_riego: {
+        type: DataTypes.FLOAT
+    },
+    cant_emis_riego_planta: {
+        type: DataTypes.FLOAT
     },
     nom_predio :{ 
         type: DataTypes.STRING(45)
