@@ -4,7 +4,7 @@ import { Cuartel } from "./Cuartel.js"
 
 export const Uso_Riego = sequelize.define('uso_riego',{
     fecha: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATE,
         primaryKey: true,
     },
     cuartelID: {
