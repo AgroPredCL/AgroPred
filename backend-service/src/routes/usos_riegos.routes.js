@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { getUsos_Riegos,createUso_Riego,deleteUso_Riego,updateUso_Riego,getUso_RiegoByFecha } from "../controllers/usos_riegos.controller.js";
+import { getUsos_Riegos,createUso_Riego,deleteUso_Riego,updateUso_Riego,getUso_RiegoByCuartel } from "../controllers/usos_riegos.controller.js";
 
 
 const router = Router();
@@ -13,6 +13,7 @@ router.delete('/uso_riego/:fecha',deleteUso_Riego);
 
 router.put('/uso_riego/:fecha',updateUso_Riego);
 
-router.get('/uso_riego/:fecha',getUso_RiegoByFecha);
+router.get('/uso_riego/:cuartelID', getUso_RiegoByCuartel);
+
 
 export default router;
