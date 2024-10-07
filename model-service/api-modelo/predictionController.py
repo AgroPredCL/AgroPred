@@ -106,7 +106,7 @@ def tieneAsfixiaRadicular():
     return True
 
 def obtenerDatosCuartel(cuartelID):
-    url = f"http://api-backend:3000/cuartel/{cuartelID}"  # Cambia la URL según tu configuración
+    url = f"http://api-backend:3000/cuartel/{cuartelID}" 
     response = requests.get(url)
 
     if response.status_code == 200:
