@@ -18,7 +18,7 @@ def obtenerAguaDisponible(aguaDisponible, requerimientoDeAguaPorPlantaPorDia, ca
     fechas = [fechaActual + timedelta(days=i) for i in range(14)]
     
     # Se formatean las fechas en formato DD-MM-YYYY
-    fechasFormateadas = [fecha.strftime('%d-%m-%Y') for fecha in fechas]
+    fechasFormateadas = [fecha.strftime('%Y-%m-%d') for fecha in fechas]
 
     # Se asume que la cantidad de agua disponible es constante
     for i in range(cantidadDeDias):
