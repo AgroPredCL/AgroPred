@@ -303,33 +303,10 @@ Revisar parametros necesarios:
 """
 @app.get("/state/hidrico")
 async def stateHidrico(
-    factorAreaSombreada: float,
-    eficienciaRiego: float,
-    marcoM2Plantacion: float,
-    caudalEmisor: float,
-    numEmisoresPlanta: int,
-    coefUniformidad: float,
-    retencionAguaSuelo: float,
-    profundidadRaices: float,
-    umbralRiego: float,
-    porcentajeSueloEmisores: float, 
-    piedrasPerfilSuelo: float,
+    cuartelID: str,
     cantidadDeDias: int):
 
-    estado = predecirEstadoHidrico(
-        factorAreaSombreada,
-        eficienciaRiego,
-        marcoM2Plantacion,
-        caudalEmisor,
-        numEmisoresPlanta,
-        coefUniformidad,
-        retencionAguaSuelo,
-        profundidadRaices,
-        umbralRiego,
-        porcentajeSueloEmisores,
-        piedrasPerfilSuelo,
-        cantidadDeDias
-    )
+    estado = predecirEstadoHidrico(cuartelID, cantidadDeDias)
 
     return estado
 

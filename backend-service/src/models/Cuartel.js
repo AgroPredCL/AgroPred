@@ -5,33 +5,52 @@ import { Estado } from "./Estado.js"
 import { Uso_Riego } from "./Uso_Riego.js"
 
 export const Cuartel = sequelize.define('cuartel',{
+    // INFORMACION DEL CUARTEL MISMO
     id: {
         type: DataTypes.STRING(5),
         primaryKey: true,
-
     },
     area: {
         type: DataTypes.FLOAT
-    },
-    marco_plantacion: {
-        type: DataTypes.FLOAT
-    },
+    }, 
     cant_paltos: {
         type: DataTypes.INTEGER
     },
     tipo_planta: {
         type: DataTypes.STRING(50)
     },
-    tipo_suelo: {
-        type: DataTypes.STRING(50)
-    },
-    sistema_riego: {
-        type: DataTypes.STRING(50)
-    },
-    caudal_sist_riego: {
+    // INFORMACION NECESARIA PARA ESTADO HIDRICO Y RIEGO
+    factor_area_sombreada: {
         type: DataTypes.FLOAT
     },
-    cant_emis_riego_planta: {
+    eficiencia_riego: {
+        type: DataTypes.FLOAT
+    },
+    marco_plantacion: {
+        type: DataTypes.FLOAT
+    },
+    caudal_emisor: {
+        type: DataTypes.FLOAT
+    },
+    numero_emisores_planta: {
+        type: DataTypes.INTEGER
+    },
+    coeficiente_uniformidad: {
+        type: DataTypes.FLOAT
+    },
+    retencion_agua_suelo: {
+        type: DataTypes.FLOAT
+    },
+    profundidad_raices:{
+        type: DataTypes.FLOAT
+    },
+    umbral_riego: {
+        type: DataTypes.FLOAT
+    },
+    porcentaje_suelo_emisores: {
+        type: DataTypes.FLOAT
+    },
+    piedras_perfil_suelo: {
         type: DataTypes.FLOAT
     },
     nom_predio :{ 

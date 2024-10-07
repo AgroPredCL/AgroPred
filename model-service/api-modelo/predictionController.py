@@ -8,6 +8,8 @@ import joblib
 from PIL import Image
 import math
 
+import requests
+
 from functions import obtenerAguaDisponible
 
 # Prediccion de estado de nutrientes
@@ -103,21 +105,37 @@ def tieneAsfixiaRadicular():
 
     return True
 
+def obtenerDatosCuartel(cuartelID):
+    url = f"http://api-backend:3000/cuartel/{cuartelID}"  # Cambia la URL según tu configuración
+    response = requests.get(url)
 
+    if response.status_code == 200:
+        return response.json()
+    else:
+        print("Error al obtener los datos del cuartel:", response.status_code, response.text)
+        return None
 
-def predecirEstadoHidrico(
-    factorAreaSombreada, 
-    eficienciaRiego,
-    marcoM2Plantacion,
-    caudalEmisor,
-    numEmisoresPlanta,
-    coeficienteUniformidad,
-    retencionAguaSuelo,
-    profundidadRaices,
-    umbralRiego,
-    porcentajeSueloEmisores, 
-    piedrasPerfilSuelo,
-    cantidadDeDias):
+def predecirEstadoHidrico(cuartelID, cantidadDeDias):
+    print(cuartelID, cantidadDeDias)
+
+    # Obtener los datos del cuartel
+    cuartel = obtenerDatosCuartel(cuartelID)
+
+    if not cuartel:
+        return None  # Si no se obtuvieron datos, salir de la función
+
+    # Llenar las variables con los datos obtenidos del cuartel
+    factorAreaSombreada = cuartel.get('factor_area_sombreada')  # Valor obtenido de la API
+    eficienciaRiego = cuartel.get('eficiencia_riego')  # Valor obtenido de la API
+    marcoM2Plantacion = cuartel.get('marco_plantacion')  # Valor obtenido de la API
+    caudalEmisor = cuartel.get('caudal_emisor')  # Valor obtenido de la API
+    numEmisoresPlanta = cuartel.get('numero_emisores_planta')  # Valor obtenido de la API
+    coeficienteUniformidad = cuartel.get('coeficiente_uniformidad')  # Valor obtenido de la API
+    retencionAguaSuelo = cuartel.get('retencion_agua_suelo')  # Valor obtenido de la API
+    profundidadRaices = cuartel.get('profundidad_raices')  # Valor obtenido de la API
+    umbralRiego = cuartel.get('umbral_riego')  # Valor obtenido de la API
+    porcentajeSueloEmisores = cuartel.get('porcentaje_suelo_emisores')  # Valor obtenido de la API
+    piedrasPerfilSuelo = cuartel.get('piedras_perfil_suelo')  # Valor obtenido de la API
 
     # -------------------------------------------------------------------------------------------------- #
     # Calculo de: Evapotranspiracion potencial
