@@ -7,7 +7,7 @@ import { Uso_Riego } from "./Uso_Riego.js"
 export const Cuartel = sequelize.define('cuartel',{
     // INFORMACION DEL CUARTEL MISMO
     id: {
-        type: DataTypes.STRING(5),
+        type: DataTypes.STRING(20), 
         primaryKey: true,
     },
     area: {
