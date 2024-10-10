@@ -1,14 +1,16 @@
 import { DataTypes } from "sequelize"
-import { sequelize } from "../database/database.js"
+import  sequelize  from "../database/database.js"
 import { Estado_Enfermedad } from "./Estado_Enfermedad.js"
 
 export const Enfermedad = sequelize.define('enfermedad',{
     nombre : {
         type:DataTypes.STRING(30),
-        primaryKey: true
+        primaryKey: true,
+        allowNull: false
     },
     descripcion : {
-        type: DataTypes.STRING(200)
+        type: DataTypes.STRING(200),
+        allowNull: false
     }
 })
 

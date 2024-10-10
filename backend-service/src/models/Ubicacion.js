@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize"
-import { sequelize } from "../database/database.js"
+import  sequelize  from "../database/database.js"
 import { Predio } from "./Predio.js"
 
 export const Ubicacion = sequelize.define('ubicacion', {
@@ -8,23 +8,30 @@ export const Ubicacion = sequelize.define('ubicacion', {
         primaryKey: true,
         autoIncrement: true
     },
-    region : {
+    nom_predio: {
         type: DataTypes.STRING(45),
+        allowNull: false
+    },
+    calle: {
+        type: DataTypes.STRING(45),
+        allowNull: false
+    },
+    codigo_Postal: {
+        type: DataTypes.INTEGER,
     },
     comuna: {
         type: DataTypes.STRING(45),
     },
-    calle: {
-        type: DataTypes.STRING(45),
-    },
     numero: {
         type: DataTypes.INTEGER,
+        allowNull: false
     },
-    codigoPostal: {
-        type: DataTypes.INTEGER,
-    },
-    nom_predio: {
-        type: DataTypes.STRING(45)
+    region : {
+        type: DataTypes.STRING(45),
     }
+    
+    
+    
+    
 })
  

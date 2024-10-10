@@ -15,41 +15,42 @@ export const getCuarteles = async (req, res) => {
 export const createCuartel = async (req, res) => {
     try {
         const {
-            id,
+            nombre_Cuartel,
+            nom_predio,
             area,
-            marco_plantacion,
             cant_paltos,
-            tipo_planta,
-            factor_area_sombreada, 
-            eficiencia_riego, 
             caudal_emisor, 
-            numero_emisores_planta, 
-            coeficiente_uniformidad, 
-            retencion_agua_suelo,
-            profundidad_raices, 
-            umbral_riego, 
-            porcentaje_suelo_emisores, 
+            coeficiente_uniformidad,
+            eficiencia_riego,
+            factor_area_sombreada, 
+            marco_plantacion,
+            numero_emisores_planta,
             piedras_perfil_suelo,
-            nom_predio
+            porcentaje_suelo_emisores, 
+            profundidad_raices,
+            retencion_agua_suelo,
+            tipo_planta,
+            umbral_riego
+       
         } = req.body;
 
         const newCuartel = await Cuartel.create({
-            id,
+            nombre_Cuartel,
+            nom_predio,
             area,
-            marco_plantacion,
             cant_paltos,
-            tipo_planta,
-            factor_area_sombreada, 
-            eficiencia_riego, 
             caudal_emisor, 
-            numero_emisores_planta, 
-            coeficiente_uniformidad, 
-            retencion_agua_suelo, 
-            profundidad_raices, 
-            umbral_riego, 
+            coeficiente_uniformidad,
+            eficiencia_riego,
+            factor_area_sombreada, 
+            marco_plantacion,
+            numero_emisores_planta,
+            piedras_perfil_suelo,
             porcentaje_suelo_emisores, 
-            piedras_perfil_suelo, 
-            nom_predio
+            profundidad_raices,
+            retencion_agua_suelo,
+            tipo_planta,
+            umbral_riego
         });
         res.status(201).json(newCuartel);
     } catch (error) {
@@ -62,8 +63,8 @@ export const createCuartel = async (req, res) => {
 
 export const deleteCuartel = async (req, res) => {
     try {
-        const { id } = req.params;
-        const cuartel = await Cuartel.findOne({ where: { id } });
+        const { nombre_Cuartel } = req.params;
+        const cuartel = await Cuartel.findOne({ where: { nombre_Cuartel } });
 
         if (!cuartel) {
             return res.status(404).json({ message: 'Cuartel not found' });
@@ -81,52 +82,27 @@ export const deleteCuartel = async (req, res) => {
 
 export const updateCuartel = async (req, res) => {
     try {
-        const { id } = req.params;
-        const {
-            area,
-            marco_plantacion,
-            cant_paltos,
-            tipo_planta,
-            factor_area_sombreada, // Añadido
-            eficiencia_riego, // Añadido
-            caudal_emisor, // Añadido
-            numero_emisores_planta, // Añadido
-            coeficiente_uniformidad, // Añadido
-            retencion_agua_suelo, // Añadido
-            profundidad_raices, // Añadido
-            umbral_riego, // Añadido
-            porcentaje_suelo_emisores, // Añadido
-            piedras_perfil_suelo, // Añadido
-            nom_predio
-        } = req.body;
+        const { nombre_Cuartel } = req.params;
+        const updateData = req.body; // Tomamos directamente el body con los campos a actualizar
 
-        const cuartel = await Cuartel.findOne({ where: { id } });
+        const cuartel = await Cuartel.findOne({ where: { nombre_Cuartel } });
 
         if (!cuartel) {
             return res.status(404).json({ message: 'Cuartel not found' });
         }
 
-        // Crear un objeto con los atributos actualizables
-        const updateData = {};
+        // Filtrar el objeto para eliminar cualquier campo que tenga un valor indefinido
+        const filteredData = Object.fromEntries(
+            Object.entries(updateData).filter(([key, value]) => value !== undefined)
+        );
 
-        if (area !== undefined) updateData.area = area;
-        if (marco_plantacion !== undefined) updateData.marco_plantacion = marco_plantacion;
-        if (cant_paltos !== undefined) updateData.cant_paltos = cant_paltos;
-        if (tipo_planta !== undefined) updateData.tipo_planta = tipo_planta;
-        if (factor_area_sombreada !== undefined) updateData.factor_area_sombreada = factor_area_sombreada; // Añadido
-        if (eficiencia_riego !== undefined) updateData.eficiencia_riego = eficiencia_riego; // Añadido
-        if (caudal_emisor !== undefined) updateData.caudal_emisor = caudal_emisor; // Añadido
-        if (numero_emisores_planta !== undefined) updateData.numero_emisores_planta = numero_emisores_planta; // Añadido
-        if (coeficiente_uniformidad !== undefined) updateData.coeficiente_uniformidad = coeficiente_uniformidad; // Añadido
-        if (retencion_agua_suelo !== undefined) updateData.retencion_agua_suelo = retencion_agua_suelo; // Añadido
-        if (profundidad_raices !== undefined) updateData.profundidad_raices = profundidad_raices; // Añadido
-        if (umbral_riego !== undefined) updateData.umbral_riego = umbral_riego; // Añadido
-        if (porcentaje_suelo_emisores !== undefined) updateData.porcentaje_suelo_emisores = porcentaje_suelo_emisores; // Añadido
-        if (piedras_perfil_suelo !== undefined) updateData.piedras_perfil_suelo = piedras_perfil_suelo; // Añadido
-        if (nom_predio !== undefined) updateData.nom_predio = nom_predio;
+        // Si no hay campos válidos para actualizar, enviar error
+        if (Object.keys(filteredData).length === 0) {
+            return res.status(400).json({ message: 'No fields to update' });
+        }
 
         // Actualizar solo los campos proporcionados
-        await cuartel.update(updateData);
+        await cuartel.update(filteredData);
 
         res.json({ message: 'Cuartel updated successfully' });
     } catch (error) {
@@ -137,10 +113,10 @@ export const updateCuartel = async (req, res) => {
     }
 };
 
-export const getCuartelById = async (req, res) => {
+export const getCuartelByNombre = async (req, res) => {
     try {
-        const { id } = req.params;
-        const cuartel = await Cuartel.findOne({ where: { id } });
+        const { nombre_Cuartel } = req.params;
+        const cuartel = await Cuartel.findOne({ where: { nombre_Cuartel } });
 
         if (!cuartel) {
             return res.status(404).json({ message: 'Cuartel not found' });

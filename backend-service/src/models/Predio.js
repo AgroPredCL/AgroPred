@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import { sequelize } from '../database/database.js'
+import  sequelize  from '../database/database.js'
 import { Ubicacion } from './Ubicacion.js'
 import { Usuario } from "./Usuario.js";
 import { Cuartel } from "./Cuartel.js";
@@ -8,7 +8,8 @@ import {Inventario} from "./Inventario.js";
 export const Predio = sequelize.define('predio', {
     nombre: {
         type: DataTypes.STRING(45),
-        primaryKey: true
+        primaryKey: true,
+        allowNull: false
     },
     area: {
         type: DataTypes.FLOAT,

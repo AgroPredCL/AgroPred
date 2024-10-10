@@ -17,18 +17,17 @@ export const getEstados = async (req, res) => {
 
 export const createEstado= async (req, res) => {
     try {
-        const {fecha,cuartelID,conductividad,humedad,ph,temperatura,nitrogeno,fosforo,potasio} = req.body;
+        const {fecha,cuartel_ID,conductividad,fosforo,humedad,nitrogeno,ph,potasio,temperatura} = req.body;
         const newEstado = await Estado.create({
             fecha,
-            cuartelID,
+            cuartel_ID,
             conductividad,
-            humedad,
-            ph,
-            temperatura,
-            nitrogeno,
             fosforo,
-            potasio
-            
+            humedad,
+            nitrogeno,
+            ph,
+            potasio,
+            temperatura  
         })
         res.json(newEstado);
     } catch (error) {
@@ -61,33 +60,36 @@ export const deleteEstado = async (req, res) => {
 
 export const updateEstado = async (req, res) => {
     try {
-        const {fecha} = req.params;
-        const {cuartelID,conductividad,humedad,ph,temperatura,nitrogeno,fosforo,potasio} = req.body;
-        const fechad = await Estado.findOne({
-            where: {
-                fecha
-            }
-        });
-        await fechad.update({
-            cuartelID,
-            conductividad,
-            humedad,
-            ph,
-            temperatura,
-            nitrogeno,
-            fosforo,
-            potasio
-        });
-        res.json({
-            message: 'Estado updated'
-        });
+        const { fecha } = req.params;
+        const updateData = req.body; // Tomamos directamente el body con los campos a actualizar
+
+        const fechad = await Estado.findOne({ where: { fecha } });
+
+        if (!fechad) {
+            return res.status(404).json({ message: 'Estado not found' });
+        }
+
+        // Filtrar el objeto para eliminar cualquier campo que tenga un valor indefinido
+        const filteredData = Object.fromEntries(
+            Object.entries(updateData).filter(([key, value]) => value !== undefined)
+        );
+
+        // Si no hay campos válidos para actualizar, enviar error
+        if (Object.keys(filteredData).length === 0) {
+            return res.status(400).json({ message: 'No fields to update' });
+        }
+
+        // Actualizar solo los campos proporcionados
+        await fechad.update(filteredData);
+
+        res.json({ message: 'Estado updated successfully' });
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {error}
+            data: { error }
         });
     }
-}
+};
 
 export const getEstadoByFecha = async (req, res) => {
     try {

@@ -14,15 +14,15 @@ export const getProductos = async (req, res) => {
 
 export const createProducto= async (req, res) => {
     try {
-        const {nombre,marca,cantidad,descripcion,costo,vencimiento,categoria} = req.body;
+        const {categoria,vencimiento,cantidad,costo,descripcion,marca,nombre} = req.body;
         const newProducto= await Producto.create({
-            nombre,
-            marca,
-            cantidad,
-            descripcion,
-            costo,
+            categoria,
             vencimiento,
-            categoria
+            cantidad,
+            costo,
+            descripcion,
+            marca,
+            nombre
         })
         res.json(newProducto);
     } catch (error) {
@@ -55,32 +55,37 @@ export const deleteProducto = async (req, res) => {
 
 export const updateProducto = async (req, res) => {
     try {
-        const {id} = req.params;
-        const {nombre,marca,cantidad,descripcion,costo,vencimiento,categoria} = req.body;
-        const producto = await Producto.findOne({
-            where: {
-                id
-            }
-        });
-        await producto.update({
-            nombre,
-            marca,
-            cantidad,
-            descripcion,
-            costo,
-            vencimiento,
-            categoria
-        });
-        res.json({
-            message: 'Producto updated'
-        });
+        const { id } = req.params;
+        const updateData = req.body; // Tomamos directamente el body con los campos a actualizar
+
+        const producto = await Producto.findOne({ where: { id } });
+
+        if (!producto) {
+            return res.status(404).json({ message: 'Producto not found' });
+        }
+
+        // Filtrar el objeto para eliminar cualquier campo que tenga un valor indefinido
+        const filteredData = Object.fromEntries(
+            Object.entries(updateData).filter(([key, value]) => value !== undefined)
+        );
+
+        // Si no hay campos válidos para actualizar, enviar error
+        if (Object.keys(filteredData).length === 0) {
+            return res.status(400).json({ message: 'No fields to update' });
+        }
+
+        // Actualizar solo los campos proporcionados
+        await producto.update(filteredData);
+
+        res.json({ message: 'Producto updated successfully' });
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {error}
+            data: { error }
         });
     }
-}
+};
+
 
 
 export const getProductosById = async (req, res) => {

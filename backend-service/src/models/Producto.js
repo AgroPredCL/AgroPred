@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize"
-import { sequelize } from "../database/database.js"
+import  sequelize  from "../database/database.js"
 
 export const Producto = sequelize.define('producto',{
     id: {
@@ -7,25 +7,38 @@ export const Producto = sequelize.define('producto',{
         primaryKey: true,
         autoIncrement: true
     },
-    nombre:{
-        type: DataTypes.STRING(25)
+    categoria : {
+        type: DataTypes.STRING(30),
+        allowNull: false
     },
-    marca : {
-        type: DataTypes.STRING(25)
+    vencimiento : {
+        type : DataTypes.DATE,
+        allowNull: false
     },
     cantidad : {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    costo : {
+        type: DataTypes.INTEGER,
+        allowNull: false
     },
     descripcion : {
         type: DataTypes.STRING(100)
     },
-    costo : {
-        type: DataTypes.INTEGER
+    marca : {
+        type: DataTypes.STRING(25),
+        allowNull: false
     },
-    vencimiento : {
-        type : DataTypes.DATE
-    },
-    categoria : {
-        type: DataTypes.STRING(30)
+    nombre:{
+        type: DataTypes.STRING(25),
+        allowNull: false
     }
+   
+    
+  
+
+ 
+    
+    
 }) 

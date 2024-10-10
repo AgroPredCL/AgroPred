@@ -1,50 +1,41 @@
 import { DataTypes } from "sequelize"
-import { sequelize } from "../database/database.js"
-import { Recomendacion } from "./Recomendacion.js"
+import  sequelize  from "../database/database.js"
 import { Estado_Enfermedad } from "./Estado_Enfermedad.js"
 
 export const Estado = sequelize.define('estado',{
     fecha: {
         type:DataTypes.DATE,
-        primaryKey: true
+        primaryKey: true,
+        allowNull: false
     },
-    cuartelID: {
-        type: DataTypes.STRING(5),
-        primaryKey: true
+    cuartel_ID: {
+        type: DataTypes.STRING(20),
+        primaryKey: true,
+        allowNull: false
     },
     conductividad:{
-        type: DataTypes.FLOAT
-    },
-    humedad: { 
-        type: DataTypes.FLOAT
-    },
-    ph: {
-        type: DataTypes.FLOAT
-    },
-    temperatura:{
-        type: DataTypes.FLOAT
-    },
-    nitrogeno : {
         type: DataTypes.FLOAT
     },
     fosforo : {
         type: DataTypes.FLOAT
     },
+    humedad: { 
+        type: DataTypes.FLOAT
+    },
+    nitrogeno : {
+        type: DataTypes.FLOAT
+    },
+    ph: {
+        type: DataTypes.FLOAT
+    },
     potasio : {
         type: DataTypes.FLOAT
+    },
+    temperatura:{
+        type: DataTypes.FLOAT
     }
-})
 
-Estado.hasOne(Recomendacion,{
-    foreignKey: 'EstadoID',
-    sourceKey: 'cuartelID'
 })
-
-Recomendacion.belongsTo(Estado,{
-    foreignKey: 'EstadoID',
-    targetId: 'cuartelID'
-})
-//---------------------------------
 
 Estado.hasMany(Estado_Enfermedad,{
     foreignKey: 'fecha_estado',

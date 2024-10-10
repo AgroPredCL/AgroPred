@@ -38,7 +38,7 @@ export const deleteInventario = async (req, res) => {
         });
         await inventario.destroy();
         res.json({
-            message: 'Producto deleted'
+            message: 'Inventario deleted'
         });
     } catch (error) {
         res.status(500).json({
@@ -61,7 +61,7 @@ export const updateInventario = async (req, res) => {
             nom_predio
         });
         res.json({
-            message: 'Producto updated'
+            message: 'Inventario updated'
         });
     } catch (error) {
         res.status(500).json({

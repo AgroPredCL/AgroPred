@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize"
-import { sequelize } from "../database/database.js"
+import  sequelize  from "../database/database.js"
 import { Cuartel } from "./Cuartel.js"
 
 export const Uso_Fertilizante = sequelize.define('uso_fertilizante',{
@@ -8,17 +8,24 @@ export const Uso_Fertilizante = sequelize.define('uso_fertilizante',{
         primaryKey: true,
         autoIncrement: true
     },
-    fecha: {
-        type: DataTypes.DATE
-
+    cuartel_ID: {
+        type: DataTypes.STRING(15),
+        allowNull: false
     },
-    tipo: {
-        type: DataTypes.STRING(30)
+    fecha: {
+        type: DataTypes.DATEONLY,
+        allowNull: false
+    },
+    hora: {
+        type: DataTypes.TIME,
+        allowNull: false
     },
     observacion: {
         type: DataTypes.STRING(400)
     },
-    cuartelID: {
-        type: DataTypes.STRING(15)
-    }
+    tipo: {
+        type: DataTypes.STRING(30),
+        allowNull: false
+    },
+   
 })

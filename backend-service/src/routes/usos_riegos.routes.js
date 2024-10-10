@@ -13,7 +13,7 @@ router.delete('/uso_riego/:fecha',deleteUso_Riego);
 
 router.put('/uso_riego/:fecha',updateUso_Riego);
 
-router.get('/uso_riego/:cuartelID', getUso_RiegoByCuartel);
+router.get('/uso_riego/:cuartel_ID', getUso_RiegoByCuartel);
 
 
 export default router;

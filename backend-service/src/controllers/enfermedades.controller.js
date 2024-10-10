@@ -51,26 +51,36 @@ export const deleteEnfermedad = async (req, res) => {
 
 export const updateEnfermedad = async (req, res) => {
     try {
-        const {nombre} = req.params;
-        const {descripcion} = req.body;
-        const enfermedad = await Enfermedad.findOne({
-            where: {
-                nombre
-            }
-        });
-        await enfermedad.update({
-            descripcion
-        });
-        res.json({
-            message: 'Enfermedad updated'
-        });
+        const { nombre } = req.params;
+        const updateData = req.body; // Tomamos directamente el body con los campos a actualizar
+
+        const enfermedad = await Enfermedad.findOne({ where: { nombre } });
+
+        if (!enfermedad) {
+            return res.status(404).json({ message: 'Enfermedad not found' });
+        }
+
+        // Filtrar el objeto para eliminar cualquier campo que tenga un valor indefinido
+        const filteredData = Object.fromEntries(
+            Object.entries(updateData).filter(([key, value]) => value !== undefined)
+        );
+
+        // Si no hay campos válidos para actualizar, enviar error
+        if (Object.keys(filteredData).length === 0) {
+            return res.status(400).json({ message: 'No fields to update' });
+        }
+
+        // Actualizar solo los campos proporcionados
+        await enfermedad.update(filteredData);
+
+        res.json({ message: 'Enfermedad updated successfully' });
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {error}
+            data: { error }
         });
     }
-}
+};
 
 
 export const getEnfermedadByNombre = async (req, res) => {

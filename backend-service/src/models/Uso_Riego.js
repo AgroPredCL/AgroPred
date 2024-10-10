@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize"
-import { sequelize } from "../database/database.js"
+import  sequelize  from "../database/database.js"
 import { Cuartel } from "./Cuartel.js"
 
 export const Uso_Riego = sequelize.define('uso_riego', {
@@ -8,26 +8,31 @@ export const Uso_Riego = sequelize.define('uso_riego', {
         autoIncrement: true,
         primaryKey: true
     },
-    fecha: {
-        type: DataTypes.DATEONLY, 
-    },
-    hora: {
-        type: DataTypes.TIME, 
-    },
-    cuartelID: {
+    cuartel_ID: {
         type: DataTypes.STRING(15),
         allowNull: false
     },
-    tiempo_riego: {
-        type: DataTypes.FLOAT
+    fecha: {
+        type: DataTypes.DATEONLY,
+        allowNull: false
     },
-    tipo_riego: {
-        type: DataTypes.STRING(50)
+    hora: {
+        type: DataTypes.TIME, 
+        allowNull: false
     },
+    
     litros_estimados: {
         type: DataTypes.FLOAT
     },
     observacion: {
         type: DataTypes.STRING(400)
+    },
+    tiempo_riego: {
+        type: DataTypes.FLOAT
+    },
+    tipo_riego: {
+        type: DataTypes.STRING(50),
+        allowNull: false
     }
+
 });

@@ -15,17 +15,17 @@ export const getUsos_Riegos = async (req, res) => {
 
 export const createUso_Riego = async (req, res) => {
     try {
-        const { fecha, hora, cuartelID, tipo_riego, tiempo_riego, litros_estimados, observacion } = req.body; 
+        const {cuartel_ID,fecha,hora,litros_estimados,observacion,tiempo_riego,tipo_riego } = req.body; 
         
         // Asegúrate de que la fecha esté en formato correcto
         const newUso_Riego = await Uso_Riego.create({
-            fecha, // 'YYYY-MM-DD' o 'DD-MM-YYYY' según lo que esperes manejar
-            hora,  // 'HH:MM:SS' o 'HH:MM' dependiendo del formato que estés usando
-            cuartelID,
-            tipo_riego, 
-            tiempo_riego,
+            cuartel_ID,
+            fecha,
+            hora,
             litros_estimados,
-            observacion
+            observacion,
+            tiempo_riego,
+            tipo_riego
         });
         res.status(201).json(newUso_Riego);
     } catch (error) {
@@ -63,29 +63,29 @@ export const deleteUso_Riego = async (req, res) => {
 
 export const updateUso_Riego = async (req, res) => {
     try {
-        const { id } = req.params; 
-        const { cuartelID, tiempo_riego, litros_estimados, observacion } = req.body;
-        
-        const usoRiego = await Uso_Riego.findOne({
-            where: {
-                id
-            }
-        });
-        
+        const { id } = req.params;
+        const updateData = req.body; // Tomamos directamente el body con los campos a actualizar
+
+        const usoRiego = await Uso_Riego.findOne({ where: { id } });
+
         if (!usoRiego) {
-            return res.status(404).json({ message: 'Uso-riego not found' }); 
+            return res.status(404).json({ message: 'Uso-riego not found' });
         }
 
-        await usoRiego.update({
-            cuartelID,
-            tiempo_riego,
-            litros_estimados,
-            observacion
-        });
-        
-        res.json({
-            message: 'Uso-riego updated'
-        });
+        // Filtrar el objeto para eliminar cualquier campo que tenga un valor indefinido
+        const filteredData = Object.fromEntries(
+            Object.entries(updateData).filter(([key, value]) => value !== undefined)
+        );
+
+        // Si no hay campos válidos para actualizar, enviar error
+        if (Object.keys(filteredData).length === 0) {
+            return res.status(400).json({ message: 'No fields to update' });
+        }
+
+        // Actualizar solo los campos proporcionados
+        await usoRiego.update(filteredData);
+
+        res.json({ message: 'Uso-riego updated successfully' });
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
@@ -96,10 +96,10 @@ export const updateUso_Riego = async (req, res) => {
 
 export const getUso_RiegoByCuartel = async (req, res) => {
     try {
-        const { cuartelID } = req.params;
+        const { cuartel_ID } = req.params;
         const { fechaInicio, fechaFin } = req.query;
 
-        const whereClause = { cuartelID };
+        const whereClause = { cuartel_ID };
 
         // Convertir las fechas al formato correcto para la comparación
         if (fechaInicio && fechaFin) {
