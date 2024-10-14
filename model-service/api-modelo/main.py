@@ -315,3 +315,7 @@ async def recomendacionFertilizante(nombreCuartel: str):
     recomendacion = hacerRecomendacionFertilizante(nombreCuartel)
 
     return recomendacion
+
+@app.get("/alertas/helada")
+async def alertaHelada():
+    return {"alerta": "No hay alerta de helada"}

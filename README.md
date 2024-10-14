@@ -52,6 +52,8 @@ y para los modelos, es decir, se utilizaran los modelos locales que esten dentro
 
 - Documentacion API de Gestión: [Postman](https://documenter.getpostman.com/view/22100892/2sAXjF9uxG)
 
+- Documentacion API de INIA:    [Postman](https://documenter.getpostman.com/view/22100892/2sAXxTcAsh)
+
 
 
 ## Team
