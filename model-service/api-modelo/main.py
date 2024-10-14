@@ -316,6 +316,12 @@ async def recomendacionFertilizante(nombreCuartel: str):
 
     return recomendacion
 
+# Idea de alerta respecto al pasado
 @app.get("/alertas/helada")
 async def alertaHelada():
+    return {"alerta": "No hay alerta de helada"}
+
+# Idea de alerta respecto al futuro
+@app.get("/alertas/helada-despues")
+async def alertaHeladaDespues():
     return {"alerta": "No hay alerta de helada"}
