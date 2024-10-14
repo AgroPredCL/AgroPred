@@ -45,22 +45,20 @@ async def root():
     return {"how to test?": "http://localhost:8000/disease/fruit/{number of image (xxxx)}"}
 
 @app.get("/fechasLimite")
-async def fechasLimite():
-    data_sensores = pd.read_csv('../modelos/data_sensores.csv')
+async def fechasLimite(nombreCuartel: str):
+    data_sensores = pd.read_csv(f'../modelos/cuartel{nombreCuartel}.csv')
 
     fechaInicio = data_sensores['FechaHora'].iloc[0]
     fechaFin = data_sensores['FechaHora'].iloc[-1]
 
-    print(fechaInicio, fechaFin)
-
     return {"fechaInicio": fechaInicio, "fechaFin": fechaFin}
 
 @app.get("/state")
-async def stateEnPeriodoDeTiempo(start_date: Optional[str] = Query(None, description="Start date in format YYYY-MM-DD"), end_date: Optional[str] = Query(None, description="End date in format YYYY-MM-DD")):
+async def stateEnPeriodoDeTiempo(nombreCuartel: str, start_date: Optional[str] = Query(None, description="Start date in format YYYY-MM-DD"), end_date: Optional[str] = Query(None, description="End date in format YYYY-MM-DD")):
     if not start_date or not end_date:
         return {"error": "Por favor agrega fecha de inicio y fin para entregar el estado, en formato 'YYYY-MM-DD'."}
     
-    nitrogeno, potasio, fosforo, humedad, conductividad, ph, temperatura  = stateEnPeriodoEspecifico(start_date, end_date)
+    nitrogeno, potasio, fosforo, humedad, conductividad, ph, temperatura  = stateEnPeriodoEspecifico(nombreCuartel, start_date, end_date)
     
     return {"nitrogeno": nitrogeno, 
             "potasio": potasio, 
@@ -77,40 +75,40 @@ async def currentStateNitrogeno(nombreCuartel: str):
     return json
 
 @app.get("/state/potasio")
-async def currentStatePotasio():
-    json = statePotasio()
+async def currentStatePotasio(nombreCuartel: str):
+    json = statePotasio(nombreCuartel)
     return json
 
 @app.get("/state/fosforo")
-async def currentStateFosforo():
-    json = stateFosforo()
+async def currentStateFosforo(nombreCuartel: str):
+    json = stateFosforo(nombreCuartel)
     return json
 
 @app.get("/state/ph")
-async def currentStatePH():
-    json = statePH()
+async def currentStatePH(nombreCuartel: str):
+    json = statePH(nombreCuartel)
     return json
 
 @app.get("/state/humedad")
-async def currentStateHumedad():
-    json = stateHumedad()
+async def currentStateHumedad(nombreCuartel: str):
+    json = stateHumedad(nombreCuartel)
     return json
 
 @app.get("/state/temperatura")
-async def currentStateTemperatura():
-    json = stateTemperatura()
+async def currentStateTemperatura(nombreCuartel: str):
+    json = stateTemperatura(nombreCuartel)
     return json
 
 @app.get("/state/conductividad")
-async def currentStateConductividad():
-    json = stateConductividad()
+async def currentStateConductividad(nombreCuartel: str):
+    json = stateConductividad(nombreCuartel)
     return json
 
 @app.get("/prediction/NPK")
-async def currentState(diasAPredecir: Optional[int] = Query(None, description="fecha hasta la cual predecir")):
+async def currentState(nombreCuartel: str, diasAPredecir: Optional[int] = Query(None, description="fecha hasta la cual predecir")):
     if not diasAPredecir:
         return {"error": "por favor ingresa la cantida de dias a predecir."}
-    output = predictController(diasAPredecir)
+    output = predictController(nombreCuartel, diasAPredecir)
     return output
 
 @app.get("/diseases")
@@ -303,17 +301,17 @@ Revisar parametros necesarios:
 """
 @app.get("/state/hidrico")
 async def stateHidrico(
-    cuartelID: str,
+    nombreCuartel: str,
     cantidadDeDias: int):
 
-    estado = predecirEstadoHidrico(cuartelID, cantidadDeDias)
+    estado = predecirEstadoHidrico(nombreCuartel, cantidadDeDias)
 
     return estado
 
 
 @app.get("/recomendacion/fertilizante")
-async def recomendacionFertilizante():
+async def recomendacionFertilizante(nombreCuartel: str):
 
-    recomendacion = hacerRecomendacionFertilizante()
+    recomendacion = hacerRecomendacionFertilizante(nombreCuartel)
 
     return recomendacion

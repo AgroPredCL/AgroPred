@@ -20,10 +20,10 @@ def generar_fechas(fecha_inicio, n_dias):
     return fechas_futuras
 
 ## Se utiliza el modelo para predecir hasta la fecha <fechaPrediccion>
-def predictController(cantidadDiasPrediccion):
+def predictController(nombreCuartel, cantidadDiasPrediccion):
     tiempoInicial = datetime.now()
     # Read data_sensores.csv
-    data_sensores = pd.read_csv('../modelos/data_sensores.csv')
+    data_sensores = pd.read_csv(f'../modelos/cuartel{nombreCuartel}.csv')
     df_copy = data_sensores.copy()
 
     predicciones = {}
@@ -108,6 +108,8 @@ def tieneAsfixiaRadicular():
 def obtenerDatosCuartel(cuartelID):
     url = f"http://api-backend:3000/cuartel/{cuartelID}" 
     response = requests.get(url)
+
+    print(response)
 
     if response.status_code == 200:
         return response.json()
