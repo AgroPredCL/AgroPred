@@ -65,8 +65,8 @@ def stateEnPeriodoEspecifico(startDate, endDate):
 
     return nitrogenoFinal, potasioFinal, fosforoFinal, humedadFinal, conductividadFinal, phFinal, temperaturaFinal
 
-def stateNitrogeno():
-    data_sensores = pd.read_csv('../modelos/data_sensores.csv')
+def stateNitrogeno(nombreCuartel):
+    data_sensores = pd.read_csv(f'../modelos/cuartel{nombreCuartel}.csv')
     valorActual = data_sensores['Nitrogeno'].iloc[-1]
 
     if valorActual < 100:
@@ -91,6 +91,8 @@ def stateNitrogeno():
         estadoPromedio = "Alto"
     else:
         estadoPromedio = "Excesivo"
+    
+    print(valorActual, valorPromedio)
 
     return {"estadoActual": estadoActual , "valorActual": round(valorActual, 2), "estadoPromedio": estadoPromedio, "valorPromedio": round(valorPromedio, 2)}
 

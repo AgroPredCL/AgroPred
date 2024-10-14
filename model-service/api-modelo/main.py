@@ -72,8 +72,8 @@ async def stateEnPeriodoDeTiempo(start_date: Optional[str] = Query(None, descrip
             }
 
 @app.get("/state/nitrogeno")
-async def currentStateNitrogeno():
-    json = stateNitrogeno()
+async def currentStateNitrogeno(nombreCuartel: str):
+    json = stateNitrogeno(nombreCuartel)
     return json
 
 @app.get("/state/potasio")
