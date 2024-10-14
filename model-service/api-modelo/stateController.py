@@ -5,7 +5,7 @@ import numpy as np
 
 # Valores de los sensores en un periodo de tiempo especifico
 def stateEnPeriodoEspecifico(nombreCuartel, startDate, endDate):
-    data_sensores = pd.read_csv(f'../modelos/cuartel{nombreCuartel}.csv')
+    data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
 
 
     for i in range(len(data_sensores)):
@@ -31,42 +31,63 @@ def stateEnPeriodoEspecifico(nombreCuartel, startDate, endDate):
     nitrogenoFinal = []
     for j in range(len(nitrogeno)):
         j = j + desde
-        nitrogenoFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(nitrogeno[j], 2)})
+        if nitrogeno[j] != '--':
+            nitrogenoFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(float(nitrogeno[j]), 2)})
+        else:
+            nitrogenoFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': nitrogeno[j]})
 
     potasioFinal = []
     for j in range(len(potasio)):
         j = j + desde
-        potasioFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(potasio[j], 2)})
+        if potasio[j] != '--':
+            potasioFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(float(potasio[j]), 2)})
+        else:
+            potasioFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': potasio[j]})
 
     fosforoFinal = []
     for j in range(len(fosforo)):
         j = j + desde
-        fosforoFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(fosforo[j], 2)})
+        if fosforo[j] != '--':
+            fosforoFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(float(fosforo[j]), 2)})
+        else:
+            fosforoFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': fosforo[j]})
     
     humedadFinal = []
     for j in range(len(humedad)):
         j = j + desde
-        humedadFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(humedad[j], 2)})
+        if humedad[j] != '--':
+            humedadFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(float(humedad[j]), 2)})
+        else:
+            humedadFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': humedad[j]})
 
     conductividadFinal = []
     for j in range(len(conductividad)):
         j = j + desde
-        conductividadFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(conductividad[j], 2)})
-    
+        if conductividad[j] != '--':
+            conductividadFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(float(conductividad[j]), 2)})
+        else:
+            conductividadFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': conductividad[j]})
+
     phFinal = []
     for j in range(len(ph)):
         j = j + desde
-        phFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(ph[j], 2)})
+        if ph[j] != '--':
+            phFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(float(ph[j]), 2)})
+        else:
+            phFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': ph[j]})
 
     temperaturaFinal = []
     for j in range(len(temperatura)):
         j = j + desde
-        temperaturaFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(temperatura[j], 2)})
+        if temperatura[j] != '--':
+            temperaturaFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': round(float(temperatura[j]), 2)})
+        else:
+            temperaturaFinal.append({'fecha': fechas[j][:10], 'hora': fechas[j][11:], 'valor': temperatura[j]})
 
     return nitrogenoFinal, potasioFinal, fosforoFinal, humedadFinal, conductividadFinal, phFinal, temperaturaFinal
 
 def stateNitrogeno(nombreCuartel):
-    data_sensores = pd.read_csv(f'../modelos/cuartel{nombreCuartel}.csv')
+    data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
     valorActual = data_sensores['Nitrogeno'].iloc[-1]
 
     if valorActual < 100:
@@ -97,7 +118,7 @@ def stateNitrogeno(nombreCuartel):
     return {"estadoActual": estadoActual , "valorActual": round(valorActual, 2), "estadoPromedio": estadoPromedio, "valorPromedio": round(valorPromedio, 2)}
 
 def statePotasio(nombreCuartel):
-    data_sensores = pd.read_csv(f'../modelos/cuartel{nombreCuartel}.csv')
+    data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
     valorActual = data_sensores['Potasio'].iloc[-1]
 
     if valorActual < 145:
@@ -126,7 +147,7 @@ def statePotasio(nombreCuartel):
     return {"estadoActual": estadoActual , "valorActual": round(valorActual, 2), "estadoPromedio": estadoPromedio, "valorPromedio": round(valorPromedio, 2)}
 
 def stateFosforo(nombreCuartel):
-    data_sensores = pd.read_csv(f'../modelos/cuartel{nombreCuartel}.csv')
+    data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
     valorActual = data_sensores['Fosforo'].iloc[-1]
 
     if valorActual < 40:
@@ -155,7 +176,7 @@ def stateFosforo(nombreCuartel):
     return {"estadoActual": estadoActual , "valorActual": round(valorActual, 2), "estadoPromedio": estadoPromedio, "valorPromedio": round(valorPromedio, 2)}
 
 def stateConductividad(nombreCuartel):
-    data_sensores = pd.read_csv(f'../modelos/cuartel{nombreCuartel}.csv')
+    data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
     valorActual = data_sensores['Conductividad_Electrica'].iloc[-1]
 
     if valorActual < 23:
@@ -184,7 +205,7 @@ def stateConductividad(nombreCuartel):
     return {"estadoActual": estadoActual , "valorActual": round(valorActual, 2), "estadoPromedio": estadoPromedio, "valorPromedio": round(valorPromedio, 2)}
 
 def statePH(nombreCuartel):
-    data_sensores = pd.read_csv(f'../modelos/cuartel{nombreCuartel}.csv')
+    data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
     valorActual = data_sensores['pH'].iloc[-1]
 
     if valorActual < 4.5:
@@ -213,7 +234,7 @@ def statePH(nombreCuartel):
     return {"estadoActual": estadoActual , "valorActual": round(valorActual, 2), "estadoPromedio": estadoPromedio, "valorPromedio": round(valorPromedio, 2)}
 
 def stateHumedad(nombreCuartel):
-    data_sensores = pd.read_csv(f'../modelos/cuartel{nombreCuartel}.csv')
+    data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
     valorActual = data_sensores['Humedad'].iloc[-1]
 
     if valorActual < 20:
@@ -242,7 +263,7 @@ def stateHumedad(nombreCuartel):
     return {"estadoActual": estadoActual , "valorActual": round(valorActual, 2), "estadoPromedio": estadoPromedio, "valorPromedio": round(valorPromedio, 2)}
 
 def stateTemperatura(nombreCuartel):
-    data_sensores = pd.read_csv(f'../modelos/cuartel{nombreCuartel}.csv')
+    data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
     valorActual = data_sensores['Temperatura'].iloc[-1]
 
     if valorActual < 10:
@@ -272,7 +293,7 @@ def stateTemperatura(nombreCuartel):
 
 
 def hacerRecomendacionFertilizante(nombreCuartel):
-    data_sensores = pd.read_csv(f'../modelos/cuartel{nombreCuartel}.csv')
+    data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
     nitrogeno = data_sensores['Nitrogeno'].iloc[-1]
     potasio = data_sensores['Potasio'].iloc[-1]
     fosforo = data_sensores['Fosforo'].iloc[-1]

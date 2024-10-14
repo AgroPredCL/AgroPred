@@ -23,7 +23,7 @@ def generar_fechas(fecha_inicio, n_dias):
 def predictController(nombreCuartel, cantidadDiasPrediccion):
     tiempoInicial = datetime.now()
     # Read data_sensores.csv
-    data_sensores = pd.read_csv(f'../modelos/cuartel{nombreCuartel}.csv')
+    data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
     df_copy = data_sensores.copy()
 
     predicciones = {}

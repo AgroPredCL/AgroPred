@@ -46,7 +46,7 @@ async def root():
 
 @app.get("/fechasLimite")
 async def fechasLimite(nombreCuartel: str):
-    data_sensores = pd.read_csv(f'../modelos/cuartel{nombreCuartel}.csv')
+    data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
 
     fechaInicio = data_sensores['FechaHora'].iloc[0]
     fechaFin = data_sensores['FechaHora'].iloc[-1]
