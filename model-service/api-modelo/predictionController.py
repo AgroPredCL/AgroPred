@@ -87,9 +87,9 @@ def check_asfixia_radicular(ph, temperature, humidity):
         return True
     return False
 
-def tieneAsfixiaRadicular():
+def tieneAsfixiaRadicular(nombreCuartel):
     # Leer data_sensores.csv
-    data_sensores = pd.read_csv('../modelos/data_sensores.csv')
+    data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
 
     # Convertir mg/kg a kg/ha cada uno de los datos en las columnas de 'N', 'P' y 'K'
     ph = data_sensores['pH']

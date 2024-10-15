@@ -157,8 +157,8 @@ async def process_image_diseases(image_number: Optional[str] = Query(None, descr
     }
 
 @app.get("/diseases/asfixiaRadicular")
-async def predecirAsfixiaRadicularEndpoint():
-    output = tieneAsfixiaRadicular()
+async def predecirAsfixiaRadicularEndpoint(nombreCuartel: str):
+    output = tieneAsfixiaRadicular(nombreCuartel)
     return output
 
 @app.post("/uploadImage/fruta")
@@ -315,6 +315,7 @@ async def recomendacionFertilizante(nombreCuartel: str):
     recomendacion = hacerRecomendacionFertilizante(nombreCuartel)
 
     return recomendacion
+
 
 # Idea de alerta respecto al pasado
 @app.get("/alertas/helada")
