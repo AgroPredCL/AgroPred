@@ -320,3 +320,17 @@ def hacerRecomendacionFertilizante(nombreCuartel):
         recomendacionFosforo = "No es necesario aplicar fertilizante fosfórico"
 
     return {"nitrogeno": recomendacionNitrogeno, "potasio": recomendacionPotasio, "fosforo": recomendacionFosforo}
+
+def alertaPorHeladaController():
+
+    desde, hasta, duracion, minima, promedio = "14-10-2024 07:00", "14-10-2024 09:00", 2, -0.3, -0.2
+
+    respuesta = {
+        "desde": desde,
+        "hasta": hasta,
+        "duracion": duracion,
+        "minima": minima,
+        "promedio": promedio,
+    }
+
+    return respuesta
