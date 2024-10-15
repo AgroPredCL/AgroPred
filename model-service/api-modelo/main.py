@@ -26,7 +26,7 @@ from typing import Optional
 import pandas as pd
 
 from predictionController import predictController, tieneAsfixiaRadicular, tieneEnfermedadFruta, predecirEstadoHidrico
-from stateController import stateEnPeriodoEspecifico, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad, hacerRecomendacionFertilizante, alertaPorHeladaController
+from stateController import stateEnPeriodoEspecifico, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad, hacerRecomendacionFertilizante, alertaPorHelada_helper
 
 app = FastAPI()
 
@@ -321,7 +321,7 @@ async def recomendacionFertilizante(nombreCuartel: str):
 @app.get("/alertas/helada")
 async def alertaHelada():
 
-    response = alertaPorHeladaController()
+    response = alertaPorHelada_helper()
 
     return response
 

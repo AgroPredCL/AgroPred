@@ -321,7 +321,7 @@ def hacerRecomendacionFertilizante(nombreCuartel):
 
     return {"nitrogeno": recomendacionNitrogeno, "potasio": recomendacionPotasio, "fosforo": recomendacionFosforo}
 
-def alertaPorHeladaController():
+def alertaPorHelada_helper():
 
     desde, hasta, duracion, minima, promedio = "14-10-2024 07:00", "14-10-2024 09:00", 2, -0.3, -0.2
 
