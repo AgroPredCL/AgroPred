@@ -10,6 +10,7 @@ from datetime import datetime
 import os
 import certifi 
 
+import smtplib
 
 from bson import Binary
 
@@ -322,6 +323,23 @@ async def recomendacionFertilizante(nombreCuartel: str):
 async def alertaHelada():
 
     response = alertaPorHelada_helper()
+
+    email = "agropredalerta@gmail.com"
+    receiver_email = "raul.cuello@sansano.usm.cl"
+
+    subject = "ALERTA DE HELADA"
+    message = f"Se ha detectado una alerta de helada en tu predio. Por favor revisa tus cultivos. \n \nInformacion de la helada: \nDesde: {response['desde']} \nHasta: {response['hasta']} \nDuracion: {response['duracion']} horas\nTemperatura Minima: {response['minima']} Celsius \nTemperatura Promedio: {response['promedio']} Celsius \n \nSaludos, \nAgropred \n \n \nMas precision, \nMenos preocupaciones."
+
+    text = f"Subject: {subject}\n\n{message}"
+
+    server = smtplib.SMTP("smtp.gmail.com", 587)
+    server.starttls()
+
+    server.login(email, "bpecnlqllszildgv")
+
+    server.sendmail(email, receiver_email, text)
+
+    print(f"Email sent to: {receiver_email}")
 
     return response
 
