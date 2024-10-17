@@ -1,9 +1,20 @@
-import { useState } from 'react';
-import { Bell, CircleAlert } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { MdNotifications } from 'react-icons/md'; // Importar el ícono desde react-icons
+import { Bell, CircleAlert, Snowflake  } from 'lucide-react';
 import PropTypes from 'prop-types';
+import { useGetAlertaHeladaQuery} from '@services/apiSliceModelos';
+
 
 export default function NavNotice() {
 	const [isNoticeOpen, setIsNoticeOpen] = useState(false);
+
+	const { data: apiData, error, isLoading } = useGetAlertaHeladaQuery();
+
+  	const handleClick = () => {
+    	setIsClicked(!isClicked);
+  	};
+
+  	console.log('Datos de la API222:', apiData);
 
 	const toggleNotice = () => setIsNoticeOpen(!isNoticeOpen);
 
@@ -16,63 +27,68 @@ export default function NavNotice() {
 			>
 				<Bell className='h-6 w-6 text-gray-500' />
 				<span className='absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-predSecondary transform translate-x-0 -translate-y-1 bg-primary rounded-full'>
-					4
+					1
 				</span>
 			</button>
-			{isNoticeOpen && <NotificationsDropdown />}
+			{isNoticeOpen && <NotificationsDropdown apidata={apiData} />}
 		</li>
 	);
 }
 
-const NotificationsDropdown = () => (
+
+const NotificationsDropdown = ({apidata}) => (
 	<div className='absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg overflow-hidden z-20 border border-gray-200'>
 		<div className='px-4 py-2 border-b border-gray-200 flex justify-between items-center'>
 			<span className='font-semibold text-gray-700'>
-				Tienes 4 Notificaciones
+				Notificaciones
 			</span>
-			<a href='#' className='text-sm text-primary hover:text-primary-dark'>
+			{/* <a href='#' className='text-sm text-primary hover:text-primary-dark'>
 				Ver todas
-			</a>
+			</a> */}
 		</div>
 		<ul>
-			<NotificationItem
-				icon={<CircleAlert className='h-6 w-6 text-yellow-500' />}
-				title='Lorem Ipsum'
-				description='Esto es un ejemplo'
-				time='30 min. ago'
+    <NotificationItem
+          icon={<Snowflake className='h-6 w-6 text-blue-500' />}
+          title='Alerta de helada'
+          description={
+            apidata
+              ? `Fecha de inicio: ${apidata.desde}\n
+                Fecha de término: ${apidata.hasta}\n
+                Duración: ${apidata.duracion} horas\n
+                Temperatura mínima: ${apidata.minima}°C\n
+                Temperatura promedio: ${apidata.promedio}°C`
+              : 'No hay alerta'}
+				
 			/>
-			<NotificationItem
-				icon={<CircleAlert className='h-6 w-6 text-green-500' />}
-				title='Nuevo Usuario'
-				description='Se ha registrado un nuevo usuario'
-				time='1 hora ago'
-			/>
-			<NotificationItem
-				icon={<CircleAlert className='h-6 w-6 text-red-500' />}
-				title='Alerta de Servidor'
-				description='Alto uso de CPU detectado'
-				time='2 horas ago'
-			/>
+			
 		</ul>
-		<div className='px-4 py-2 border-t border-gray-200 text-center'>
+		{/* <div className='px-4 py-2 border-t border-gray-200 text-center'>
 			<a href='#' className='text-sm text-primary hover:text-primary-dark'>
 				Ver todas las notificaciones
 			</a>
-		</div>
+		</div> */}
 	</div>
 );
 
+// Función para procesar el texto y agregar saltos de línea
+const formatDescription = (description) => {
+  return description.split('\n').map((line, index) => (
+    <p key={index}>{line}</p>
+  ));
+};
+
+// Componente NotificationItem
 const NotificationItem = ({ icon, title, description, time }) => (
-	<li className='px-4 py-3 hover:bg-gray-50 transition duration-150 ease-in-out border-b border-gray-200 last:border-b-0'>
-		<div className='flex items-start'>
-			<div className='flex-shrink-0'>{icon}</div>
-			<div className='ml-3 w-0 flex-1'>
-				<p className='text-sm font-medium text-gray-900'>{title}</p>
-				<p className='mt-1 text-sm text-gray-500'>{description}</p>
-				<p className='mt-1 text-xs text-gray-400'>{time}</p>
-			</div>
-		</div>
-	</li>
+  <li className='px-4 py-3 hover:bg-gray-50 transition duration-150 ease-in-out border-b border-gray-200 last:border-b-0'>
+    <div className='flex items-start'>
+    <div className='flex-shrink-0'>{icon}</div>
+    <div className='ml-3'>
+      <span className='font-semibold text-gray-700'>{title}</span>
+      <div className='text-sm text-gray-600'>{formatDescription(description)}</div>
+      <p className='text-xs text-gray-400'>{time}</p>
+    </div>
+    </div>
+  </li>
 );
 
 NotificationItem.propTypes = {

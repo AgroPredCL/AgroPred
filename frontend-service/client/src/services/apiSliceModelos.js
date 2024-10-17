@@ -38,6 +38,9 @@ export const apiEstado = createApi({
     getPredecirHidrico: builder.query({
       query: ({ dia, cuartel }) => `/state/hidrico?cantidadDeDias=${dia}&nombreCuartel=${cuartel}`
     }),
+    getAlertaHelada: builder.query({
+      query: () => `/alertas/helada?receiver_emailParam=faj.smi@gmail.com`
+    })
   })
 });
 
@@ -53,5 +56,6 @@ export const {
   useGetStateConductividadQuery,
   useGetStateConRangoQuery,
   useGetPredecirNPKQuery,
-  useGetPredecirHidricoQuery
+  useGetPredecirHidricoQuery,
+  useGetAlertaHeladaQuery
 } = apiEstado;

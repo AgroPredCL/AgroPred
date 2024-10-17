@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { useState }  from 'react';
+import PropTypes from 'prop-types';
+import { CustomButton } from '@components/UI';
 import ArticleHidrica from './ArticleHidrica';
-import { useGetPredecirHidricoQuery } from '@services/apiSliceModelos';
+import { 
+	useGetPredecirHidricoQuery,
+	useGetStateConRangoQuery } from '@services/apiSliceModelos';
 
 export default function HydriclPredict ({ cuartel }) {
-	const [selectedCuartel, setSelectedCuartel] = useState({
-		nombre_Cuartel: 'Vista General',
-	});
-
 
 	const [dateRange, setDateRange] = useState({
 		start: '2023-01-01',
-		end: '2023-01-31',
+		end: '2023-01-05',
 	});
 	const [predictDays, setPredictDays] = useState('');
 	const [predictedData, setPredictedData] = useState(null);
-
+	const [lastDay, setLastDay] = useState('');
+	const [lastValue, setLastValue] = useState(-1);
 
 	const {
 		data,
@@ -28,23 +29,38 @@ export default function HydriclPredict ({ cuartel }) {
 
 	console.log("cuartel",cuartel)
 	// Función para manejar la solicitud de predicción
-	const handlePredictionRequest = async () => {
+	
+	const { data: predictionData, error, isLoading, isFetching } = useGetPredecirHidricoQuery({
+		dia: predictDays,
+		cuartel: cuartel,
+	  }, {
+		skip: !predictDays || !cuartel, // Solo ejecutar si los valores son válidos
+	  });
+	
+	const handlePredictionRequest = () => {
 		if (predictDays) {
-			try {
-				const predictionData = await useGetPredecirHidricoQuery({
-					dia: predictDays,
-					cuartel: cuartel,
-				}).unwrap();
-				const predictionResult = await predictionData.json();
-				const prediccionResult = formatDataForChart(predictionResult);
-				setPredictedData(prediccionResult);
-			} catch (error) {
-				console.error('Error en la solicitud:', error);
-			}
-		} else {
-			console.log('Por favor, ingrese el número de días a predecir');
+		  if (predictionData) {
+				// Obtener las claves del objeto y acceder a la última
+			const lastKey = Object.keys(predictionData).pop();
+			console.log("Última clave:", lastKey); // "d"
+			setLastDay(lastKey)
+			// Obtener el valor asociado a la última clave
+			const lastValue = predictionData[lastKey];
+			console.log("Último valor:", lastValue); // 40
+			setLastValue(lastValue)
+
+			const newpredictionData = formatDataForChart(predictionData)
+			console.log("Prediccion data", newpredictionData);
+			setPredictedData(newpredictionData); // Usa los datos obtenidos
+			
+
 		}
-	};
+		} else {
+		  console.log('Por favor, ingrese el número de días a predecir');
+		  alert('Por favor, ingrese un número entre 1 y 14'); //Luego cambiar por un pequeño mensaje en pantalla que indique el valor
+		
+		}
+	  };
 
 	const handleInputChange = e => {
 		const value = e.target.value;
@@ -64,13 +80,26 @@ export default function HydriclPredict ({ cuartel }) {
 	};
 
 	const mergeData = (originalData, predictedData) => {
-		console.log('originalData', originalData);
-		console.log('predictedData', predictedData);
+		
 		return [
 			...originalData.map(item => ({ fecha: item.fecha, valor: item.valor })),
 			...predictedData.map(item => ({ fecha: item.fecha, valor: item.valor })),
 		];
 	};
+
+
+	// Definir el mensaje de recomendación basado en el último valor
+    let recomendacion = '';
+    if (lastValue >= 70 && lastValue <= 100) {
+        recomendacion = `En la fecha ${lastDay} no hay necesidad de regar`;
+    } else if (lastValue ==-1) {
+        recomendacion = `No hay recomendaciones`;
+	
+	}else if (lastValue < 70) {
+        recomendacion = `En la fecha ${lastDay} se recomienda regar el cuartel`;
+    } else if (lastValue > 100) {
+        recomendacion = `En la fecha ${lastDay} hay exceso de agua`;
+	}
 
 
 	if (stateLoading) return <div className='text-center py-4'>Cargando...</div>;
@@ -83,41 +112,88 @@ export default function HydriclPredict ({ cuartel }) {
 
 	return (
 		<div className='space-y-4 p-4'>
-			<div className='space-y-4 p-4'>
-				<div className='flex items-center space-x-4'>
+			<div className='flex flex-wrap gap-4 mb-4'>
+				<div className='flex items-center space-x-2'>
 					<label
-						htmlFor='predict-date'
-						className='block text-sm font-medium text-gray-700'
+						htmlFor='start-date'
+						className='text-sm font-medium text-gray-700 w-24'
 					>
-						Días a predecir
+						Fecha Inicio
 					</label>
 					<input
-						type='number'
-						id='predict-date'
-						min='1'
-						max='14'
-						value={predictDays}
-						onChange={handleInputChange} //Aqui se llama a una funcion que esta mas arriba que se asegura que cuando se ingrese el numero se cumpla que sea mayor/gual a 1 y menor/igual a 14
-						className='pl-3 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+						type='date'
+						id='start-date'
+						value={dateRange.start}
+						onChange={e =>
+							setDateRange(prev => ({ ...prev, start: e.target.value }))
+						}
+						className='w-40 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
 					/>
-					<button
-						onClick={handlePredictionRequest}
-						className='px-4 py-2 bg-pred text-white rounded-md hover:scale-105 transform transition-transform duration-300 ease-in-out'
-					>
-						Predecir
-					</button>
 				</div>
+				<div className='flex items-center space-x-2'>
+					<label
+						htmlFor='end-date'
+						className='text-sm font-medium text-gray-700 w-24'
+					>
+						Fecha Fin
+					</label>
+					<input
+						type='date'
+						id='end-date'
+						value={dateRange.end}
+						onChange={e =>
+							setDateRange(prev => ({ ...prev, end: e.target.value }))
+						}
+						className='w-40 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+					/>
+				</div>
+			</div>
+			<div className='flex items-center space-x-4 mt-4 mb-4'>
+				<label
+					htmlFor='predict-date'
+					className='block text-sm font-medium text-gray-700'
+				>
+					Días a predecir
+				</label>
+				<input
+					type='number'
+					id='predict-date'
+					min='1'
+					max='14'
+					value={predictDays}
+					onChange={handleInputChange}
+					className='w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+				/>
+				<CustomButton onClick={handlePredictionRequest}>
+					Predecir
+				</CustomButton>
 			</div>
 
 			<div>
 				<ArticleHidrica
 					titulo='Estado Hídrico'
 					data={[
-						{ label: 'aguita', data: mergeData(data, predictedData || []) },
+						{ label: 'aguita', data: mergeData(data?.humedad, predictedData || []) },
 					]} // Formato para el gráfico
 					titleChart='Agua Disponible [L] vs Tiempo [Día]'
 				></ArticleHidrica>
-			</div>
+			</div> 
+
+			<article className="mt-6 pt-2 border-t-2">
+                    <h2 className="text-xl font-semibold text-gray-700 mb-4">Recomendaciones de riego</h2>
+                    <div className="flex justify-between flex-wrap">
+                        
+                        <div className="w-full md:w-1/3 lg:w-1/4 p-2">
+                            <div className='p-4 shadow-lg rounded-lg hover:shadow-xl transition-shadow h-full '>
+                                <p className="text-gray-600 mt-2">{recomendacion}</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+            </article>
 		</div>
 	);
+};
+HydriclPredict.propTypes = {
+	cuartel: PropTypes.string.isRequired,
 };

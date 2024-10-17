@@ -26,12 +26,9 @@ ChartJS.register(
 const LineChart = ({ data, title }) => {
 
   // Convertir los datos de la API en arrays para usar en el gráfico
-  console.log("data desde line",data)
   const labels = data[0].data.map(entry => `${entry.fecha}`);
   const values = data[0].data.map(entry => entry.valor); // Valores (los números asociados a las fechas)
   const value_max = Math.max(...values) +40; // Valor máximo + 20 para la escala
-  console.log("labels:",labels)
-  console.log("values:",values)
 
   // Crear arrays para las líneas de umbral (óptimo, déficit, superávit)
   const optimalLine = new Array(labels.length).fill(100); // Línea verde constante
