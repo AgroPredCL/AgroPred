@@ -60,9 +60,6 @@ export const {
   useGetStateConRangoQuery,
   useGetPredecirNPKQuery,
   useGetPredecirHidricoQuery,
-<<<<<<< HEAD
-  useGetAlertaHeladaQuery
-=======
+  useGetAlertaHeladaQuery,
   useGetRecomendacionFertilizanteQuery
->>>>>>> 04a897202c474f8391d583e862782fe261459925
 } = apiEstado;
