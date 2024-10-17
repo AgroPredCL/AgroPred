@@ -7,6 +7,7 @@ from tensorflow.keras.applications.inception_v3 import preprocess_input
 import joblib
 from PIL import Image
 import math
+import os
 
 import requests
 
@@ -27,15 +28,43 @@ def predictController(nombreCuartel, cantidadDiasPrediccion):
     df_copy = data_sensores.copy()
 
     predicciones = {}
+    print("Prediciendo valores de N, F y K...")
+    print(os.getcwd())
+
+    model_paths = {
+    'model_fit_N': '../modelos/model_fit_N.joblib',
+    'model_fit_F': '../modelos/model_fit_F.joblib',
+    'model_fit_K': '../modelos/model_fit_K.joblib'
+    }
+    models = {}
+
+    for name, path in model_paths.items():
+        if os.path.exists(path):
+            try:
+                print(f"Cargando {name}...")
+                models[name] = joblib.load(path)
+                print(f"{name} cargado exitosamente.")
+            except Exception as e:
+                print(f"Error al cargar {name}: {e}")
+        else:
+            print(f"El archivo {path} no existe.")
+
+    for path in model_paths.values():
+        if not os.access(path, os.R_OK):
+            print(f"No se puede acceder a {path}. Verifica los permisos.")
 
     model_fit_N = joblib.load('../modelos/model_fit_N.joblib')
     model_fit_F = joblib.load('../modelos/model_fit_F.joblib')
     model_fit_K = joblib.load('../modelos/model_fit_K.joblib')
 
+    print("Modelos cargados...")
+
     #Prediccion de los modelos
     nitrogenoPred = model_fit_N.get_forecast(steps=cantidadDiasPrediccion)
     fosforoPred = model_fit_F.get_forecast(steps=cantidadDiasPrediccion)
     potasioPred = model_fit_K.get_forecast(steps=cantidadDiasPrediccion)
+
+    print("Predicciones realizadas...")
 
     predicciones['Nitrogeno'] = nitrogenoPred
     predicciones['Fosforo'] = fosforoPred
@@ -44,12 +73,18 @@ def predictController(nombreCuartel, cantidadDiasPrediccion):
     df_copy['FechaHora'] = pd.to_datetime(df_copy['FechaHora'])
     df_copy.set_index('FechaHora', inplace=True)
 
+    print("Generando fechas futuras...")
+
     fecha_base = str(df_copy.index[-1])
     fechas_futuras = generar_fechas(fecha_base[:10], cantidadDiasPrediccion)
+
+    print("Generando valores finales...")
 
     nitrogenoFinal = [{'fecha': fechas_futuras[i], 'hora': '03:00:00', 'valor': round(predicciones['Nitrogeno'].predicted_mean.tolist()[i], 2)} for i in range(len(fechas_futuras))]
     fosforoFinal = [{'fecha': fechas_futuras[i], 'hora': '03:00:00', 'valor': round(predicciones['Fosforo'].predicted_mean.tolist()[i], 2)} for i in range(len(fechas_futuras))]
     potasioFinal = [{'fecha': fechas_futuras[i], 'hora': '03:00:00', 'valor': round(predicciones['Potasio'].predicted_mean.tolist()[i], 2)} for i in range(len(fechas_futuras))]
+
+    print("Valores finales generados...")
 
     # Tiempo de ejecucion
     tiempoFinal = datetime.now()

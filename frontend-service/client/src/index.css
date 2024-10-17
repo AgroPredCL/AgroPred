@@ -4,9 +4,20 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+	scroll-behavior: smooth;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-  background: #EEEEEE;
-  font-family: 'Kanit';
+    font-family: 'Kanit', sans-serif;
+    color: #444;
+    background-color: #f9f9f9;
 }
 
 .kanit-thin {
@@ -116,80 +127,3 @@ body {
     font-weight: 900;
     font-style: italic;
 }
-
-.rotate-90 {
-    transform: rotate(-90deg);
-    transition: transform 1s ease;
-  }
-  
-.rotate-minus-90 {
-    transform: rotate(90deg);
-    transition: transform 1s ease;
-}
-  .rotate-0 {
-    transform: rotate(0deg);
-    transition: transform 1s ease;
-  }
-
-  .transition-height {
-    overflow: hidden;
-    transition: max-height 1s ease;
-  }
-  
-  .max-height-0 {
-    max-height: 0;
-  }
-  
-  .max-height-full {
-    max-height: auto; /* Ajusta este valor según sea necesario */
-  }
-
-  #nutrientes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px; /* Ajusta el espaciado según sea necesario */
-  }
-  
-  #nutrientes > * {
-    flex: 1 1 calc(25% - 16px); /* Ajusta el cálculo según el gap */
-    box-sizing: border-box;
-  }
-  
-  #nutrientes::after {
-    content: '';
-    flex: 1 1 calc(25% - 16px);
-    box-sizing: border-box;
-  }
-  
-  #nutrientes::after:nth-last-child(4) {
-    content: '';
-    flex: 1 1 calc(25% - 16px);
-    box-sizing: border-box;
-  }
-  
-  #nutrientes::after:nth-last-child(3) {
-    content: '';
-    flex: 1 1 calc(25% - 16px);
-    box-sizing: border-box;
-  }
-  
-  #nutrientes::after:nth-last-child(2) {
-    content: '';
-    flex: 1 1 calc(25% - 16px);
-    box-sizing: border-box;
-  }
-  
-  #nutrientes::after:nth-last-child(1) {
-    content: '';
-    flex: 1 1 calc(25% - 16px);
-    box-sizing: border-box;
-  }
-
-  .boton_subir {
-    padding: '10px 20px';
-    border: 'none';
-    border-radius: '5px';
-    cursor: 'pointer';
-    font-size: '16px';
-
-  }
