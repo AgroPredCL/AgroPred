@@ -65,9 +65,9 @@ export default function EstadoCuarteles() {
 				<SueloGraph cuartel={selectedCuartel.nombre_Cuartel} />
 			</Seccion>
 
-			{/* <Seccion titulo='Estado Hídrico'>
-				<HydriclPredict />
-			</Seccion> */}
+    		{/* <Seccion titulo='Estado Hídrico'>
+				<HydriclPredict cuartel={selectedCuartel.nombre_Cuartel}/>
+			</Seccion>   */}
 		</>
 	);
 }

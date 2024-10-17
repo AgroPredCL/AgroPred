@@ -2,18 +2,40 @@ import React from 'react';
 import ArticleHidrica from './ArticleHidrica';
 import { useGetPredecirHidricoQuery } from '@services/apiSliceModelos';
 
-const HydriclPredict = () => {
+export default function HydriclPredict ({ cuartel }) {
+	const [selectedCuartel, setSelectedCuartel] = useState({
+		nombre_Cuartel: 'Vista General',
+	});
+
+
+	const [dateRange, setDateRange] = useState({
+		start: '2023-01-01',
+		end: '2023-01-31',
+	});
+	const [predictDays, setPredictDays] = useState('');
+	const [predictedData, setPredictedData] = useState(null);
+
+
+	const {
+		data,
+		error: stateError,
+		isLoading: stateLoading,
+	} = useGetStateConRangoQuery({
+		start_date: dateRange.start,
+		end_date: dateRange.end,
+		cuartel: cuartel,
+	});
+
+	console.log("cuartel",cuartel)
 	// Función para manejar la solicitud de predicción
 	const handlePredictionRequest = async () => {
 		if (predictDays) {
 			try {
-				const response = await fetch(
-					`${import.meta.env.VITE_API_URL}/state/hidrico?cuartelID=3&cantidadDeDias=${predictDays}`
-				);
-				if (!response.ok) {
-					throw new Error('Error al obtener datos de la API');
-				}
-				const predictionResult = await response.json();
+				const predictionData = await useGetPredecirHidricoQuery({
+					dia: predictDays,
+					cuartel: cuartel,
+				}).unwrap();
+				const predictionResult = await predictionData.json();
 				const prediccionResult = formatDataForChart(predictionResult);
 				setPredictedData(prediccionResult);
 			} catch (error) {
@@ -49,6 +71,15 @@ const HydriclPredict = () => {
 			...predictedData.map(item => ({ fecha: item.fecha, valor: item.valor })),
 		];
 	};
+
+
+	if (stateLoading) return <div className='text-center py-4'>Cargando...</div>;
+	if (stateError)
+		return (
+			<div className='text-center py-4 text-red-500'>
+				Error al cargar los datos: {stateError.message}
+			</div>
+		);
 
 	return (
 		<div className='space-y-4 p-4'>
@@ -90,5 +121,3 @@ const HydriclPredict = () => {
 		</div>
 	);
 };
-
-export default HydriclPredict;
