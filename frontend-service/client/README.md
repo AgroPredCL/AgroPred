@@ -1,44 +1,57 @@
-## Table of Contents
+## Ejecutar interfaz
 
-- [Instalación](#instalación)
-- [Uso](#uso)
-- [Tutoriales](#tutoriales)
-## Instalación
+### 1. Entorno local (Desarrollo)
 
-1. Instala node JS en https://nodejs.org/en
-2. Estar en la ruta de la carpeta client y colocar
- ```bash
-# Install dependencies
-npm install
+Ejecutar el comando
+
 ```
-## Uso
-Para iniciar el proyecto colocar en terminal: 
- ```bash
-# Start project
 npm run dev
 ```
 
-## Tutoriales
-Los siguientes tutoriales son en los que me basé para aprender pero obviamente son libres de aprender en otro lado.
-- React: https://www.youtube.com/watch?v=7iobxzd_2wY&list=PLUofhDIg_38q4D0xNWp7FEHOTcZhjWJ29
-- TailWind: https://www.youtube.com/watch?v=h5HQVHTpeHs
-- React y TailWind: https://www.youtube.com/watch?v=GAcq61I9IVM
+### 2. Entorno de Producción
 
-**Observación:**
-Los nombres de los componentes tienen que ser **PascalCase**.
-_Contextualización:_ Las distintas formas de nombramiento son:
-- **PascalCase**
-- camelCase
-- snake_case
-- kebab-case
+```
+npm run build
+```
 
-La razón es porque para React es la única forma de entender que esos son componentes y poder manejarlos correctamente. 
+## Descripción de carpetas
 
-# React + Vite
+### 1. Adapters
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Reciben información, la adaptan y la devuelven.
 
-Currently, two official plugins are available:
+### 2. Assets
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Contenido multimedia, imagenes, sonidos, etc.
+
+### 3. Components
+
+Componentes.
+
+### 4. Contexts
+
+Forma de manejar el estado o información de una vista en específico.
+
+### 5. Hooks
+
+Lógica para controlar el ciclo de vida de un componente.
+
+### 6. Interceptors
+
+Maneja los errores y mensajes de errores.
+
+### 7. Pages
+
+Vistas de la aplicación.
+
+### 8. Redux
+
+Información que necesita ser guardada para ser usada y actualizada en cualquier parte.
+
+### 9. Services
+
+Conexiones con las API's.
+
+### 10. Utilities
+
+Lógica reutilizable.
