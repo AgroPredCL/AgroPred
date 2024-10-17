@@ -2,30 +2,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { ArticleNutritional } from './estado-nutricional/ArticleNutritional';
 import { CustomButton } from '@components/UI';
+import Tab from '@components/Tab';
 import {
 	useGetStateConRangoQuery,
 	useGetPredecirNPKQuery,
 } from '@services/apiSliceModelos';
-
-// New Tab component
-const Tab = ({ label, active, onClick }) => (
-	<button
-		className={`px-4 py-2 font-medium text-sm ${
-			active
-				? 'bg-white text-agroSecondary border-t border-x border-gray-200'
-				: 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-		}`}
-		onClick={onClick}
-	>
-		{label}
-	</button>
-);
-
-Tab.propTypes = {
-	label: PropTypes.string.isRequired,
-	active: PropTypes.bool.isRequired,
-	onClick: PropTypes.func.isRequired,
-};
 
 export default function SueloGraph({ cuartel }) {
 	const [dateRange, setDateRange] = useState({

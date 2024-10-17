@@ -5,6 +5,8 @@ import { renderCuartelDetails } from '@components/estado-Cuarteles/CuartelDetail
 import EstadoSuelo from '@components/estado-cuarteles/EstadoSuelo';
 import SueloGraph from '@components/estado-cuarteles/SueloGraph';
 import HydriclPredict from '@components/estado-cuarteles/prediccion-hidrica/PrediccionHidrica';
+import { Table } from '@components/estado-cuarteles/TableSalud';
+import FertilizerRecommendations from '@components/estado-cuarteles/FertilizerRecomendations';
 import { formatearFechaHora } from '@adapters/dd-mm-yyyy';
 import { useGetCuartelesQuery } from '@services/apiSliceGestion';
 import { useGetFechasLimiteQuery } from '@services/apiSliceModelos';
@@ -26,6 +28,35 @@ export default function EstadoCuarteles() {
 	const handleEdit = () => {
 		console.log(`Editando el cuartel: ${selectedCuartel.nombre_Cuartel}`);
 	};
+
+	// Datos de ejemplo para enfermedades actuales y predicciones
+	const actualidad = [
+		{
+			Enfermedad: 'Antracnosis',
+			Impacto: 'Alto',
+			Descripcion: 'Aparece en condiciones húmedas y cálidas.',
+			Confiabilidad: 55,
+			Recomendaciones: 'Aplicar fungicida.',
+		},
+	];
+
+	const predicciones = [
+		{
+			fecha: 'Enero',
+			Enfermedad: 'Asfixia Radicular',
+			Impacto: 'Alto',
+			Descripcion: 'Aparece en condiciones de alta humedad.',
+			Confiabilidad: 75,
+			Recomendaciones: 'Mejorar el drenaje.',
+		},
+	];
+
+	const fechas = [
+		{ nombre: 'Enero', dia: 1 },
+		{ nombre: 'Febrero', dia: 28 },
+		{ nombre: 'Marzo', dia: 2 },
+		{ nombre: 'Abril', dia: 2 },
+	];
 
 	return (
 		<>
@@ -53,6 +84,22 @@ export default function EstadoCuarteles() {
 				{renderCuartelDetails(selectedCuartel, handleEdit)}
 			</Seccion>
 
+			<Seccion titulo='Estado de Salud'>
+				<article className='pt-2'>
+					<h2 className='text-xl font-semibold text-gray-700 mb-4'>
+						Enfermedades
+					</h2>
+					{/* Tabla de predicciones con filtro de fechas */}
+					<Table
+						actualidad={actualidad}
+						predicciones={predicciones}
+						fechas={fechas}
+					/>
+				</article>
+
+				<FertilizerRecommendations cuartel={selectedCuartel.nombre_Cuartel} />
+			</Seccion>
+
 			<Seccion
 				titulo='Estado del suelo'
 				actualizacion='Última lectura'
@@ -65,7 +112,7 @@ export default function EstadoCuarteles() {
 				<SueloGraph cuartel={selectedCuartel.nombre_Cuartel} />
 			</Seccion>
 
-    		{/* <Seccion titulo='Estado Hídrico'>
+			{/* <Seccion titulo='Estado Hídrico'>
 				<HydriclPredict cuartel={selectedCuartel.nombre_Cuartel}/>
 			</Seccion>   */}
 		</>

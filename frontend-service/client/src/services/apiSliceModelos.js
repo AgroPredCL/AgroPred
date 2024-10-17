@@ -38,6 +38,9 @@ export const apiEstado = createApi({
     getPredecirHidrico: builder.query({
       query: ({ dia, cuartel }) => `/state/hidrico?cantidadDeDias=${dia}&nombreCuartel=${cuartel}`
     }),
+    getRecomendacionFertilizante: builder.query({
+      query: (cuartel) => `/recomendacion/fertilizante?nombreCuartel=${cuartel}`
+    }),
   })
 });
 
@@ -53,5 +56,6 @@ export const {
   useGetStateConductividadQuery,
   useGetStateConRangoQuery,
   useGetPredecirNPKQuery,
-  useGetPredecirHidricoQuery
+  useGetPredecirHidricoQuery,
+  useGetRecomendacionFertilizanteQuery
 } = apiEstado;
