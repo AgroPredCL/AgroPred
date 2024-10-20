@@ -8,7 +8,15 @@ export const apiCuarteles = createApi({
     getCuarteles: builder.query({
       query: () => '/cuarteles'
     }),
+    
+    postCuartel: builder.mutation({
+      query: (nuevoCuartel) => ({
+        url: '/cuartel',
+        method: 'POST',
+        body: nuevoCuartel,
+      }),
+    }),
   }),
 });
 
-export const { useGetCuartelesQuery } = apiCuarteles;
+export const { useGetCuartelesQuery, usePostCuartelMutation } = apiCuarteles;

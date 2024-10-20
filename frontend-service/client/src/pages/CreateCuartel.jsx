@@ -3,12 +3,15 @@ import { CustomButton, CustomInput } from '@components/UI';
 import validateForm from '@interceptors/validateForm';
 import formFields from '@contexts/CreateCuartel';
 import FieldTypeIndicator from '@components/forms/FieldTypeIndicator';
+import { usePostCuartelMutation } from '@services/apiSliceGestion'; // Importa el hook
 
 function CreateCuartel() {
 	const [formData, setFormData] = useState(
 		formFields.reduce((acc, field) => ({ ...acc, [field.id]: '' }), {})
 	);
 	const [errors, setErrors] = useState({});
+	const [postCuartel, { isLoading, isError, isSuccess }] =
+		usePostCuartelMutation(); // Hook para la mutación
 
 	const handleChange = e => {
 		const { name, value, type } = e.target;
@@ -18,14 +21,18 @@ function CreateCuartel() {
 		}));
 	};
 
-	const handleSubmit = event => {
+	const handleSubmit = async event => {
 		event.preventDefault();
 		const { isValid, newErrors } = validateForm(formData, formFields);
 		setErrors(newErrors);
 
 		if (isValid) {
-			console.log(formData);
-			// Lógica para enviar los datos del formulario
+			try {
+				await postCuartel(formData).unwrap(); // Enviar los datos del formulario
+				console.log('Cuartel creado con éxito');
+			} catch (err) {
+				console.error('Error al crear el cuartel:', err);
+			}
 		} else {
 			console.log('Hay errores en el formulario');
 		}
@@ -70,9 +77,20 @@ function CreateCuartel() {
 					</div>
 				))}
 			</div>
-			<CustomButton type='submit' className='w-full md:w-auto'>
-				Guardar Parámetros
+			<CustomButton
+				type='submit'
+				className='w-full md:w-auto'
+				disabled={isLoading}
+			>
+				{isLoading ? 'Guardando...' : 'Guardar Parámetros'}
 			</CustomButton>
+
+			{isSuccess && (
+				<p className='text-green-600 mt-4'>Cuartel creado con éxito</p>
+			)}
+			{isError && (
+				<p className='text-red-600 mt-4'>Hubo un error al crear el cuartel</p>
+			)}
 		</form>
 	);
 }

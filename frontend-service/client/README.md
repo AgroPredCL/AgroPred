@@ -2,7 +2,12 @@
 
 ### 1. Entorno local (Desarrollo)
 
-Ejecutar el comando
+1. Debes estar en 'frontend-service/client/
+2. Ejecutar el comando 
+```
+npm i 
+```
+3. Ejecutar el comando
 
 ```
 npm run dev
