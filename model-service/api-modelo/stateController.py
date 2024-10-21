@@ -319,7 +319,7 @@ def hacerRecomendacionFertilizante(nombreCuartel):
     else:
         recomendacionFosforo = "No es necesario aplicar fertilizante fosfórico"
 
-    return {"nitrogeno": recomendacionNitrogeno, "potasio": recomendacionPotasio, "fosforo": recomendacionFosforo}
+    return {"nitrógeno": recomendacionNitrogeno, "potasio": recomendacionPotasio, "fósforo": recomendacionFosforo}
 
 def alertaPorHelada_helper():
 
