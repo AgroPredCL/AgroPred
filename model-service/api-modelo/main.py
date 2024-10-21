@@ -10,9 +10,7 @@ from datetime import datetime
 import os
 import certifi 
 
-"""
 import smtplib
-"""
 
 from bson import Binary
 
@@ -323,27 +321,25 @@ async def recomendacionFertilizante(nombreCuartel: str):
 # Idea de alerta por helada
 @app.get("/alertas/helada")
 async def alertaHelada(receiver_emailParam: str):
-
     response = alertaPorHelada_helper()
 
-    """
     email = "agropredalerta@gmail.com"
     receiver_email = receiver_emailParam
 
     subject = "ALERTA DE HELADA"
-    message = f"Se ha detectado una alerta de helada en tu predio. Por favor revisa tus cultivos. \n \nInformacion de la helada: \nDesde: {response['desde']} \nHasta: {response['hasta']} \nDuracion: {response['duracion']} horas\nTemperatura Minima: {response['minima']} Celsius \nTemperatura Promedio: {response['promedio']} Celsius \n \nSaludos, \nAgropred \n \n \nMas precision, \nMenos preocupaciones."
+    message = f"Se ha detectado una alerta de helada en tu predio. Por favor revisa tus cultivos. \n \nInformación de la helada: \nDesde: {response['desde']} \nHasta: {response['hasta']} \nDuración: {response['duracion']} horas\nTemperatura Mínima: {response['minima']} Celsius \nTemperatura Promedio: {response['promedio']} Celsius \n \nSaludos, \nAgropred \n \n \nMas precisión, \nMenos preocupaciones."
 
-    text = f"Subject: {subject}\n\n{message}"
+    # Utiliza UTF-8 para el mensaje
+    text = f"Subject: {subject}\n\n{message}".encode('utf-8')
 
     server = smtplib.SMTP("smtp.gmail.com", 587)
     server.starttls()
-
     server.login(email, "bpecnlqllszildgv")
 
+    # Envía el mensaje codificado
     server.sendmail(email, receiver_email, text)
 
     print(f"Email sent to: {receiver_email}")
-    """
 
     return response
 
