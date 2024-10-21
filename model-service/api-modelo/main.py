@@ -327,7 +327,7 @@ async def alertaHelada(receiver_emailParam: str):
     receiver_email = receiver_emailParam
 
     subject = "ALERTA DE HELADA"
-    message = f"Se ha detectado una alerta de helada en tu predio. Por favor revisa tus cultivos. \n \nInformación de la helada: \nDesde: {response['desde']} \nHasta: {response['hasta']} \nDuración: {response['duracion']} horas\nTemperatura Mínima: {response['minima']} Celsius \nTemperatura Promedio: {response['promedio']} Celsius \n \nSaludos, \nAgropred \n \n \nMas precisión, \nMenos preocupaciones."
+    message = f"Se ha detectado una alerta de helada en tu predio. Por favor revisa tus cultivos. \n \nInformación de la helada: \nDesde: {response['desde']} \nHasta: {response['hasta']} \nDuración: {response['duracion']} horas\nTemperatura Mínima: {response['minima']} Celsius \nTemperatura Promedio: {response['promedio']} Celsius \n \nSaludos, \nAgropred \n \n \nMás precisión, \nMenos preocupaciones."
 
     # Utiliza UTF-8 para el mensaje
     text = f"Subject: {subject}\n\n{message}".encode('utf-8')
