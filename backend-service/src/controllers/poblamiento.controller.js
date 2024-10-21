@@ -87,6 +87,7 @@ export const poblar_BaseDatos = async (req, res) => {
             tipo_fertilizante,
             //-------------------- Estado 
             fecha_estado,
+            hora_estado,
             conductividad,
             fosforo,
             humedad,
@@ -223,6 +224,7 @@ export const poblar_BaseDatos = async (req, res) => {
         //Poblar tabla Estado
         const newEstado = await Estado.create({
             fecha: fecha_estado,
+            hora: hora_estado,
             cuartel_ID: nombre_Cuartel,
             conductividad: conductividad,
             fosforo: fosforo,
@@ -243,7 +245,7 @@ export const poblar_BaseDatos = async (req, res) => {
 
         //Poblar tabla Estado_Enfermedad
         const newEstadoEnfermedad = await Estado_Enfermedad.create({
-            fecha_estado: fecha_estado,
+            id_estado: newEstado.id ,
             nom_enfermedad: nombre_enfermedad
 
         }, {transaction});

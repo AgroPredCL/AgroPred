@@ -2,8 +2,8 @@ import { DataTypes } from "sequelize"
 import  sequelize  from "../database/database.js"
 
 export const Estado_Enfermedad = sequelize.define('estado_enfermedad',{
-    fecha_estado: {
-        type: DataTypes.DATE,
+    id_estado: {
+        type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false
     },

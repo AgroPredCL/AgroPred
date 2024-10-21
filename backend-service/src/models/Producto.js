@@ -12,7 +12,7 @@ export const Producto = sequelize.define('producto',{
         allowNull: false
     },
     vencimiento : {
-        type : DataTypes.DATE,
+        type : DataTypes.DATEONLY,
         allowNull: false
     },
     cantidad : {

@@ -3,14 +3,21 @@ import  sequelize  from "../database/database.js"
 import { Estado_Enfermedad } from "./Estado_Enfermedad.js"
 
 export const Estado = sequelize.define('estado',{
-    fecha: {
-        type:DataTypes.DATE,
-        primaryKey: true,
-        allowNull: false
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
     },
     cuartel_ID: {
-        type: DataTypes.STRING(20),
-        primaryKey: true,
+        type: DataTypes.STRING(15),
+        allowNull: false
+    },
+    fecha: {
+        type: DataTypes.DATEONLY,
+        allowNull: false
+    },
+    hora: {
+        type: DataTypes.TIME, 
         allowNull: false
     },
     conductividad:{
@@ -38,11 +45,11 @@ export const Estado = sequelize.define('estado',{
 })
 
 Estado.hasMany(Estado_Enfermedad,{
-    foreignKey: 'fecha_estado',
-    sourceKey: 'fecha'
+    foreignKey: 'id_estado',
+    sourceKey: 'id'
 })
 
 Estado_Enfermedad.belongsTo(Estado,{
-    foreignKey: 'fecha_estado',
-    targetId: 'fecha'
+    foreignKey: 'id_estado',
+    targetId: 'id'
 })
