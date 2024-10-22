@@ -10,6 +10,8 @@ from datetime import datetime
 import os
 import certifi 
 
+from datetime import datetime
+
 """
 import smtplib
 """
@@ -51,8 +53,12 @@ async def root():
 async def fechasLimite(nombreCuartel: str):
     data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
 
-    fechaInicio = data_sensores['FechaHora'].iloc[0]
-    fechaFin = data_sensores['FechaHora'].iloc[-1]
+    # Convertir la columna 'FechaHora' a objetos datetime
+    data_sensores['FechaHora'] = pd.to_datetime(data_sensores['FechaHora'])
+
+    # Obtener las fechas de inicio y fin con el formato deseado
+    fechaInicio = data_sensores['FechaHora'].iloc[0].strftime('%d-%m-%Y %H:%M:%S')
+    fechaFin = data_sensores['FechaHora'].iloc[-1].strftime('%d-%m-%Y %H:%M:%S')
 
     return {"fechaInicio": fechaInicio, "fechaFin": fechaFin}
 
@@ -62,6 +68,23 @@ async def stateEnPeriodoDeTiempo(nombreCuartel: str, start_date: Optional[str] =
         return {"error": "Por favor agrega fecha de inicio y fin para entregar el estado, en formato 'YYYY-MM-DD'."}
     
     nitrogeno, potasio, fosforo, humedad, conductividad, ph, temperatura  = stateEnPeriodoEspecifico(nombreCuartel, start_date, end_date)
+
+     # Función para cambiar el formato de la fecha
+    def cambiar_formato_fecha(lista):
+        for item in lista:
+            # Convertir la fecha de cadena a objeto datetime y luego formatearla
+            fecha_datetime = datetime.strptime(item['fecha'], '%Y-%m-%d')
+            item['fecha'] = fecha_datetime.strftime('%d-%m-%Y')
+        return lista
+
+    # Aplicar el cambio de formato a cada lista
+    nitrogeno = cambiar_formato_fecha(nitrogeno)
+    potasio = cambiar_formato_fecha(potasio)
+    fosforo = cambiar_formato_fecha(fosforo)
+    humedad = cambiar_formato_fecha(humedad)
+    conductividad = cambiar_formato_fecha(conductividad)
+    ph = cambiar_formato_fecha(ph)
+    temperatura = cambiar_formato_fecha(temperatura)
     
     return {"nitrogeno": nitrogeno, 
             "potasio": potasio, 
