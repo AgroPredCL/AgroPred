@@ -6,6 +6,7 @@ import path from 'path';
 export default defineConfig({
   plugins: [react()],
   server: {
+    host: '0.0.0.0', // Esto permite que Vite escuche en todas las interfaces
     proxy: {
       // Esto redirige las solicitudes de /api a tu servidor backend
       '/apiGestion': {
@@ -24,7 +25,7 @@ export default defineConfig({
     alias: {
       '@adapters': path.resolve(__dirname, 'src/adapters'),
       '@utils': path.resolve(__dirname, 'src/utilities'),
-	    '@components': path.resolve(__dirname, 'src/components'),
+      '@components': path.resolve(__dirname, 'src/components'),
       '@pages': path.resolve(__dirname, 'src/pages'),
       '@interceptors': path.resolve(__dirname, 'src/interceptors'),
       '@contexts': path.resolve(__dirname, 'src/contexts'),
