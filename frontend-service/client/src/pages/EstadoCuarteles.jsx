@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Seccion } from '@components/Seccion';
 import CuartelSelector from '@components/estado-cuarteles/CuartelSelector';
-import { renderCuartelDetails } from '@components/estado-Cuarteles/CuartelDetails';
+import RenderCuartelDetails from '@components/estado-cuarteles/CuartelDetails';
 import EstadoSuelo from '@components/estado-cuarteles/EstadoSuelo';
 import SueloGraph from '@components/estado-cuarteles/SueloGraph';
 import HydriclPredict from '@components/estado-cuarteles/prediccion-hidrica/PrediccionHidrica';
@@ -81,7 +81,7 @@ export default function EstadoCuarteles() {
 						: `Información del Cuartel ${selectedCuartel?.nombre_Cuartel}`
 				}
 			>
-				{renderCuartelDetails(selectedCuartel, handleEdit)}
+				{RenderCuartelDetails(selectedCuartel, handleEdit)}
 			</Seccion>
 
 			<Seccion titulo='Estado de Salud'>
@@ -113,8 +113,8 @@ export default function EstadoCuarteles() {
 			</Seccion>
 
 			<Seccion titulo='Estado Hídrico'>
-				<HydriclPredict cuartel={selectedCuartel.nombre_Cuartel}/>
-			</Seccion> 
+				<HydriclPredict cuartel={selectedCuartel.nombre_Cuartel} />
+			</Seccion>
 		</>
 	);
 }
