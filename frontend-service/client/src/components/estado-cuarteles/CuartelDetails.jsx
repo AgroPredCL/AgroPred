@@ -30,7 +30,7 @@ CuartelSection.propTypes = {
 	).isRequired,
 };
 
-export function renderCuartelDetails(cuartel, handleEdit) {
+export default function RenderCuartelDetails(cuartel, handleEdit) {
 	const plantacionDetails = [
 		{ label: 'Área', value: `${cuartel.area} m²` },
 		{ label: 'Cantidad de paltos', value: cuartel.cant_paltos },

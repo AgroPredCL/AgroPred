@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { CustomButton, CustomInput } from '@components/UI';
-import validateForm from '@interceptors/validateForm';
+import validateForm from '@interceptors/ValidateForm';
 import formFields from '@contexts/CreateCuartel';
 import FieldTypeIndicator from '@components/forms/FieldTypeIndicator';
-import { usePostCuartelMutation } from '@services/apiSliceGestion'; // Importa el hook
+import { usePostCuartelMutation } from '@services/apiSliceGestion';
 
 function CreateCuartel() {
 	const [formData, setFormData] = useState(
