@@ -53,16 +53,20 @@ def predictController(nombreCuartel, cantidadDiasPrediccion):
         if not os.access(path, os.R_OK):
             print(f"No se puede acceder a {path}. Verifica los permisos.")
 
-    model_fit_N = joblib.load('../modelos/model_fit_N.joblib')
-    model_fit_F = joblib.load('../modelos/model_fit_F.joblib')
-    model_fit_K = joblib.load('../modelos/model_fit_K.joblib')
+    #model_fit_N = joblib.load('../modelos/model_fit_N.joblib')
+    #model_fit_F = joblib.load('../modelos/model_fit_F.joblib')
+    #model_fit_K = joblib.load('../modelos/model_fit_K.joblib')
 
     print("Modelos cargados...")
 
     #Prediccion de los modelos
-    nitrogenoPred = model_fit_N.get_forecast(steps=cantidadDiasPrediccion)
-    fosforoPred = model_fit_F.get_forecast(steps=cantidadDiasPrediccion)
-    potasioPred = model_fit_K.get_forecast(steps=cantidadDiasPrediccion)
+    nitrogenoPred = models['model_fit_N'].get_forecast(steps=cantidadDiasPrediccion)
+    fosforoPred = models['model_fit_F'].get_forecast(steps=cantidadDiasPrediccion)
+    potasioPred = models['model_fit_K'].get_forecast(steps=cantidadDiasPrediccion)
+    
+    #nitrogenoPred = model_fit_N.get_forecast(steps=cantidadDiasPrediccion)
+    #fosforoPred = model_fit_F.get_forecast(steps=cantidadDiasPrediccion)
+    #potasioPred = model_fit_K.get_forecast(steps=cantidadDiasPrediccion)
 
     print("Predicciones realizadas...")
 
