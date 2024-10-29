@@ -4,10 +4,12 @@ WORKDIR /frontend-service
 
 COPY client/package.json client/package-lock.json* ./
 
-RUN npm ci 
+RUN npm ci --verbose
 
 COPY client/ .
 
 EXPOSE 5173
 
 CMD ["npm", "run", "dev"]
+
+# COMMIT
