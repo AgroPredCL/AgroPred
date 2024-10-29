@@ -13,3 +13,4 @@ const validateForm = (formData, formFields) => {
 };
 
 export default validateForm;
+
