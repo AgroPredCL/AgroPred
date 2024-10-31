@@ -1,13 +1,14 @@
-import React, { useState }  from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { CustomButton } from '@components/UI';
-import ArticleHidrica from './ArticleHidrica';
-import { 
+import {
 	useGetPredecirHidricoQuery,
-	useGetStateConRangoQuery } from '@services/apiSliceModelos';
+	useGetStateConRangoQuery,
+} from '@services/apiSliceModelos';
+import LineChart from './LineChart';
+import { Droplets } from 'lucide-react';
 
-export default function HydriclPredict ({ cuartel }) {
-
+export default function HydriclPredict({ cuartel }) {
 	const [dateRange, setDateRange] = useState({
 		start: '2023-01-01',
 		end: '2023-01-05',
@@ -27,40 +28,37 @@ export default function HydriclPredict ({ cuartel }) {
 		cuartel: cuartel,
 	});
 
-	console.log("cuartel",cuartel)
-	// Función para manejar la solicitud de predicción
-	
-	const { data: predictionData, error, isLoading, isFetching } = useGetPredecirHidricoQuery({
-		dia: predictDays,
-		cuartel: cuartel,
-	  }, {
-		skip: !predictDays || !cuartel, // Solo ejecutar si los valores son válidos
-	  });
-	
+	const { data: predictionData } = useGetPredecirHidricoQuery(
+		{
+			dia: predictDays,
+			cuartel: cuartel,
+		},
+		{
+			skip: !predictDays || !cuartel, // Solo ejecutar si los valores son válidos
+		}
+	);
+
 	const handlePredictionRequest = () => {
 		if (predictDays) {
-		  if (predictionData) {
+			if (predictionData) {
 				// Obtener las claves del objeto y acceder a la última
-			const lastKey = Object.keys(predictionData).pop();
-			console.log("Última clave:", lastKey); // "d"
-			setLastDay(lastKey)
-			// Obtener el valor asociado a la última clave
-			const lastValue = predictionData[lastKey];
-			console.log("Último valor:", lastValue); // 40
-			setLastValue(lastValue)
+				const lastKey = Object.keys(predictionData).pop();
+				console.log('Última clave:', lastKey); // "d"
+				setLastDay(lastKey);
+				// Obtener el valor asociado a la última clave
+				const lastValue = predictionData[lastKey];
+				console.log('Último valor:', lastValue); // 40
+				setLastValue(lastValue);
 
-			const newpredictionData = formatDataForChart(predictionData)
-			console.log("Prediccion data", newpredictionData);
-			setPredictedData(newpredictionData); // Usa los datos obtenidos
-			
-
-		}
+				const newpredictionData = formatDataForChart(predictionData);
+				console.log('Prediccion data', newpredictionData);
+				setPredictedData(newpredictionData); // Usa los datos obtenidos
+			}
 		} else {
-		  console.log('Por favor, ingrese el número de días a predecir');
-		  alert('Por favor, ingrese un número entre 1 y 14'); //Luego cambiar por un pequeño mensaje en pantalla que indique el valor
-		
+			console.log('Por favor, ingrese el número de días a predecir');
+			alert('Por favor, ingrese un número entre 1 y 14'); //Luego cambiar por un pequeño mensaje en pantalla que indique el valor
 		}
-	  };
+	};
 
 	const handleInputChange = e => {
 		const value = e.target.value;
@@ -80,27 +78,23 @@ export default function HydriclPredict ({ cuartel }) {
 	};
 
 	const mergeData = (originalData, predictedData) => {
-		
 		return [
 			...originalData.map(item => ({ fecha: item.fecha, valor: item.valor })),
 			...predictedData.map(item => ({ fecha: item.fecha, valor: item.valor })),
 		];
 	};
 
-
 	// Definir el mensaje de recomendación basado en el último valor
-    let recomendacion = '';
-    if (lastValue >= 70 && lastValue <= 100) {
-        recomendacion = `En la fecha ${lastDay} no hay necesidad de regar`;
-    } else if (lastValue ==-1) {
-        recomendacion = `No hay recomendaciones`;
-	
-	}else if (lastValue < 70) {
-        recomendacion = `En la fecha ${lastDay} se recomienda regar el cuartel`;
-    } else if (lastValue > 100) {
-        recomendacion = `En la fecha ${lastDay} hay exceso de agua`;
+	let recomendacion = '';
+	if (lastValue >= 70 && lastValue <= 100) {
+		recomendacion = `En la fecha ${lastDay} no hay necesidad de regar`;
+	} else if (lastValue == -1) {
+		recomendacion = `No hay recomendaciones`;
+	} else if (lastValue < 70) {
+		recomendacion = `En la fecha ${lastDay} se recomienda regar el cuartel`;
+	} else if (lastValue > 100) {
+		recomendacion = `En la fecha ${lastDay} hay exceso de agua`;
 	}
-
 
 	if (stateLoading) return <div className='text-center py-4'>Cargando...</div>;
 	if (stateError)
@@ -112,7 +106,7 @@ export default function HydriclPredict ({ cuartel }) {
 
 	return (
 		<div className='space-y-4 p-4'>
-			<div className='flex flex-wrap gap-4 mb-4'>
+			<div className='flex items-center justify-between gap-4 mb-4'>
 				<div className='flex items-center space-x-2'>
 					<label
 						htmlFor='start-date'
@@ -147,7 +141,15 @@ export default function HydriclPredict ({ cuartel }) {
 						className='w-40 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
 					/>
 				</div>
+				<div className='flex-grow'></div> {/* Espaciador */}
+				<a href={`/registrar-riego/${cuartel}`}>
+					<CustomButton type='submit' className='flex items-center'>
+						<Droplets className='w-5 h-5 mr-2' />
+						Registrar Riego
+					</CustomButton>
+				</a>
 			</div>
+
 			<div className='flex items-center space-x-4 mt-4 mb-4'>
 				<label
 					htmlFor='predict-date'
@@ -164,36 +166,46 @@ export default function HydriclPredict ({ cuartel }) {
 					onChange={handleInputChange}
 					className='w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
 				/>
-				<CustomButton onClick={handlePredictionRequest}>
-					Predecir
-				</CustomButton>
+				<CustomButton onClick={handlePredictionRequest}>Predecir</CustomButton>
+
+				{/* Contenedor del botón alineado a la derecha */}
+				<div className='ml-auto'>
+					<a href={`/uso-riego/${cuartel}`}>
+						<CustomButton type='submit' className='flex items-center'>
+							<Droplets className='w-5 h-5 mr-2' />
+							Ver Registros de Riego
+						</CustomButton>
+					</a>
+				</div>
 			</div>
 
 			<div>
-				<ArticleHidrica
-					titulo='Estado Hídrico'
+				<LineChart
+					title='Agua Disponible [L] vs Tiempo [Día]'
 					data={[
-						{ label: 'aguita', data: mergeData(data?.humedad, predictedData || []) },
+						{
+							label: 'Agua disponible',
+							data: mergeData(data?.humedad, predictedData || []),
+						},
 					]} // Formato para el gráfico
-					titleChart='Agua Disponible [L] vs Tiempo [Día]'
-				></ArticleHidrica>
-			</div> 
+				/>
+			</div>
 
-			<article className="mt-6 pt-2 border-t-2">
-                    <h2 className="text-xl font-semibold text-gray-700 mb-4">Recomendaciones de riego</h2>
-                    <div className="flex justify-between flex-wrap">
-                        
-                        <div className="w-full md:w-1/3 lg:w-1/4 p-2">
-                            <div className='p-4 shadow-lg rounded-lg hover:shadow-xl transition-shadow h-full '>
-                                <p className="text-gray-600 mt-2">{recomendacion}</p>
-                            </div>
-                        </div>
-                        
-                    </div>
-            </article>
+			<article className='mt-6 pt-2 border-t-2'>
+				<h2 className='text-xl font-semibold text-gray-700 mb-4'>
+					Recomendaciones de riego
+				</h2>
+				<div className='flex justify-between flex-wrap'>
+					<div className='w-full md:w-1/3 lg:w-1/4 p-2'>
+						<div className='p-4 shadow-lg rounded-lg hover:shadow-xl transition-shadow h-full '>
+							<p className='text-gray-600 mt-2'>{recomendacion}</p>
+						</div>
+					</div>
+				</div>
+			</article>
 		</div>
 	);
-};
+}
 HydriclPredict.propTypes = {
 	cuartel: PropTypes.string.isRequired,
 };

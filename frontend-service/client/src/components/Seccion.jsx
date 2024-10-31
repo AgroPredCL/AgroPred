@@ -13,7 +13,7 @@ export function Seccion({ titulo, actualizacion, ultimaLectura, children }) {
 	};
 
 	return (
-		<section className='mb-6 bg-white rounded-lg shadow-md overflow-hidden'>
+		<section className='mb-6 bg-white rounded-lg shadow-md overflow-hidden pb-4'>
 			<div
 				className='flex items-center justify-between p-4 cursor-pointer bg-gray-100 hover:bg-gray-200 transition-colors duration-200'
 				onClick={toggleOpen}

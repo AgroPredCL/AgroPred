@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { CustomButton, CustomInput } from '@components/UI';
 import validateForm from '@interceptors/ValidateForm';
-import formFields from '@contexts/CreateCuartel';
+import formFields from '@contexts/RegisterRiego';
 import FieldTypeIndicator from '@components/forms/FieldTypeIndicator';
-import { usePostCuartelMutation } from '@services/apiSliceGestion';
+import { usePostRiegoMutation } from '@services/apiSliceGestion';
+import { useParams } from 'react-router-dom';
 
-function CreateCuartel() {
+function RegisterRiego() {
+	const { cuartel } = useParams();
 	const [formData, setFormData] = useState(
 		formFields.reduce((acc, field) => ({ ...acc, [field.id]: '' }), {})
 	);
 	const [errors, setErrors] = useState({});
-	const [postCuartel, { isLoading, isError, isSuccess }] =
-		usePostCuartelMutation(); // Hook para la mutación
+	const [postRiego, { isLoading, isError, isSuccess }] = usePostRiegoMutation(); // Hook para la mutación
 
 	const handleChange = e => {
 		const { name, value, type } = e.target;
@@ -28,11 +29,12 @@ function CreateCuartel() {
 
 		if (isValid) {
 			try {
-				const formDataWithNomPredio = { ...formData, nom_predio: 'El Roble' }; // Agregar nom_predio
-				await postCuartel(formDataWithNomPredio).unwrap(); // Enviar los datos del formulario
-				console.log('Cuartel creado con éxito');
+				const formDataWithCuartel = { ...formData, cuartel_ID: cuartel }; // Agregar cuartelID
+				console.log('formDataWithCuartel:', formDataWithCuartel);
+				await postRiego(formDataWithCuartel).unwrap(); // Enviar los datos del formulario
+				console.log('Riego registrado con éxito');
 			} catch (err) {
-				console.error('Error al crear el cuartel:', err);
+				console.error('Error al registrar el Riego:', err);
 			}
 		} else {
 			console.log('Hay errores en el formulario');
@@ -45,7 +47,7 @@ function CreateCuartel() {
 			className='space-y-6 bg-white p-6 rounded-lg shadow-md'
 		>
 			<h2 className='text-2xl font-semibold text-gray-900 mb-6'>
-				Añadir Cuartel
+				Registrar Riego
 			</h2>
 			<p className='text-gray-600 mb-4'>
 				Todos los campos deben ser completados para añadir un cuartel con éxito.
@@ -87,13 +89,13 @@ function CreateCuartel() {
 			</CustomButton>
 
 			{isSuccess && (
-				<p className='text-green-600 mt-4'>Cuartel creado con éxito</p>
+				<p className='text-green-600 mt-4'>Riego registrado con éxito</p>
 			)}
 			{isError && (
-				<p className='text-red-600 mt-4'>Hubo un error al crear el cuartel</p>
+				<p className='text-red-600 mt-4'>Hubo un error al registrar el riego</p>
 			)}
 		</form>
 	);
 }
 
-export default CreateCuartel;
+export default RegisterRiego;

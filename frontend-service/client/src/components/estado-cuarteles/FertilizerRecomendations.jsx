@@ -9,11 +9,11 @@ const FertilizerRecommendations = ({ cuartel }) => {
 
 	const getIcon = elemento => {
 		switch (elemento.toLowerCase()) {
-			case 'nitrogeno':
+			case 'nitrógeno':
 				return <Leaf className='w-6 h-6' />;
 			case 'potasio':
 				return <Zap className='w-6 h-6' />;
-			case 'fosforo':
+			case 'fósforo':
 				return <Droplet className='w-6 h-6' />;
 			default:
 				return null;
@@ -22,11 +22,11 @@ const FertilizerRecommendations = ({ cuartel }) => {
 
 	const getColor = elemento => {
 		switch (elemento.toLowerCase()) {
-			case 'nitrogeno':
+			case 'nitrógeno':
 				return 'bg-green-100 text-green-800';
 			case 'potasio':
 				return 'bg-yellow-100 text-yellow-800';
-			case 'fosforo':
+			case 'fósforo':
 				return 'bg-blue-100 text-blue-800';
 			default:
 				return 'bg-gray-100 text-gray-800';
@@ -35,7 +35,7 @@ const FertilizerRecommendations = ({ cuartel }) => {
 
 	return (
 		<article className='mt-8 pt-6 border-t-2 border-gray-200'>
-			<h2 className='text-2xl font-bold text-gray-800 mb-6'>
+			<h2 className='text-xl font-semibold text-gray-700 mb-4'>
 				Recomendación de Fertilizantes
 			</h2>
 			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>

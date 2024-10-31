@@ -109,8 +109,14 @@ const LineChart = ({ data, title, yAxisLabel }) => {
 				grid: {
 					color: 'rgba(226, 232, 240, 0.5)', // Líneas de cuadrícula más suaves
 				},
-				suggestedMin: Math.min(...data.flatMap(dataset => dataset.data.map(entry => entry.valor))) - 5, // Ajuste dinámico para que comience cerca del valor más bajo
-				suggestedMax: Math.max(...data.flatMap(dataset => dataset.data.map(entry => entry.valor))) + 5, // Ajuste dinámico para que no quede cortado el valor más alto
+				suggestedMin:
+					Math.min(
+						...data.flatMap(dataset => dataset.data.map(entry => entry.valor))
+					) - 5, // Ajuste dinámico para que comience cerca del valor más bajo
+				suggestedMax:
+					Math.max(
+						...data.flatMap(dataset => dataset.data.map(entry => entry.valor))
+					) + 5, // Ajuste dinámico para que no quede cortado el valor más alto
 			},
 		},
 		interaction: {
@@ -120,7 +126,10 @@ const LineChart = ({ data, title, yAxisLabel }) => {
 		},
 	};
 
-	const labels = data[0].data.map(entry => `${entry.fecha}`);
+	const labels = data[0].data.map(entry => {
+		const date = new Date(entry.fecha); // Suponiendo que entry.fecha está en formato ISO
+		return date.toLocaleDateString('es-ES'); // 'es-ES' para formato día-mes-año
+	});
 
 	const chartData = {
 		labels,
