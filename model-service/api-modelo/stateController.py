@@ -7,6 +7,8 @@ import numpy as np
 def stateEnPeriodoEspecifico(nombreCuartel, startDate, endDate):
     data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
 
+    desde = 0
+    hasta = 0
 
     for i in range(len(data_sensores)):
         if data_sensores['FechaHora'][i][:10] == startDate:

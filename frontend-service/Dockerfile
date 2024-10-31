@@ -1,5 +1,5 @@
 # Usa una imagen base de Node.js
-FROM node:alpine3.20
+FROM node:18-alpine
 
 # Establece el directorio de trabajo
 WORKDIR /frontend-service
