@@ -1,10 +1,19 @@
 import { Uso_Riego } from "../models/Uso_Riego.js";
 import { Op } from 'sequelize';
+import moment from 'moment';
 
 export const getUsos_Riegos = async (req, res) => {
     try {
         const usosRiegos = await Uso_Riego.findAll();
-        res.json(usosRiegos);
+
+        const formattedRiego = usosRiegos.map(uso_riego => {
+            return {
+                ...uso_riego.toJSON(),
+                fecha: moment(uso_riego.fecha).format('DD-MM-YYYY')
+            };
+        });
+
+        res.json(formattedRiego);
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
@@ -18,9 +27,10 @@ export const createUso_Riego = async (req, res) => {
         const {cuartel_ID,fecha,hora,litros_estimados,observacion,tiempo_riego,tipo_riego } = req.body; 
         
         // Asegúrate de que la fecha esté en formato correcto
+        const formattedFecha = moment(fecha, 'DD-MM-YYYY').format('YYYY-MM-DD');
         const newUso_Riego = await Uso_Riego.create({
             cuartel_ID,
-            fecha,
+            fecha: formattedFecha,
             hora,
             litros_estimados,
             observacion,
@@ -39,17 +49,17 @@ export const createUso_Riego = async (req, res) => {
 export const deleteUso_Riego = async (req, res) => {
     try {
         const { id } = req.params; 
-        const usoRiego = await Uso_Riego.findOne({
+        const usoriego = await Uso_Riego.findOne({
             where: {
                 id
             }
         });
         
-        if (!usoRiego) {
+        if (!usoriego) {
             return res.status(404).json({ message: 'Uso-riego not found' });
         }
 
-        await usoRiego.destroy();
+        await usoriego.destroy();
         res.json({
             message: 'Uso-riego deleted'
         });
@@ -77,6 +87,10 @@ export const updateUso_Riego = async (req, res) => {
             Object.entries(updateData).filter(([key, value]) => value !== undefined)
         );
 
+        if (filteredData.fecha) {
+            filteredData.fecha = moment(filteredData.fecha, 'DD-MM-YYYY').format('YYYY-MM-DD');
+        }
+
         // Si no hay campos válidos para actualizar, enviar error
         if (Object.keys(filteredData).length === 0) {
             return res.status(400).json({ message: 'No fields to update' });
@@ -96,15 +110,17 @@ export const updateUso_Riego = async (req, res) => {
 
 export const getUso_RiegoByCuartel = async (req, res) => {
     try {
-        const { cuartel_ID } = req.params;
-        const { fechaInicio, fechaFin } = req.query;
-
+        const { cuartel_ID,fechaInicio,fechaFin} = req.params;
+     
         const whereClause = { cuartel_ID };
 
         // Convertir las fechas al formato correcto para la comparación
         if (fechaInicio && fechaFin) {
+            const formattedFechaInicio = moment(fechaInicio, 'DD-MM-YYYY').format('YYYY-MM-DD');
+            const formattedFechaFin = moment(fechaFin, 'DD-MM-YYYY').format('YYYY-MM-DD');
+
             whereClause.fecha = {
-                [Op.between]: [fechaInicio, fechaFin] // Usa fechas en formato 'YYYY-MM-DD'
+                [Op.between]: [formattedFechaInicio, formattedFechaFin] // Usar fechas en formato 'YYYY-MM-DD'
             };
         }
 
@@ -112,7 +128,15 @@ export const getUso_RiegoByCuartel = async (req, res) => {
             where: whereClause
         });
 
-        res.json(usosRiego);
+        // Formatear las fechas para la respuesta en DD-MM-YYYY
+        const formattedUsosRiego = usosRiego.map(usoRiego => {
+            const usoRiegoData = usoRiego.toJSON();
+            usoRiegoData.fecha = moment(usoRiegoData.fecha).format('DD-MM-YYYY');
+            return usoRiegoData;
+        });
+
+        res.json(formattedUsosRiego);
+
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
@@ -120,3 +144,4 @@ export const getUso_RiegoByCuartel = async (req, res) => {
         });
     }
 };
+ 
