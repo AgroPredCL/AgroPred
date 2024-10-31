@@ -109,12 +109,12 @@ export function Table({ actualidad, predicciones, fechas }) {
 			</div>
 
 			{activeTab === 'predicciones' && (
-				<div className='px-4 py-3 bg-gray-50 border-b border-gray-200'>
+				<div className='px-4 py-3 border-b border-gray-200'>
 					<select
 						id='month-select'
 						value={selectedMonth}
 						onChange={handleMonthChange}
-						className='block w-full px-3 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md'
+						className='block w-full px-3 py-2 text-base border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md'
 					>
 						<option value=''>Elige un mes</option>
 						{fechas.map(fecha => (

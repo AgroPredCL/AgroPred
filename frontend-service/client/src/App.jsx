@@ -4,6 +4,8 @@ import Layout from './components/Layout';
 import HomePage from '@pages/Home';
 import EstadoCuarteles from '@pages/EstadoCuarteles';
 import CreateCuartel from '@pages/CreateCuartel';
+import RegisterRiego from '@pages/RegisterRiego';
+import GestionRiego from '@pages/GestionRiego';
 import Page404 from '@pages/Page404';
 
 export default function App() {
@@ -31,6 +33,22 @@ export default function App() {
 					element={
 						<Layout>
 							<CreateCuartel />
+						</Layout>
+					}
+				/>
+				<Route
+					path='registrar-riego/:cuartel'
+					element={
+						<Layout>
+							<RegisterRiego />
+						</Layout>
+					}
+				/>
+				<Route
+					path='uso-riego/:cuartel'
+					element={
+						<Layout>
+							<GestionRiego />
 						</Layout>
 					}
 				/>

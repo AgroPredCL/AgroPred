@@ -39,11 +39,11 @@ export const apiEstado = createApi({
       query: ({ dia, cuartel }) => `/state/hidrico?cantidadDeDias=${dia}&nombreCuartel=${cuartel}`
     }),
     getAlertaHelada: builder.query({
-      query: () => `/alertas/helada?receiver_emailParam=faj.smi@gmail.com`
+      query: () => `/alertas/helada?receiver_emailParam=raulcuello.am@gmail.com`
     }),
     getRecomendacionFertilizante: builder.query({
       query: (cuartel) => `/recomendacion/fertilizante?nombreCuartel=${cuartel}`
-    })
+    }),
   })
 });
 
@@ -61,5 +61,5 @@ export const {
   useGetPredecirNPKQuery,
   useGetPredecirHidricoQuery,
   useGetAlertaHeladaQuery,
-  useGetRecomendacionFertilizanteQuery
+  useGetRecomendacionFertilizanteQuery,
 } = apiEstado;

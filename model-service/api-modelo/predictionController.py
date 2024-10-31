@@ -15,10 +15,11 @@ from functions import obtenerAguaDisponible
 
 # Prediccion de estado de nutrientes
 ## Generar fechas
-def generar_fechas(fecha_inicio, n_dias):
+def generar_fechas(fecha_inicio, cantidadDiasPrediccion):
+    # Formato de entrada ajustado
     fecha_inicio = datetime.strptime(fecha_inicio, "%Y-%m-%d")
-    fechas_futuras = [(fecha_inicio + timedelta(days=i)).strftime("%Y-%m-%d") for i in range(n_dias)]
-    return fechas_futuras
+    fechas = [(fecha_inicio + timedelta(days=i)).strftime("%d-%m-%Y") for i in range(cantidadDiasPrediccion)]
+    return fechas
 
 ## Se utiliza el modelo para predecir hasta la fecha <fechaPrediccion>
 def predictController(nombreCuartel, cantidadDiasPrediccion):
@@ -53,6 +54,7 @@ def predictController(nombreCuartel, cantidadDiasPrediccion):
         if not os.access(path, os.R_OK):
             print(f"No se puede acceder a {path}. Verifica los permisos.")
 
+
     #model_fit_N = joblib.load('../modelos/model_fit_N.joblib')
     #model_fit_F = joblib.load('../modelos/model_fit_F.joblib')
     #model_fit_K = joblib.load('../modelos/model_fit_K.joblib')
@@ -60,13 +62,13 @@ def predictController(nombreCuartel, cantidadDiasPrediccion):
     print("Modelos cargados...")
 
     #Prediccion de los modelos
-    nitrogenoPred = models['model_fit_N'].get_forecast(steps=cantidadDiasPrediccion)
-    fosforoPred = models['model_fit_F'].get_forecast(steps=cantidadDiasPrediccion)
-    potasioPred = models['model_fit_K'].get_forecast(steps=cantidadDiasPrediccion)
-    
     #nitrogenoPred = model_fit_N.get_forecast(steps=cantidadDiasPrediccion)
     #fosforoPred = model_fit_F.get_forecast(steps=cantidadDiasPrediccion)
     #potasioPred = model_fit_K.get_forecast(steps=cantidadDiasPrediccion)
+
+    nitrogenoPred = models['model_fit_N'].get_forecast(steps=cantidadDiasPrediccion)
+    fosforoPred = models['model_fit_F'].get_forecast(steps=cantidadDiasPrediccion)
+    potasioPred = models['model_fit_K'].get_forecast(steps=cantidadDiasPrediccion)
 
     print("Predicciones realizadas...")
 

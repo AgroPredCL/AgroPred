@@ -8,7 +8,6 @@ export const apiCuarteles = createApi({
     getCuarteles: builder.query({
       query: () => '/cuarteles'
     }),
-    
     postCuartel: builder.mutation({
       query: (nuevoCuartel) => ({
         url: '/cuartel',
@@ -16,7 +15,32 @@ export const apiCuarteles = createApi({
         body: nuevoCuartel,
       }),
     }),
+    putCuartel: builder.mutation({
+      query: ({cuartel, changes}) => ({
+        url: `cuartel/${cuartel}`,
+        method: 'PUT',
+        body: changes,
+      }),
+    }),
+
+    getUsoRiego: builder.query({
+      query: (cuartel) => `uso_riego/${cuartel}`
+    }),
+    postRiego: builder.mutation({
+      query: (nuevoCuartel) => ({
+        url: '/uso_riego',
+        method: 'POST',
+        body: nuevoCuartel,
+      }),
+    }),
+    putRiego: builder.mutation({
+      query: ({cuartel, changes}) => ({
+        url: `/uso_riego/${cuartel}`,
+        method: 'PUT',
+        body: changes,
+      }),
+    }),
   }),
 });
 
-export const { useGetCuartelesQuery, usePostCuartelMutation } = apiCuarteles;
+export const { useGetCuartelesQuery, usePostCuartelMutation, usePutCuartelMutation, useGetUsoRiegoQuery, usePostRiegoMutation, usePutRiegoMutation } = apiCuarteles;

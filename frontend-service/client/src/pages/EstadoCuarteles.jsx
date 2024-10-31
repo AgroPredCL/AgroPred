@@ -25,10 +25,6 @@ export default function EstadoCuarteles() {
 		setSelectedCuartel(cuartel);
 	};
 
-	const handleEdit = () => {
-		console.log(`Editando el cuartel: ${selectedCuartel.nombre_Cuartel}`);
-	};
-
 	// Datos de ejemplo para enfermedades actuales y predicciones
 	const actualidad = [
 		{
@@ -81,7 +77,8 @@ export default function EstadoCuarteles() {
 						: `Información del Cuartel ${selectedCuartel?.nombre_Cuartel}`
 				}
 			>
-				{RenderCuartelDetails(selectedCuartel, handleEdit)}
+				{console.log('Cuartel:', selectedCuartel)}
+				{RenderCuartelDetails(selectedCuartel)}
 			</Seccion>
 
 			<Seccion titulo='Estado de Salud'>
@@ -112,7 +109,7 @@ export default function EstadoCuarteles() {
 				<SueloGraph cuartel={selectedCuartel.nombre_Cuartel} />
 			</Seccion>
 
-			<Seccion titulo='Estado Hídrico'>
+			<Seccion titulo='Registro Histórico de Riego'>
 				<HydriclPredict cuartel={selectedCuartel.nombre_Cuartel} />
 			</Seccion>
 		</>
