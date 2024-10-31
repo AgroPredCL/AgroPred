@@ -2,9 +2,14 @@ import { Uso_Riego } from "../models/Uso_Riego.js";
 import { Op } from 'sequelize';
 import moment from 'moment';
 
-export const getUsos_Riegos = async (req, res) => {
+export const getUsos_RiegosByCuartel = async (req, res) => {
     try {
-        const usosRiegos = await Uso_Riego.findAll();
+        const { cuartel_ID} = req.params;
+        const usosRiegos = await Uso_Riego.findAll({
+            where: {
+                cuartel_ID
+            }
+    });
 
         const formattedRiego = usosRiegos.map(uso_riego => {
             return {

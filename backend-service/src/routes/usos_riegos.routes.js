@@ -1,11 +1,11 @@
 import { Router } from "express";
 
-import { getUsos_Riegos,createUso_Riego,deleteUso_Riego,updateUso_Riego,getUso_RiegoByCuartel } from "../controllers/usos_riegos.controller.js";
+import { getUsos_RiegosByCuartel ,createUso_Riego,deleteUso_Riego,updateUso_Riego,getUso_RiegoByCuartel } from "../controllers/usos_riegos.controller.js";
 
 
 const router = Router();
 
-router.get('/usos_riegos',getUsos_Riegos);
+router.get('/usos_riegos/:cuartel_ID',getUsos_RiegosByCuartel);
 
 router.post('/uso_riego',createUso_Riego);
 
