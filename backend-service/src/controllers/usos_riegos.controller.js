@@ -113,7 +113,7 @@ export const updateUso_Riego = async (req, res) => {
     }
 };
 
-export const getUso_RiegoByCuartel = async (req, res) => {
+export const getUso_RiegoByCuartelFecha = async (req, res) => {
     try {
         const { cuartel_ID,fechaInicio,fechaFin} = req.params;
      
