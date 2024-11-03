@@ -15,8 +15,11 @@ import usos_riegosRoutes from './routes/usos_riegos.routes.js'
 import productosRoutes from './routes/productos.routes.js'
 import contratistasRoutes from './routes/contratistas.routes.js'
 import inventariosRoutes from './routes/inventarios.routes.js'
-
 import poblamientoRoutes from './routes/poblamiento.routes.js'
+
+// Últimos cambios
+import productos_tags from './routes/productos_tags.routes.js'
+import tags from './routes/tags.routes.js'
 
 const app = express();
 
@@ -46,5 +49,7 @@ app.use(usos_riegosRoutes);
 app.use(productosRoutes);
 app.use(contratistasRoutes);
 app.use(inventariosRoutes);
+app.use(productos_tags);
+app.use(tags);
 
 export default app;

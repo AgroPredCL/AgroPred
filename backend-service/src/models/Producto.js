@@ -1,44 +1,50 @@
-import { DataTypes } from "sequelize"
-import  sequelize  from "../database/database.js"
+import { DataTypes } from "sequelize";
+import sequelize from "../database/database.js";
+import { Tag } from "./Tags.js";
+import { ProductoTag } from "./Producto_Tags.js";
 
-export const Producto = sequelize.define('producto',{
-    id: {
+export const Producto = sequelize.define('producto', {
+    producto_ID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    categoria : {
+    categoria: {
         type: DataTypes.STRING(30),
         allowNull: false
     },
-    vencimiento : {
-        type : DataTypes.DATEONLY,
+    vencimiento: {
+        type: DataTypes.DATEONLY,
         allowNull: false
     },
-    cantidad : {
+    cantidad: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    costo : {
+    costo: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    descripcion : {
+    descripcion: {
         type: DataTypes.STRING(100)
     },
-    marca : {
+    marca: {
         type: DataTypes.STRING(25),
         allowNull: false
     },
-    nombre:{
+    nombre: {
         type: DataTypes.STRING(25),
         allowNull: false
     }
-   
-    
-  
+});
 
- 
-    
-    
-}) 
+// Definición de relaciones
+Producto.hasMany(ProductoTag, {
+    foreignKey: 'producto_ID',
+    sourceKey: 'producto_ID'   
+});
+
+ProductoTag.belongsTo(Producto, {
+    foreignKey: 'producto_ID', 
+    targetKey: 'producto_ID'   
+});
