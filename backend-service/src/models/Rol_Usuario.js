@@ -3,8 +3,8 @@ import  sequelize  from "../database/database.js"
 
 
 export const Rol_Usuario = sequelize.define('rol_usuario',{
-    email:{
-        type: DataTypes.STRING(320),
+    rut:{
+        type: DataTypes.STRING(15),
         primaryKey: true,
         allowNull: false
     },

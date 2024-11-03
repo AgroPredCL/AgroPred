@@ -14,9 +14,9 @@ export const getRol_Usuarios = async (req, res) => {
 
 export const createRol_Usuario = async (req, res) => {
     try {
-        const {email,rol_user} = req.body;
+        const {rut,rol_user} = req.body;
         const newRol_usuario = await Rol_Usuario.create({
-            email,
+            rut,
             rol_user
         })
         res.json(newRol_usuario);
@@ -30,10 +30,10 @@ export const createRol_Usuario = async (req, res) => {
 
 export const deleteRol_Usuario = async (req, res) => {
     try {
-        const {email,rol_user} = req.params;
+        const {rut,rol_user} = req.params;
         const rol_usuario = await Rol_Usuario.findOne({
             where: {
-                email,
+                rut,
                 rol_user
             }
         });
@@ -53,11 +53,11 @@ export const deleteRol_Usuario = async (req, res) => {
 //---------------------DUDAS CON ESTA FUCION---------------------------
 export const updateRol_Usuario_rol = async (req, res) => {
     try {
-        const {email} = req.params;
+        const {rut} = req.params;
         const {rol_user} = req.body;
         const rol_usuario = await Rol_Usuario.findOne({
             where: {
-                email
+                rut
             }
         });
         await rol_usuario.update({
@@ -76,10 +76,10 @@ export const updateRol_Usuario_rol = async (req, res) => {
 
 export const getRol_UsuarioByEmail = async (req, res) => {
     try {
-        const {email} = req.params;
+        const {rut} = req.params;
         const rol_usuario = await Rol_Usuario.findOne({
             where: {
-                email
+                rut
             }
         });
         res.json(rol_usuario);
