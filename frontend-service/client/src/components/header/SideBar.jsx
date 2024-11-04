@@ -51,14 +51,18 @@ const SideBar = ({ isOpen, toggleSidebar }) => {
 						<SidebarItem
 							icon={<Users size={24} />}
 							text='Gestión de Personal'
-							href='#'
+							href='/gestion-personal'
 						/>
 						<SidebarItem
 							icon={<Settings size={24} />}
 							text='Configuración'
 							href='#'
 						/>
-						<SidebarItem icon={<CircleHelp size={24} />} text='Soporte' href='#' />
+						<SidebarItem
+							icon={<CircleHelp size={24} />}
+							text='Soporte'
+							href='#'
+						/>
 					</ul>
 				</div>
 			</aside>

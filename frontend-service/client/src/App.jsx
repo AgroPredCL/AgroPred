@@ -6,6 +6,7 @@ import EstadoCuarteles from '@pages/EstadoCuarteles';
 import CreateCuartel from '@pages/CreateCuartel';
 import RegisterRiego from '@pages/RegisterRiego';
 import GestionRiego from '@pages/GestionRiego';
+import GestionPersonal from '@pages/GestionPersonal';
 import Page404 from '@pages/Page404';
 
 export default function App() {
@@ -49,6 +50,14 @@ export default function App() {
 					element={
 						<Layout>
 							<GestionRiego />
+						</Layout>
+					}
+				/>
+				<Route
+					path='gestion-personal'
+					element={
+						<Layout>
+							<GestionPersonal />
 						</Layout>
 					}
 				/>
