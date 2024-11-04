@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CustomButton } from '@components/UI';
-import { Pencil } from 'lucide-react';
+import { Pencil, Save, X } from 'lucide-react';
 import { usePutCuartelMutation } from '@services/apiSliceGestion';
 import PropTypes from 'prop-types';
 
@@ -19,7 +19,7 @@ const CuartelSection = ({ title, details, isEditing, editData, onChange }) => {
 							name={detail.key}
 							value={editData[detail.key] || ''}
 							onChange={onChange}
-							className='border-b border-gray-400 focus:outline-none focus:border-b-2'
+							className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
 						/>
 					) : (
 						detail.value
@@ -122,25 +122,31 @@ export default function RenderCuartelDetails(cuartel) {
 	];
 
 	const handleEditClick = () => {
+		setEditData({ ...cuartel });
 		setIsEditing(true);
 	};
 
 	const handleSave = async () => {
 		const { nombre_Cuartel, ...dataToSend } = editData;
-		console.log('Cuartel editado:', nombre_Cuartel); // Verifica qué datos estás enviando
-		console.log('Datos enviados:', dataToSend); // Verifica qué datos estás enviando
+		console.log('Cuartel editado:', nombre_Cuartel);
+		console.log('Datos enviados:', dataToSend);
 
 		try {
 			await putCuartel({
 				cuartel: cuartel.nombre_Cuartel,
-				changes: dataToSend, // Solo los datos editados
+				changes: dataToSend,
 			}).unwrap();
 			setIsEditing(false);
 			console.log('Cuartel actualizado con éxito');
-			window.location.reload(); // Recarga la página
+			window.location.reload();
 		} catch (err) {
 			console.error('Error al actualizar el cuartel:', err);
 		}
+	};
+
+	const handleCancel = () => {
+		setEditData({ ...cuartel });
+		setIsEditing(false);
 	};
 
 	const handleChange = e => {
@@ -190,15 +196,28 @@ export default function RenderCuartelDetails(cuartel) {
 				</div>
 				<div className='flex justify-center md:justify-end md:items-start'>
 					{isEditing ? (
-						<CustomButton onClick={handleSave} className='flex items-center'>
-							Guardar
-						</CustomButton>
+						<div className='flex space-x-2'>
+							<CustomButton
+								onClick={handleSave}
+								className='flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600'
+							>
+								<Save className='w-4 h-4 mr-2' />
+								Guardar
+							</CustomButton>
+							<CustomButton
+								onClick={handleCancel}
+								className='flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600'
+							>
+								<X className='w-4 h-4 mr-2' />
+								Cancelar
+							</CustomButton>
+						</div>
 					) : (
 						<CustomButton
 							onClick={handleEditClick}
-							className='flex items-center'
+							className='flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white'
 						>
-							<Pencil className='h-4 w-4 mr-2' />
+							<Pencil className='w-4 h-4 mr-2' />
 							Editar Cuartel
 						</CustomButton>
 					)}
