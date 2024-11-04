@@ -5,7 +5,7 @@ import { getUsos_RiegosByCuartel ,createUso_Riego,deleteUso_Riego,updateUso_Rieg
 
 const router = Router();
 
-router.get('/usos_riegos/:cuartel_ID',getUsos_RiegosByCuartel);
+router.get('/uso_riego/:cuartel_ID',getUsos_RiegosByCuartel);
 
 router.post('/uso_riego',createUso_Riego);
 
