@@ -40,7 +40,11 @@ export const apiCuarteles = createApi({
         body: changes,
       }),
     }),
+    
+    getUsuarios: builder.query({
+      query: () => 'http://localhost:3000/usuarios'
+    }),
   }),
 });
 
-export const { useGetCuartelesQuery, usePostCuartelMutation, usePutCuartelMutation, useGetUsoRiegoQuery, usePostRiegoMutation, usePutRiegoMutation } = apiCuarteles;
+export const { useGetCuartelesQuery, usePostCuartelMutation, usePutCuartelMutation, useGetUsoRiegoQuery, usePostRiegoMutation, usePutRiegoMutation, useGetUsuariosQuery } = apiCuarteles;
