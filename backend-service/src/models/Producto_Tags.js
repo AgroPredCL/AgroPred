@@ -6,9 +6,8 @@ export const ProductoTag = sequelize.define('producto_tag',{
         type: DataTypes.INTEGER,
         primaryKey: true
     },
-    tag_nombre:{
-        type: DataTypes.STRING(20),
+    tag_id: {
+        type: DataTypes.INTEGER,
         primaryKey: true,
-        allowNull: false
     },
 })

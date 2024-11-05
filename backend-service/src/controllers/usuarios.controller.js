@@ -16,14 +16,15 @@ export const getUsuarios = async (req, res) => {
 // Crear un nuevo usuario
 export const createUsuario = async (req, res) => {
     try {
-        const { rut, email, nom_predio, full_name, num_telefono, password } = req.body;
+        const { rut, email, nom_predio, full_name, num_telefono, password, rol } = req.body;
         const newUsuario = await Usuario.create({
             rut, // Agregar rut como parte de los datos del usuario
             email,
             nom_predio,
             full_name,
             num_telefono,
-            password
+            password,
+            rol
         });
         res.json(newUsuario);
     } catch (error) {

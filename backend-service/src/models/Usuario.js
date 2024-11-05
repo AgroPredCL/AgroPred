@@ -29,8 +29,17 @@ export const Usuario = sequelize.define('usuario', {
         type: DataTypes.STRING(45),
         allowNull: false
     },
+    rol: {
+        type: DataTypes.STRING(30),
+        allowNull: false,
+        validate: {
+            isIn: [['agronomo', 'jefe de predio']], // Allowed values
+        }
+    }
+    
 });
 
+/* 
 // Definición de relaciones
 Usuario.hasMany(Rol_Usuario, {
     foreignKey: 'rut',
@@ -41,3 +50,4 @@ Rol_Usuario.belongsTo(Usuario, {
     foreignKey: 'rut', 
     targetKey: 'rut'   
 });
+*/

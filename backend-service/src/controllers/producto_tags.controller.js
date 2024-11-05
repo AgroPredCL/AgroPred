@@ -15,8 +15,8 @@ export const getProductoTags = async (req, res) => {
 // Crear una nueva relación entre producto y tag
 export const createProductoTag = async (req, res) => {
     try {
-        const { producto_ID, tag_nombre } = req.body;
-        const newProductoTag = await ProductoTag.create({ producto_ID, tag_nombre });
+        const { producto_ID, tag_id } = req.body;
+        const newProductoTag = await ProductoTag.create({ producto_ID, tag_id });
         res.status(201).json(newProductoTag);
     } catch (error) {
         res.status(500).json({ message: 'Something went wrong', error });
@@ -47,14 +47,14 @@ export const getTagsOfProducts = async (req, res) => {
 
 // Obtener los productos con un tag
 export const getProductsWithTag = async (req, res) => {
-    const { tag_nombre } = req.params;
+    const { tag_nombre } = req.params; // Assume tag_nombre comes from the route params
 
     try {
         const productos = await ProductoTag.findAll({
-            where: { tag_nombre },
+            where: { tag_id: (await Tag.findOne({ where: { tag_nombre } })).tag_id }, // Find tag_id first
             include: [{
-                model: Producto, // Asegúrate de que has importado el modelo Product
-                as: 'producto', // Asumiendo que tienes un alias para la relación
+                model: Producto, // Ensure the Product model is imported correctly
+                as: 'producto', // Assuming you have defined an alias for the relationship
             }]
         });
 

@@ -13,6 +13,24 @@ export const getTags = async (req, res) => {
     }
 };
 
+// Obtener id de un tag por su nombre
+export const getTagIdByName = async (req, res) => {
+    const { tag_nombre } = req.params; // Get the tag name from the route parameters
+
+    try {
+        // Query the tag by its name
+        const tag = await Tag.findOne({ where: { tag_nombre } });
+        
+        if (!tag) {
+            return res.status(404).json({ message: "Tag not found." }); // Handle case where tag does not exist
+        }
+        
+        res.status(200).json(tag); // Return the found tag
+    } catch (error) {
+        res.status(500).json({ message: "Something went wrong while fetching the tag", data: { error: error.message } });
+    }
+};
+
 export const createTag = async (req, res) => {
     console.log(req.body);
     try {
