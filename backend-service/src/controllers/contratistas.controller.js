@@ -1,9 +1,16 @@
 import { Contratista } from "../models/Contratista.js";
+import moment from 'moment';
 
 export const getContratistas = async (req, res) => {
     try {
         const contratistas  = await Contratista.findAll();
-        res.json(contratistas);
+        const formattedContratistas = contratistas.map(contratista => {
+            return {
+                ...contratista.toJSON(),
+                fecha_contrato: moment(contratista.fecha_contrato).format('DD-MM-YYYY')
+            };
+        });
+        res.json(formattedContratistas);
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
@@ -14,17 +21,22 @@ export const getContratistas = async (req, res) => {
 
 export const createContratista= async (req, res) => {
     try {
-        const {rut,categoria,cant_empleados,costo,descripcion,email,full_name,nom_empresa,num_telefono} = req.body;
+        const {rut,nom_predio,fecha_contrato,cant_empleados,costo,descripcion,email,email_empresa,estado,full_name,nom_empresa,num_telefono,num_telefono_empresa} = req.body;
+        const formattedFecha = moment(fecha_contrato, 'DD-MM-YYYY').format('YYYY-MM-DD');
         const newContratista= await Contratista.create({
             rut,
-            categoria,
+            nom_predio,
+            fecha_contrato: formattedFecha,
             cant_empleados,
             costo,
             descripcion,
             email,
+            email_empresa,
+            estado,
             full_name,
             nom_empresa,
-            num_telefono
+            num_telefono,
+            num_telefono_empresa
         })
         res.json(newContratista);
     } catch (error) {
