@@ -4,15 +4,7 @@ import moment from 'moment';
 export const getProductos = async (req, res) => {
     try {
         const productos  = await Producto.findAll();
-
-        const formattedProduct = productos.map(producto => {
-            return {
-                ...producto.toJSON(),
-                vencimiento: moment(producto.vencimiento).format('DD-MM-YYYY')
-            };
-        });
-
-        res.json(formattedProduct);
+        res.json(productos);
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
@@ -23,16 +15,15 @@ export const getProductos = async (req, res) => {
 
 export const createProducto= async (req, res) => {
     try {
-        const {categoria,vencimiento,cantidad,costo,descripcion,marca,nombre} = req.body;
-        const formattedFecha = moment(vencimiento, 'DD-MM-YYYY').format('YYYY-MM-DD');
+        const {categoria,cantidad,descripcion,estado,nombre,ubicacion} = req.body;
+        
         const newProducto= await Producto.create({
             categoria,
-            vencimiento: formattedFecha,
             cantidad,
-            costo,
             descripcion,
-            marca,
-            nombre
+            estado,
+            nombre,
+            ubicacion
         })
         res.json(newProducto);
     } catch (error) {
@@ -78,10 +69,6 @@ export const updateProducto = async (req, res) => {
         const filteredData = Object.fromEntries(
             Object.entries(updateData).filter(([key, value]) => value !== undefined)
         );
-
-        if (filteredData.vencimiento) {
-            filteredData.vencimiento = moment(filteredData.vencimiento, 'DD-MM-YYYY').format('YYYY-MM-DD');
-        }
 
         // Si no hay campos válidos para actualizar, enviar error
         if (Object.keys(filteredData).length === 0) {

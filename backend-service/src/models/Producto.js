@@ -13,6 +13,7 @@ export const Producto = sequelize.define('producto', {
         type: DataTypes.STRING(30),
         allowNull: false
     },
+    cantidad : {
     vencimiento: {
         type: DataTypes.DATEONLY,
         allowNull: false
@@ -21,6 +22,7 @@ export const Producto = sequelize.define('producto', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
+    descripcion : {
     costo: {
         type: DataTypes.INTEGER,
         allowNull: false
@@ -28,13 +30,19 @@ export const Producto = sequelize.define('producto', {
     descripcion: {
         type: DataTypes.STRING(100)
     },
-    marca: {
-        type: DataTypes.STRING(25),
-        allowNull: false
+    estado : {
+        type: DataTypes.STRING(100)
     },
     nombre: {
         type: DataTypes.STRING(25),
         allowNull: false
+    },
+    nombre:{
+        type: DataTypes.STRING(25),
+        allowNull: false
+    },
+    ubicacion: {
+        type: DataTypes.STRING(40)
     }
 });
 

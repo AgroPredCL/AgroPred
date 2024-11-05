@@ -43,20 +43,23 @@ export const poblar_BaseDatos = async (req, res) => {
             categoria_inventario,
             //---------------------- Contratista
             rut_contratista,
+            fecha_contrato,
             cant_empleados_contratista,
             costo_contratista,
             descrpicion_contratista,
             email_contratista,
+            email_empresa,
+            estado,
             full_name_contratista,
             nom_empresa_contratista,
             num_telefono_contratista,
+            num_telefono_empresa,
             //-----------------------Producto 
-            vencimiento_producto,
             cantidad_producto,
-            costo_producto,
             descripcion_producto,
-            marca_producto,
+            estado_producto,
             nombre_producto,
+            ubicacion_producto,
             //-----------------------Cuartel 
             nombre_Cuartel,
             area_cuartel,
@@ -155,26 +158,30 @@ export const poblar_BaseDatos = async (req, res) => {
         // Poblar tabla Contratista 
         const newContratista = await Contratista.create({
             rut: rut_contratista,
-            categoria: categoria_inventario,
+            nom_predio: nombre_predio,
+            fecha_contrato: fecha_contrato,
             cant_empleados: cant_empleados_contratista,
             costo: costo_contratista,
             descripcion: descrpicion_contratista,
             email: email_contratista,
+            email_empresa: email_empresa,
+            estado: estado,
             full_name: full_name_contratista,
             nom_empresa: nom_empresa_contratista,
-            num_telefono: num_telefono_contratista
+            num_telefono: num_telefono_contratista,
+            num_telefono_empresa: num_telefono_empresa
+            
 
         }, {transaction});
 
         // Poblar tabla Producto
         const newProducto = await Producto.create({
             categoria: categoria_inventario,
-            vencimiento: vencimiento_producto,
             cantidad: cantidad_producto,
-            costo: costo_producto,
             descripcion: descripcion_producto,
-            marca: marca_producto,
-            nombre: nombre_producto
+            estado: estado_producto,
+            nombre: nombre_producto,
+            ubicacion: ubicacion_producto
 
         }, {transaction});
 

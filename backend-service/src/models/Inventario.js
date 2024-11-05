@@ -26,13 +26,3 @@ Producto.belongsTo(Inventario,{
 })
 
 //-----------------------------------
-
-Inventario.hasMany(Contratista,{
-    foreignKey: 'categoria',
-    sourceKey: 'categoria'
-})
-
-Contratista.belongsTo(Inventario,{
-    foreignKey: 'categoria',
-    targetId: 'categoria'
-})
