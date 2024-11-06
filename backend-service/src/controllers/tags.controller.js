@@ -42,6 +42,41 @@ export const createTag = async (req, res) => {
     }
 };
 
+// Modificar tag a partir de su id
+export const updateTag = async (req, res) => {
+    try {
+        const { tag_id } = req.params;
+        const updateData = req.body;
+
+        // Find the tag by its ID
+        const tag = await Tag.findOne({ where: { tag_id } });
+
+        if (!tag) {
+            return res.status(404).json({ message: 'Tag not found' });
+        }
+
+        // Filter out any fields with undefined values
+        const filteredData = Object.fromEntries(
+            Object.entries(updateData).filter(([key, value]) => value !== undefined)
+        );
+
+        // If there are no valid fields to update, return an error
+        if (Object.keys(filteredData).length === 0) {
+            return res.status(400).json({ message: 'No fields to update' });
+        }
+
+        // Update only the provided fields
+        await tag.update(filteredData);
+
+        res.json({ message: 'Tag updated successfully' });
+    } catch (error) {
+        res.status(500).json({
+            message: 'Something went wrong',
+            data: { error }
+        });
+    }
+};
+
 // Eliminar un tag
 export const deleteTag = async (req, res) => {
     try {

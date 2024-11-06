@@ -1,4 +1,5 @@
 import { Usuario } from "../models/Usuario.js";
+import nodemailer from 'nodemailer';
 
 // Obtener todos los usuarios
 export const getUsuarios = async (req, res) => {
@@ -13,12 +14,58 @@ export const getUsuarios = async (req, res) => {
     }
 }
 
+const creacionUsuarioEmail = async (receiverEmail, response) => {
+    const email = "agropredalerta@gmail.com";
+    const password = "bpecnlqllszildgv"; // Usa una variable de entorno en producción
+
+    // Configura el transporter de Nodemailer
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: email,
+            pass: password
+        }
+    });
+
+    const subject = "Bienvenido a AgroPred";
+    const message = 
+    `Has creado tu cuenta en agropred.
+    
+    Tu información: 
+    Nombre: ${response.full_name}
+    Email: ${response.email}
+    Contraseña: ${response.contrasena}
+
+    Saludos, 
+    Agropred 
+
+    Más precisión, 
+    Menos preocupaciones.`;
+
+    const mailOptions = {
+        from: email,
+        to: receiverEmail,
+        subject: subject,
+        text: message
+    };
+
+    // Enviar el email
+    try {
+        await transporter.sendMail(mailOptions);
+        console.log(`Email sent to: ${receiverEmail}`);
+    } catch (error) {
+        console.error('Error sending email:', error);
+    }
+};
+
 // Crear un nuevo usuario
 export const createUsuario = async (req, res) => {
     try {
         const { rut, email, nom_predio, full_name, num_telefono, password, estado, rol } = req.body;
+
+        // Crear el nuevo usuario
         const newUsuario = await Usuario.create({
-            rut, // Agregar rut como parte de los datos del usuario
+            rut,
             email,
             nom_predio,
             full_name,
@@ -27,6 +74,18 @@ export const createUsuario = async (req, res) => {
             estado,
             rol
         });
+
+        // Datos de ejemplo para la alerta de helada
+        const frostAlertData = {
+            full_name: newUsuario.full_name,
+            email: newUsuario.email,
+            contrasena: newUsuario.password
+        };
+
+        // Enviar el correo electrónico de alerta de helada
+        await creacionUsuarioEmail(email, frostAlertData);
+
+        // Responder con los detalles del usuario creado
         res.json(newUsuario);
     } catch (error) {
         res.status(500).json({
@@ -34,7 +93,7 @@ export const createUsuario = async (req, res) => {
             data: { error }
         });
     }
-}
+};
 
 // Eliminar un usuario
 export const deleteUsuario = async (req, res) => {

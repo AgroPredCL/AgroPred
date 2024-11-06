@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getTags, createTag, deleteTag, getTagIdByName } from '../controllers/tags.controller.js';
+import { getTags, createTag, deleteTag, getTagIdByName, updateTag } from '../controllers/tags.controller.js';
 
 const router = Router();
 
@@ -7,6 +7,8 @@ const router = Router();
 router.get('/tags', getTags);
 
 router.get('/tags/:tag_nombre', getTagIdByName);
+
+router.put('/tags/:tag_id',updateTag);
 
 // Crear un nuevo tag
 router.post('/tags', createTag);
