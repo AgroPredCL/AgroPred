@@ -21,6 +21,10 @@ export const Usuario = sequelize.define('usuario', {
         type: DataTypes.STRING(320),
         allowNull: false
     },
+    estado : {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    },
     password: {
         type: DataTypes.STRING(256),
         allowNull: false
