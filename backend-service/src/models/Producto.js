@@ -7,32 +7,29 @@ export const Producto = sequelize.define('producto',{
         primaryKey: true,
         autoIncrement: true
     },
-    categoria : {
-        type: DataTypes.STRING(30),
-        allowNull: false
-    },
-    cantidad : {
-        type: DataTypes.INTEGER,
+    nombre:{
+        type: DataTypes.STRING(25),
         allowNull: false
     },
     descripcion : {
         type: DataTypes.STRING(100)
     },
-    estado : {
-        type: DataTypes.STRING(100)
-    },
-    nombre:{
-        type: DataTypes.STRING(25),
+    cantidad : {
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     ubicacion: {
         type: DataTypes.STRING(40)
-    }
-   
-    
-  
-
- 
-    
-    
+    },
+    estado : {
+        type: DataTypes.STRING(100),
+        allowNull: true,
+        validate: {
+            isIn: [['Sin stock', 'En espera de reposición', 'Disponible']], // Allowed values
+        }
+    },
+    categoria : {
+        type: DataTypes.STRING(30),
+        allowNull: false
+    },
 }) 

@@ -4,6 +4,7 @@ import { Rol_Usuario } from "./Rol_Usuario.js";
 import { Rol } from "./Rol.js";
 
 export const Usuario = sequelize.define('usuario', {
+    // Nombre completo del agronomo o jefe de predio
     nombre: {
         type: DataTypes.STRING(60),
         allowNull: false
@@ -16,11 +17,6 @@ export const Usuario = sequelize.define('usuario', {
         type: DataTypes.STRING(60),
         allowNull: false
     },
-    nombre_usuario: {
-        type: DataTypes.STRING(60),
-        allowNull: false,
-        unique: true
-    },
     rut: {
         type: DataTypes.STRING(15),
         allowNull: false,
@@ -32,18 +28,25 @@ export const Usuario = sequelize.define('usuario', {
     },
     email: {
         type: DataTypes.STRING(320),
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     estado : {
         type: DataTypes.BOOLEAN,
         allowNull: false
     },
-    password: {
-        type: DataTypes.STRING(256),
-        allowNull: false
-    },
     nom_predio: {
         type: DataTypes.STRING(45),
+        allowNull: false
+    },
+    nombre_usuario: {
+        type: DataTypes.STRING(60),
+        allowNull: false,
+        unique: true
+    },
+    
+    password: {
+        type: DataTypes.STRING(256),
         allowNull: false
     },
     rol: {
