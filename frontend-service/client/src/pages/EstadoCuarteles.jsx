@@ -10,6 +10,9 @@ import FertilizerRecommendations from '@components/estado-cuarteles/FertilizerRe
 import { formatearFechaHora } from '@adapters/dd-mm-yyyy';
 import { useGetCuartelesQuery } from '@services/apiSliceGestion';
 import { useGetFechasLimiteQuery } from '@services/apiSliceModelos';
+import  UploadImage  from '@components/Subir_imagen/ImageUploader';
+
+
 
 export default function EstadoCuarteles() {
 	const [selectedCuartel, setSelectedCuartel] = useState({
@@ -32,7 +35,7 @@ export default function EstadoCuarteles() {
 			Impacto: 'Alto',
 			Descripcion: 'Aparece en condiciones húmedas y cálidas.',
 			Confiabilidad: 55,
-			Recomendaciones: 'Aplicar fungicida.',
+			Recomendaciones: 'Aplicar fungicida en base a cobre antes de una precipitación.',
 		},
 	];
 
@@ -43,7 +46,7 @@ export default function EstadoCuarteles() {
 			Impacto: 'Alto',
 			Descripcion: 'Aparece en condiciones de alta humedad.',
 			Confiabilidad: 75,
-			Recomendaciones: 'Mejorar el drenaje.',
+			Recomendaciones: 'No aplicar riego en exceso y usar emisores de similar audal en el sector',
 		},
 	];
 
@@ -80,12 +83,18 @@ export default function EstadoCuarteles() {
 				{console.log('Cuartel:', selectedCuartel)}
 				{RenderCuartelDetails(selectedCuartel)}
 			</Seccion>
-
+			
 			<Seccion titulo='Estado de Salud'>
+				
+				
+				
 				<article className='pt-2'>
-					<h2 className='text-xl font-semibold text-gray-700 mb-4'>
-						Enfermedades
-					</h2>
+					<div className='grid grid-cols-1 md:grid-cols-2 gap-x-44'>
+						<h2 className='text-xl font-semibold text-gray-700 mb-4'>
+							Enfermedades
+						</h2>
+						<UploadImage/>
+					</div>
 					{/* Tabla de predicciones con filtro de fechas */}
 					<Table
 						actualidad={actualidad}
