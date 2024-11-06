@@ -21,6 +21,10 @@ export const Usuario = sequelize.define('usuario', {
         type: DataTypes.STRING(320),
         allowNull: false
     },
+    estado : {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    },
     password: {
         type: DataTypes.STRING(256),
         allowNull: false
@@ -28,7 +32,7 @@ export const Usuario = sequelize.define('usuario', {
     nom_predio: {
         type: DataTypes.STRING(45),
         allowNull: false
-    },
+    }
 });
 
 // Definición de relaciones
