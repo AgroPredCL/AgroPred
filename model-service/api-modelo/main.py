@@ -112,6 +112,19 @@ async def currentState(nombreCuartel: str, diasAPredecir: Optional[int] = Query(
     output = predictController(nombreCuartel, diasAPredecir)
     return output
 
+@app.get("/disease/predict")
+async def predictDisease(nombreCuartel: str):
+    output = {
+                "fecha": "10-11-2024",
+                "estado" : "Sano",
+                "enfermedad": "No",
+                "descripción": "Planta sana",
+                "impacto": "Planta en buen estado",
+                "confiabilidad": "97%",
+                "recomendación": "mantenga su cultivo como lo ha hecho hasta ahora"
+                }
+    return output
+
 @app.get("/diseases")
 async def process_image_diseases(image_number: Optional[str] = Query(None, description="Image number")):
     # Give description of the state
