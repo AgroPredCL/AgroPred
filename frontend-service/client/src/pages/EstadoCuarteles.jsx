@@ -10,7 +10,6 @@ import FertilizerRecommendations from '@components/estado-cuarteles/FertilizerRe
 import { formatearFechaHora } from '@adapters/dd-mm-yyyy';
 import { useGetCuartelesQuery } from '@services/apiSliceGestion';
 import { useGetFechasLimiteQuery } from '@services/apiSliceModelos';
-import  UploadImage  from '@components/Subir_imagen/ImageUploader';
 
 
 
@@ -93,7 +92,6 @@ export default function EstadoCuarteles() {
 						<h2 className='text-xl font-semibold text-gray-700 mb-4'>
 							Enfermedades
 						</h2>
-						<UploadImage/>
 					</div>
 					{/* Tabla de predicciones con filtro de fechas */}
 					<Table
