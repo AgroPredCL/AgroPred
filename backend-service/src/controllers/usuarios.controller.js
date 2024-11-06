@@ -77,7 +77,8 @@ export const createUsuario = async (req, res) => {
         const getUserName = (name, apellidoPaterno, apellidoMaterno, rut) => {
             const firstLetter = name[0].toLowerCase(); // Primera letra del nombre
             const lastName = apellidoPaterno.toLowerCase(); // Apellido (última parte del nombre completo)
-            const lastRutDigit = rut.slice(-1); // Último dígito del RUT
+            // const lastRutDigit = rut.slice(-1); // Antepenultimo digito del rut
+            const lastRutDigit = rut.slice(-3, -2); // Penultimo digito del rut
 
             return `${firstLetter}${lastName}${lastRutDigit}`;
         };

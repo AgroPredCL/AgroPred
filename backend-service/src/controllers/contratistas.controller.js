@@ -3,25 +3,29 @@ import moment from 'moment';
 
 export const getContratistas = async (req, res) => {
     try {
-        const contratistas  = await Contratista.findAll();
-        const formattedContratistas = contratistas.map(contratista => {
-            return {
-                ...contratista.toJSON(),
-                fecha_contrato: moment(contratista.fecha_contrato).format('DD-MM-YYYY')
-            };
+        const contratistas = await Contratista.findAll({
+            order: [
+                ['apellido_paterno', 'DESC'],
+                ['apellido_materno', 'DESC'],
+                ['nombre', 'DESC']
+            ]
         });
+
+        const formattedContratistas = contratistas.map(contratista => contratista.toJSON());
+
         res.json(formattedContratistas);
     } catch (error) {
         res.status(500).json({
             message: 'Something went wrong',
-            data: {error}
+            data: { error }
         });
     }
-}
+};
+
 
 export const createContratista= async (req, res) => {
     try {
-        const {rut,nom_predio,fecha_contrato,cant_empleados,costo,descripcion,email,email_empresa,estado,full_name,nom_empresa,num_telefono,num_telefono_empresa} = req.body;
+        const {rut,nom_predio,fecha_contrato,cant_empleados,costo,descripcion,email,email_empresa,estado,nombre, apellido_paterno, apellido_materno,nom_empresa,num_telefono,num_telefono_empresa} = req.body;
         const formattedFecha = moment(fecha_contrato, 'DD-MM-YYYY').format('YYYY-MM-DD');
         const newContratista= await Contratista.create({
             rut,
@@ -33,7 +37,9 @@ export const createContratista= async (req, res) => {
             email,
             email_empresa,
             estado,
-            full_name,
+            nombre,
+            apellido_paterno,
+            apellido_materno,
             nom_empresa,
             num_telefono,
             num_telefono_empresa
@@ -69,7 +75,7 @@ export const deleteContratista = async (req, res) => {
 
 export const updateContratista = async (req, res) => {
     try {
-        const {rut } = req.params;
+        const { rut } = req.params;
         const updateData = req.body; // Tomamos directamente el body con los campos a actualizar
 
         const contratista = await Contratista.findOne({ where: { rut } });
