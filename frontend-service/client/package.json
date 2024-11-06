@@ -11,9 +11,6 @@
 		"lint": "eslint --fix ."
 	},
 	"dependencies": {
-		"@emotion/react": "^11.13.3",
-		"@emotion/styled": "^11.13.0",
-		"@mui/material": "^6.1.6",
 		"@reduxjs/toolkit": "2.2.8",
 		"bootstrap-icons": "^1.11.3",
 		"chart.js": "^4.4.4",
