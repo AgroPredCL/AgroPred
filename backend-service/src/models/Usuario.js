@@ -4,9 +4,22 @@ import { Rol_Usuario } from "./Rol_Usuario.js";
 import { Rol } from "./Rol.js";
 
 export const Usuario = sequelize.define('usuario', {
-    full_name: {
+    nombre: {
         type: DataTypes.STRING(60),
         allowNull: false
+    },
+    apellido_paterno: {
+        type: DataTypes.STRING(60),
+        allowNull: false
+    },
+    apellido_materno: {
+        type: DataTypes.STRING(60),
+        allowNull: false
+    },
+    nombre_usuario: {
+        type: DataTypes.STRING(60),
+        allowNull: false,
+        unique: true
     },
     rut: {
         type: DataTypes.STRING(15),

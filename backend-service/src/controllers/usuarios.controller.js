@@ -32,7 +32,7 @@ const creacionUsuarioEmail = async (receiverEmail, response) => {
     `Has creado tu cuenta en agropred.
     
     Tu información: 
-    Nombre: ${response.full_name}
+    Nombre de usuario: ${response.nombre_usuario}
     Email: ${response.email}
     Contraseña: ${response.contrasena}
 
@@ -61,29 +61,53 @@ const creacionUsuarioEmail = async (receiverEmail, response) => {
 // Crear un nuevo usuario
 export const createUsuario = async (req, res) => {
     try {
-        const { rut, email, nom_predio, full_name, num_telefono, password, estado, rol } = req.body;
+        const { rut, email, nom_predio, nombre, apellido_paterno, apellido_materno, num_telefono, estado, rol } = req.body;
+
+        const generateRandomPassword = (length = 12) => {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return password;
+        };
+
+        const password = generateRandomPassword();
+
+        const getUserName = (name, apellidoPaterno, apellidoMaterno, rut) => {
+            const firstLetter = name[0].toLowerCase(); // Primera letra del nombre
+            const lastName = apellidoPaterno.toLowerCase(); // Apellido (última parte del nombre completo)
+            const lastRutDigit = rut.slice(-1); // Último dígito del RUT
+
+            return `${firstLetter}${lastName}${lastRutDigit}`;
+        };
+
+        const nombre_usuario = getUserName(nombre, apellido_paterno, apellido_materno, rut);
+
+        console.log(nombre_usuario);
 
         // Crear el nuevo usuario
         const newUsuario = await Usuario.create({
             rut,
             email,
             nom_predio,
-            full_name,
+            nombre,
+            apellido_paterno,
+            apellido_materno,
+            nombre_usuario,
             num_telefono,
             password,
             estado,
             rol
         });
 
-        // Datos de ejemplo para la alerta de helada
-        const frostAlertData = {
-            full_name: newUsuario.full_name,
+        const dataUsuario = {
+            nombre_usuario: newUsuario.nombre_usuario,
             email: newUsuario.email,
             contrasena: newUsuario.password
         };
 
-        // Enviar el correo electrónico de alerta de helada
-        await creacionUsuarioEmail(email, frostAlertData);
+        await creacionUsuarioEmail(email, dataUsuario);
 
         // Responder con los detalles del usuario creado
         res.json(newUsuario);
