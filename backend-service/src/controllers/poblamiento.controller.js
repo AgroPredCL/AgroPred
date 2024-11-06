@@ -33,12 +33,11 @@ export const poblar_BaseDatos = async (req, res) => {
             region_ubicacion,
             //----------------------- Usuario 
             email_usuario,
+            rut_usuario,
             full_name_usuario,
             num_telefono_usuario,
             password_usuario,
-            //----------------------- Rol
             rol_usuario,
-            //---------------------- Rol-Usuario
             //---------------------- Inventario
             categoria_inventario,
             //---------------------- Contratista
@@ -128,23 +127,26 @@ export const poblar_BaseDatos = async (req, res) => {
         // Poblar tabla Usuario
         const newUsuario = await Usuario.create({
             email: email_usuario,
+            rut: rut_usuario,
             nom_predio: nombre_predio,
             full_name: full_name_usuario,
             num_telefono: num_telefono_usuario,
-            password: password_usuario
+            password: password_usuario,
+            rol: rol_usuario
 
         }, { transaction });
 
         // Poblar tabla Rol
         const newRol = await Rol.create({
             rol_user: rol_usuario
+   
 
         }, {transaction});
 
         // Poblar tabla Rol-Usuario 
         const newRol_Usuario = await Rol_Usuario.create({
-            email: email_usuario,
-            rol_user: rol_usuario
+            rol_user: rol_usuario,
+            rut: rut_usuario
 
         }, {transaction});
 
