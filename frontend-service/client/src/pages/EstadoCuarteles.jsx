@@ -59,23 +59,7 @@ export default function EstadoCuarteles() {
 				
 				
 				
-<<<<<<< HEAD
-				<article className='pt-2'>
-					<div className='grid grid-cols-1 md:grid-cols-2 gap-x-44'>
-						<h2 className='text-xl font-semibold text-gray-700 mb-4'>
-							Enfermedades
-						</h2>
-					</div>
-					{/* Tabla de predicciones con filtro de fechas */}
-					<Table
-						actualidad={actualidad}
-						predicciones={predicciones}
-						fechas={fechas}
-					/>
-				</article>
-=======
 				<HeathState cuartel={selectedCuartel.nombre_Cuartel}  />
->>>>>>> b3807d0f8798d9c70c34b535c361df4ad907d5be
 
 				<FertilizerRecommendations cuartel={selectedCuartel.nombre_Cuartel} />
 			</Seccion>
