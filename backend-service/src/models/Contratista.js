@@ -21,7 +21,7 @@ export const Contratista = sequelize.define('contratista',{
         allowNull: false
     },
     num_telefono: {
-        type: DataTypes.INTEGER
+        type: DataTypes.STRING(20)
     },
     email : {
         type: DataTypes.STRING(320),
@@ -34,7 +34,7 @@ export const Contratista = sequelize.define('contratista',{
         type: DataTypes.STRING(320)
     },
     num_telefono_empresa: {
-        type: DataTypes.INTEGER
+        type: DataTypes.STRING(20)
     },
     descripcion: {
         type: DataTypes.STRING(200)

@@ -40,7 +40,31 @@ export const apiCuarteles = createApi({
         body: changes,
       }),
     }),
+    
+    getUsuarios: builder.query({
+      query: () => 'http://localhost:3000/usuarios'
+    }),
+    postUsuarios: builder.mutation({
+      query: (nuevoUser) => ({
+        url: '/usuario',
+        method: 'POST',
+        body: nuevoUser,
+      }),
+    }),
+    putUsuario: builder.mutation({
+      query: ({rut, changes}) => ({
+        url: `/usuario/${rut}`,
+        method: 'PUT',
+        body: changes,
+      }),
+    }),
+    deleteUsuario: builder.mutation({
+      query: (rut) => ({
+        url: `/usuario/${rut}`,
+        method: 'DELETE'
+      }),
+    }),
   }),
 });
 
-export const { useGetCuartelesQuery, usePostCuartelMutation, usePutCuartelMutation, useGetUsoRiegoQuery, usePostRiegoMutation, usePutRiegoMutation } = apiCuarteles;
+export const { useGetCuartelesQuery, usePostCuartelMutation, usePutCuartelMutation, useGetUsoRiegoQuery, usePostRiegoMutation, usePutRiegoMutation, useGetUsuariosQuery, usePostUsuariosMutation, usePutUsuarioMutation, useDeleteUsuarioMutation } = apiCuarteles;

@@ -18,8 +18,11 @@ def stateEnPeriodoEspecifico(nombreCuartel, startDate, endDate):
         if data_sensores['FechaHora'][i][:10] == endDate:
             hasta = i
             break
+    
+    
 
     # Obtener los valores de los sensores (+3 por que son 3 mediciones por dia y asi se cuenta el dia completo para HASTA)
+    
     nitrogeno = data_sensores['Nitrogeno'][desde:hasta+3]
     potasio = data_sensores['Potasio'][desde:hasta+3]
     fosforo = data_sensores['Fosforo'][desde:hasta+3]
@@ -401,7 +404,7 @@ def hacerRecomendacionFertilizante(nombreCuartel):
 
 def alertaPorHelada_helper():
 
-    desde, hasta, duracion, minima, promedio = "14-10-2024 07:00", "14-10-2024 09:00", 2, -0.3, -0.2
+    desde, hasta, duracion, minima, promedio = "11-11-2024 05:00", "11-11-2024 06:00", 2, -0.3, -0.2
 
     respuesta = {
         "desde": desde,
