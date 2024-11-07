@@ -1,5 +1,5 @@
-# Usa una imagen base de Node.js
-FROM node:18-alpine
+# Etapa de construcción
+FROM node:18-alpine AS build
 
 # Establece el directorio de trabajo
 WORKDIR /frontend-service
@@ -7,19 +7,26 @@ WORKDIR /frontend-service
 # Copia los archivos de configuración de npm
 COPY client/package.json client/package-lock.json* ./
 
-RUN npm ci --verbose
+# Instala solo las dependencias de producción
+RUN npm ci --production --verbose
 
 # Copia el resto del código de la aplicación
 COPY client/ .
 
-# Instala un servidor estático para servir los archivos construidos
-RUN npm install -g serve
+# Construye la aplicación para producción
+RUN npm run build
 
-# Expone el puerto en el que se servirá la aplicación
+# Etapa de producción
+FROM nginx:alpine
+
+# Copia los archivos construidos desde la etapa anterior
+COPY --from=build /frontend-service/dist /usr/share/nginx/html
+
+# Copia configuración de nginx si es necesario (opcional)
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expone el puerto en el que servirá nginx
 EXPOSE 5173
 
-RUN serve -s dist -l 5173
-
-#CMD ["serve", "-s", "dist", "-l", "5173"]
-
-CMD ["npm", "start"]
+# Comando para iniciar nginx en modo de primer plano
+CMD ["nginx", "-g", "daemon off;"]
