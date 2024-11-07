@@ -13,8 +13,6 @@ def stateEnPeriodoEspecifico(nombreCuartel, startDate, endDate):
     else: 
         data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
 
-    data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
-
     desde = 0
     hasta = 0
 
