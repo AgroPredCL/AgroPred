@@ -118,10 +118,15 @@ export function Table({ actualidad, predicciones, fechas }) {
 						onChange={handleMonthChange}
 						className='block w-full px-3 py-2 text-base border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md'
 					>
-						<option value=''>Elige un mes</option>
-						{fechas.map(fecha => (
+						<option value=''>Elige una fecha</option>
+						{/* {fechas.map(fecha => (
 							<option key={fecha}>
 								{fecha}
+							</option>
+						))} */}
+						{fechas.map(fecha => (
+							<option key={fecha.nombre} value={fecha.nombre}>
+								{fecha.nombre}
 							</option>
 						))}
 					</select>

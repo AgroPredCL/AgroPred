@@ -2,7 +2,7 @@ import { Table } from '@components/estado-cuarteles/TableSalud';
 import React, { useState } from 'react';
 import  UploadImage  from '@components/Subir_imagen/ImageUploader';
 import { useGetPrediccionEnfermedadesQuery } from '@services/apiSliceModelos';
-
+ 
 function Convert_Array(data) {
     let fechas = [];
     // Recorrer el objeto y extraer las fechas
@@ -22,10 +22,10 @@ function formatDataForChart(apiData) {
 };  
 
 export default function HeathState({ cuartel }){
-    const [predictedData, setpPredictedData] = useState(null);
-
+    const [predictedData, setPredictedData] = useState(null);
+    const [apiData, setApiData] = useState(null);
     
-
+ 
     // Datos de ejemplo para enfermedades actuales y predicciones
 	const actualidad = [
 	
@@ -48,9 +48,20 @@ export default function HeathState({ cuartel }){
 		{ nombre: 'Marzo', dia: 2 },
 	];
 
-    const prediccion = useGetPrediccionEnfermedadesQuery(cuartel);
-     
-    //console.log("pobando",prediccion)
+    //setApiData(useGetPrediccionEnfermedadesQuery(cuartel).data);
+    //console.log("apiData",apiData)
+    // Transformar los datos en el formato adecuado para el gráfico
+	const formatDataForChart = apiData => {
+		return Object.entries(apiData).map(([fecha, valor]) => ({
+			fecha: fecha, // Fecha como etiqueta
+			valor: valor, // Valor correspondiente a la fecha
+		}));
+	};
+
+
+    //console.log("probando",prediccion.data)
+    //const infoprediccion = prediccion.data[0];
+    //console.log("info",infoprediccion)
     //setpPredictedData(formatDataForChart(prediccion));
     //const fecha = Convert_Array(predictedData);
 

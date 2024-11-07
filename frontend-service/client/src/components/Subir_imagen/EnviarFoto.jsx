@@ -91,7 +91,7 @@ const Enviar_foto = ({ file, uploadDate, onClose, onUploadSuccess }) => {
       </button>
 
       
-      {loading && <LoadingSpinner />}
+      {loading && <LoadingSpinner Open={loading}/>}
       <ResponseModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
