@@ -25,6 +25,7 @@ ChartJS.register(
 );
 
 const LineChart = ({ data, title, yAxisLabel }) => {
+	console.log("data desde grafico",data)
 	const options = {
 		responsive: true,
 		maintainAspectRatio: false,
@@ -125,11 +126,11 @@ const LineChart = ({ data, title, yAxisLabel }) => {
 			intersect: false,
 		},
 	};
-
-	const labels = data[0].data.map(entry => {
+    const labels = data[0].data.map(entry => `${entry.fecha}`); //Suponindo que las fechas ya vienen en el formado de dd-MM-yyyy
+	/* const labels = data[0].data.map(entry => {
 		const date = new Date(entry.fecha); // Suponiendo que entry.fecha está en formato ISO
 		return date.toLocaleDateString('es-ES'); // 'es-ES' para formato día-mes-año
-	});
+	}); */
 
 	const chartData = {
 		labels,
