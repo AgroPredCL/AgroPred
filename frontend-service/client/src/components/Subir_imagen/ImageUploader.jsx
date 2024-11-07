@@ -1,6 +1,6 @@
 // UploadImage.js
 import React, { useState } from 'react';
-import CaptureButton from './camara';
+import CaptureButton from './camaraCopy';
 import PictureSelect from './archivos';
 import Enviar_foto from './EnviarFoto';
 
