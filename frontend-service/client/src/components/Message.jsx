@@ -1,40 +1,25 @@
 // src/components/ResponseModal.js
 import React from 'react';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
 
 const ResponseModal = ({ isOpen, onClose, responseData }) => {
+  if (!isOpen) return null;
 
-    return (
-        <Modal
-          open={isOpen}
-          onClose={onClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 mx-4">
+        <div className="text-center">
+          {responseData}
+        </div>
+        
+        <button
+          onClick={onClose}
+          className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md w-full hover:bg-blue-700"
         >
-          <Box sx={style}>
-            {responseData}
-            
-            <br></br>
-            <Button onClick={onClose} variant="contained" color="primary" sx={{ mt: 2 }}>
-              Cerrar
-            </Button>
-          </Box>
-        </Modal>
-    );
+          Cerrar
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default ResponseModal;

@@ -1,39 +1,35 @@
 // src/components/LoadingSpinner.js
 import React from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
-import { Modal } from '@mui/material';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 200,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-};
+const LoadingSpinner = ({ open }) => {
+  if (!open) return null;
 
-
-const LoadingSpinner = (OpenLoading) => {
   return (
-    
-
-    <Modal
-    open={OpenLoading}
-    aria-labelledby="modal-modal-title"
-    aria-describedby="modal-modal-description"
-    >
-    <Box sx={style}>
-      <CircularProgress />
-
-    </Box>
-    </Modal>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white border border-gray-300 shadow-lg rounded-lg w-48 h-48 flex justify-center items-center">
+        {/* Spinner */}
+        <svg
+          className="animate-spin h-12 w-12 text-green-500"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            className="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            strokeWidth="4"
+          ></circle>
+          <path
+            className="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+          ></path>
+        </svg>
+      </div>
+    </div>
   );
 };
 
