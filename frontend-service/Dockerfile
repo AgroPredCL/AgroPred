@@ -22,10 +22,10 @@ FROM nginx:alpine
 # Copia los archivos construidos desde la etapa anterior
 COPY --from=build /frontend-service/dist /usr/share/nginx/html
 
-# Copia configuración de nginx si es necesario (opcional)
-# COPY nginx.conf /etc/nginx/nginx.conf
+# Cambia el puerto en el archivo de configuración de nginx (opcional)
+RUN sed -i 's/listen       80;/listen       5173;/'
 
-# Expone el puerto en el que servirá nginx
+# Expone el puerto 5173
 EXPOSE 5173
 
 # Comando para iniciar nginx en modo de primer plano
