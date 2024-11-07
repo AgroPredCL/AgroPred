@@ -8,8 +8,9 @@ import RegisterRiego from '@pages/RegisterRiego';
 import GestionRiego from '@pages/GestionRiego';
 import GestionPersonal from '@pages/GestionPersonal';
 import CreateUser from '@pages/CreateUser';
-import GestionPredio from './pages/GestionPredio';
 import CreateContratista from './pages/CreateContratista';
+import Inventario from '@pages/Inventario';
+import CreateProducto from '@pages/CreateProducto';
 import Page404 from '@pages/Page404';
 
 export default function App() {
@@ -73,10 +74,10 @@ export default function App() {
 					}
 				/>
 				<Route
-					path='gestion-predio'
+					path='Inventario'
 					element={
 						<Layout>
-							<GestionPredio />
+							<Inventario />
 						</Layout>
 					}
 				/>
@@ -85,6 +86,14 @@ export default function App() {
 					element={
 						<Layout>
 							<CreateContratista />
+						</Layout>
+					}
+				/>
+				<Route
+					path='agregar-producto'
+					element={
+						<Layout>
+							<CreateProducto />
 						</Layout>
 					}
 				/>

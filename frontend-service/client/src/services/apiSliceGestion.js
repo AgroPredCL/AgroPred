@@ -88,7 +88,50 @@ export const apiCuarteles = createApi({
         method: 'DELETE'
       }),
     }),
+
+
+    getInventarios: builder.query({
+      query: () => '/inventarios'
+    }),
+
+    getTags: builder.query({
+      query: () => '/tags'
+    }),
+    postTag: builder.mutation({
+      query: (nuevoUser) => ({
+        url: '/tags',
+        method: 'POST',
+        body: nuevoUser,
+      }),
+    }),
+
+    getProductos: builder.query({
+      query: () => '/productos'
+    }),
+    postProducto: builder.mutation({
+      query: (nuevoUser) => ({
+        url: '/producto',
+        method: 'POST',
+        body: nuevoUser,
+      }),
+    }),
+    putProducto: builder.mutation({
+      query: ({ id, changes }) => ({
+        url: `producto/${id}`,  // Asegúrate de que la URL esté correcta
+        method: 'PUT',
+        body: changes,  // Solo los cambios
+      }),
+    }),
+    deleteProducto: builder.mutation({
+      query: (id) => ({
+        url: `producto/${id}`,
+        method: 'DELETE'
+      }),
+    }),
   }),
 });
 
-export const { useGetCuartelesQuery, usePostCuartelMutation, usePutCuartelMutation, useGetUsoRiegoQuery, usePostRiegoMutation, usePutRiegoMutation, useGetUsuariosQuery, usePostUsuariosMutation, usePutUsuarioMutation, useDeleteUsuarioMutation, useGetContratistasQuery, usePostContratistasMutation, usePutContratistasMutation, useDeleteContratistaMutation } = apiCuarteles;
+export const { useGetCuartelesQuery, usePostCuartelMutation, usePutCuartelMutation, useGetUsoRiegoQuery, usePostRiegoMutation, usePutRiegoMutation, useGetUsuariosQuery, 
+  usePostUsuariosMutation, usePutUsuarioMutation, useDeleteUsuarioMutation, useGetContratistasQuery, usePostContratistasMutation, usePutContratistasMutation, useDeleteContratistaMutation,
+  useGetTagsQuery, usePostTagMutation, useGetInventariosQuery, useGetProductosQuery, usePostProductoMutation, usePutProductoMutation, useDeleteProductoMutation,
+ } = apiCuarteles;

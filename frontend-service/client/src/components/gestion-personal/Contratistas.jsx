@@ -4,6 +4,7 @@ import Tab from '@components/Tab';
 import {
 	useGetContratistasQuery,
 	usePutContratistasMutation,
+	useDeleteContratistaMutation,
 } from '@services/apiSliceGestion';
 import PropTypes from 'prop-types';
 
@@ -115,6 +116,7 @@ export default function Contratistas() {
 	const [updateContratista] = usePutContratistasMutation();
 	const [editingId, setEditingId] = useState(null);
 	const [activeTab, setActiveTab] = useState('activos');
+	const [deleteContratista] = useDeleteContratistaMutation();
 
 	const handleEdit = contratista => {
 		setEditingId(contratista.rut);
@@ -156,9 +158,17 @@ export default function Contratistas() {
 		}
 	};
 
-	const handleDelete = contratista => {
-		// Lógica para eliminar contratista
-		console.log('Eliminar contratista:', contratista);
+	const handleDelete = async contratista => {
+		if (
+			window.confirm('¿Está seguro de que desea eliminar este Contratista?')
+		) {
+			try {
+				await deleteContratista(contratista.rut);
+				refetch(); // Refrescar la lista
+			} catch (error) {
+				console.error('Error al eliminar contratista:', error);
+			}
+		}
 	};
 
 	const filteredContratistas = contratistas.filter(contratista =>
