@@ -87,6 +87,8 @@ export default function SueloGraph({ cuartel }) {
 		{ id: 'Humedad', label: 'Humedad' },
 	];
 
+	console.log("Fecha inicio:",dateRange.start,"Fecha fin:",dateRange.end)
+
 	return (
 		<div className='space-y-6'>
 			<div className='flex flex-wrap gap-4 mb-4'>

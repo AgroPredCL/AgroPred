@@ -1,84 +1,45 @@
 import { Table } from '@components/estado-cuarteles/TableSalud';
-import React, { useState } from 'react';
-import  UploadImage  from '@components/Subir_imagen/ImageUploader';
+import React, { useState, useEffect } from 'react';
+import UploadImage from '@components/Subir_imagen/ImageUploader';
 import { useGetPrediccionEnfermedadesQuery } from '@services/apiSliceModelos';
- 
+
 function Convert_Array(data) {
-    let fechas = [];
-    // Recorrer el objeto y extraer las fechas
-    for (let i = 0; i < data.length; i++) {
-        fechas.push(data[i].fecha);
-    }
-    return fechas;
-  }
-  
+    return data.map((item) => item.fecha);
+}
 
-
-function formatDataForChart(apiData) {
-    return Object.entries(apiData).map(([fecha, valor]) => ({
-        fecha: fecha, // Fecha como etiqueta
-        valor: valor, // Valor correspondiente a la fecha
-    }));
-};  
-
-export default function HeathState({ cuartel }){
-    const [predictedData, setPredictedData] = useState(null);
-    const [apiData, setApiData] = useState(null);
+export default function HeathState({ cuartel }) {
+    const [fechas, setFechas] = useState([]);
     
- 
-    // Datos de ejemplo para enfermedades actuales y predicciones
-	const actualidad = [
-	
-	];
+    const { data: apiData } = useGetPrediccionEnfermedadesQuery(cuartel);
 
-	const predicciones = [
-		{
-			fecha: 'Enero',
-			Enfermedad: 'Asfixia Radicular',
-			Impacto: 'Alto',
-			Descripcion: 'Aparece en condiciones de alta humedad.',
-			Confiabilidad: 85,
-			Recomendaciones: 'No aplicar riego en exceso y usar emisores de similar audal en el sector',
-		},
-	];
+    useEffect(() => {
+        if (apiData) {
+            // Almacena las fechas en el estado fechas
+            const fechasPrediccion = Convert_Array(apiData);
+            setFechas(fechasPrediccion);
+        }
+    }, [apiData]);
 
-	const fechass = [
-		{ nombre: 'Enero', dia: 1 },
-		{ nombre: 'Febrero', dia: 28 },
-		{ nombre: 'Marzo', dia: 2 },
-	];
-
-    //setApiData(useGetPrediccionEnfermedadesQuery(cuartel).data);
-    //console.log("apiData",apiData)
-    // Transformar los datos en el formato adecuado para el gráfico
-	const formatDataForChart = apiData => {
-		return Object.entries(apiData).map(([fecha, valor]) => ({
-			fecha: fecha, // Fecha como etiqueta
-			valor: valor, // Valor correspondiente a la fecha
-		}));
-	};
+    const actualidad = [
+        // Tus datos de enfermedades actuales
+    ];
 
 
-    //console.log("probando",prediccion.data)
-    //const infoprediccion = prediccion.data[0];
-    //console.log("info",infoprediccion)
-    //setpPredictedData(formatDataForChart(prediccion));
-    //const fecha = Convert_Array(predictedData);
 
     return (
         <article className='pt-2'>
             <UploadImage/>
-            <br></br>
-			<h2 className='text-xl font-semibold text-gray-700 mb-4'>
-				Enfermedades
-			</h2>
-				
-			{/* Tabla de predicciones con filtro de fechas */}
-			<Table
-				actualidad={actualidad}
-				predicciones={predicciones}
-				fechas={fechass}
-			/>
-		</article>
+            <br />
+            <h2 className='text-xl font-semibold text-gray-700 mb-4'>
+                Enfermedades
+            </h2>
+                
+            {/* Tabla de predicciones con filtro de fechas */}
+            <Table
+                actualidad={actualidad}
+                predicciones={apiData}
+                fechas={fechas}  // Pasar las fechas al componente de la tabla
+            />
+        </article>
     );
 }
