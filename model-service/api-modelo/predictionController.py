@@ -99,9 +99,9 @@ def predictController(nombreCuartel, cantidadDiasPrediccion):
 
     print(tiempo.seconds)
 
-    return {"nitrogeno": {"RMSE": 6.02,"predicciones": nitrogenoFinal}, 
-            "fosforo": {"RMSE": 1.48, "predicciones": fosforoFinal},
-            "potasio": {"RMSE": 14.78, "predicciones": potasioFinal}}
+    return {"nitrogeno": {"MAPE": "0.6212%", "explicación": "Esto significa que, en promedio, hay una diferencia del 0.6212%. entre el valor real y el predicho.", "predicciones": nitrogenoFinal}, 
+            "fosforo":   {"MAPE": "0.4348%", "explicación": "Esto significa que, en promedio, hay una diferencia del 0.4348%. entre el valor real y el predicho.", "predicciones": fosforoFinal},
+            "potasio":   {"MAPE": "0.2372%", "explicación": "Esto significa que, en promedio, hay una diferencia del 0.2372%. entre el valor real y el predicho.", "predicciones": potasioFinal}}
 
 
 # Analisis de enfermedades
