@@ -2,7 +2,6 @@ import React from 'react';
 
 const PictureSelect = ({ onFileSelect, onCloseCamera  }) => {
   const fileInputRef = React.useRef(null);
-  console.log('PictureSelect');
   const handleClick = () => {
     fileInputRef.current.click();
   };

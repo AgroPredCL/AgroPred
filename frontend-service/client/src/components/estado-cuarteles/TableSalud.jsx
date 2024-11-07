@@ -74,6 +74,8 @@ DiseaseTable.propTypes = {
 export function Table({ actualidad, predicciones, fechas }) {
 	const [activeTab, setActiveTab] = useState('actualidad');
 	const [selectedMonth, setSelectedMonth] = useState('');
+	console.log("fechas",fechas)
+
 
 	const handleTabChange = tab => {
 		setActiveTab(tab);
@@ -118,8 +120,8 @@ export function Table({ actualidad, predicciones, fechas }) {
 					>
 						<option value=''>Elige un mes</option>
 						{fechas.map(fecha => (
-							<option key={fecha.nombre} value={fecha.nombre}>
-								{fecha.nombre}
+							<option key={fecha}>
+								{fecha}
 							</option>
 						))}
 					</select>

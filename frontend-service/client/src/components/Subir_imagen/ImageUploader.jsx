@@ -25,6 +25,7 @@ export default function UploadImage({ onUploadSuccess }) {
   const [uploadDate, setUploadDate] = useState(null);
   const [open, setOpen] = useState(false);
 
+
   const handleFileSelect = (file) => {
     clearPreviousImage();
     const reader = new FileReader();
@@ -88,7 +89,14 @@ export default function UploadImage({ onUploadSuccess }) {
             )}
           </div>
           <br />
-          <Enviar_foto file={selectedImage} uploadDate={uploadDate} onClose={handleClose} onUploadSuccess={onUploadSuccess} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-36">
+            <Enviar_foto file={selectedImage} uploadDate={uploadDate} onClose={handleClose} onUploadSuccess={onUploadSuccess} />
+            <button className='bg-amber-700 relative text-white w-fit px-4 py-2 border-none rounded cursor-pointer text-lg' onClick={handleClose} >
+              Cancelar
+            </button>
+
+          </div>
+          
         </Box>
       </Modal>
     </div>
