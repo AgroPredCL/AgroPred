@@ -9,6 +9,8 @@ COPY client/package.json client/package-lock.json* ./
 
 RUN npm ci --verbose
 
+RUN npm install dotenv
+
 # Copia el resto del código de la aplicación
 COPY client/ .
 
