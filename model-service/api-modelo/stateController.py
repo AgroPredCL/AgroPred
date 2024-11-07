@@ -5,7 +5,13 @@ import numpy as np
 
 # Valores de los sensores en un periodo de tiempo especifico
 def stateEnPeriodoEspecifico(nombreCuartel, startDate, endDate):
-    data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
+    
+    if nombreCuartel == "p0s1":
+        data_sensores = pd.read_csv(f'../modelos/p0s0.csv')
+    elif nombreCuartel == "p0s2":
+        data_sensores = pd.read_csv(f'../modelos/p0s0.csv')
+    else: 
+        data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
 
     desde = 0
     hasta = 0
