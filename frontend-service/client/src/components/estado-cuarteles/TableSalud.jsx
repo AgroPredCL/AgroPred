@@ -5,7 +5,7 @@ import Tab from '@components/Tab';
 const DiseaseTable = ({ data, selectedMonth }) => {
   return (
     <div className='overflow-x-auto shadow-md rounded-lg'>
-      {selectedMonth === '' && data.length === 0 ? (
+      {selectedMonth === '' && data.length > 0 ? (
         <p className='text-gray-500 text-center text-xl font-normal py-8'>
           Seleccionar fecha
         </p>

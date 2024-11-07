@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { CustomButton } from '@components/UI';
 import {
@@ -8,10 +8,21 @@ import {
 import LineChart from './LineChart';
 import { Droplets } from 'lucide-react';
 
+
+const formatDateForInput = (dateString) => {
+	const [day, month, year] = dateString.split('-');
+	return `${year}-${month}-${day}`;
+};
+  
+  const formatDateForDisplay = (dateString) => {
+	const [year, month, day] = dateString.split('-');
+	return `${day}-${month}-${year}`;
+};
+
 export default function HydriclPredict({ cuartel }) {
 	const [dateRange, setDateRange] = useState({
-		start: '2023-01-01',
-		end: '2023-01-05',
+		start: '01-01-2023',
+		end: '05-01-2023',
 	});
 	const [predictDays, setPredictDays] = useState('');
 	const [predictedData, setPredictedData] = useState(null);
@@ -28,6 +39,17 @@ export default function HydriclPredict({ cuartel }) {
 		cuartel: cuartel,
 	});
 
+	useEffect(() => {
+		if (data && cuartel !== 'Vista General') {
+			const info_humedad = data.humedad;
+			const largo_data = info_humedad.length;
+			if (largo_data > 0) {
+				setLastDay(info_humedad[largo_data - 1].fecha);
+				setLastValue(info_humedad[largo_data - 1].valor);
+			}
+		}
+	}, [data, cuartel]);
+	
 	const { data: predictionData } = useGetPredecirHidricoQuery(
 		{
 			dia: predictDays,
@@ -43,7 +65,7 @@ export default function HydriclPredict({ cuartel }) {
 			if (predictionData) {
 				// Obtener las claves del objeto y acceder a la última
 				const lastKey = Object.keys(predictionData).pop();
-				console.log('Última clave:', lastKey); // "d"
+				console.log('Última clave:', formatDateForDisplay(lastKey)); // "d"
 				setLastDay(lastKey);
 				// Obtener el valor asociado a la última clave
 				const lastValue = predictionData[lastKey];
@@ -117,9 +139,9 @@ export default function HydriclPredict({ cuartel }) {
 					<input
 						type='date'
 						id='start-date'
-						value={dateRange.start}
+						value={formatDateForInput(dateRange.start)}
 						onChange={e =>
-							setDateRange(prev => ({ ...prev, start: e.target.value }))
+							setDateRange(prev => ({ ...prev, start: formatDateForDisplay(e.target.value)}))
 						}
 						className='w-40 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
 					/>
@@ -134,9 +156,9 @@ export default function HydriclPredict({ cuartel }) {
 					<input
 						type='date'
 						id='end-date'
-						value={dateRange.end}
+						value={formatDateForInput(dateRange.end)}
 						onChange={e =>
-							setDateRange(prev => ({ ...prev, end: e.target.value }))
+							setDateRange(prev => ({ ...prev, end: formatDateForDisplay(e.target.value) }))
 						}
 						className='w-40 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
 					/>
