@@ -404,7 +404,7 @@ def hacerRecomendacionFertilizante(nombreCuartel):
 
 def alertaPorHelada_helper():
 
-    desde, hasta, duracion, minima, promedio = "14-10-2024 07:00", "14-10-2024 09:00", 2, -0.3, -0.2
+    desde, hasta, duracion, minima, promedio = "11-11-2024 05:00", "11-11-2024 06:00", 2, -0.3, -0.2
 
     respuesta = {
         "desde": desde,
