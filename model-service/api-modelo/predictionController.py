@@ -284,7 +284,17 @@ def predecirEstadoHidrico(cuartelID, cantidadDeDias):
     adNew = 100
     rapNew = 8
 
-    aguaDisponible = obtenerAguaDisponible(adNew, rapNew, cantidadDeDias)
+    # cuartel = 0 => Normal
+    # cuartel = 1 => Sobrehidratado
+    # cuartel = 2 => Deshidratado
+    if cuartelID == "p0s1":
+        cuartel = 1
+    elif cuartelID == "p0s2":
+        cuartel = 2
+    else:
+        cuartel = 0
+    aguaDisponible = obtenerAguaDisponible(adNew, rapNew, cantidadDeDias, cuartel)
+
 
     
     return aguaDisponible

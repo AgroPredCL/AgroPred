@@ -114,30 +114,50 @@ async def currentState(nombreCuartel: str, diasAPredecir: Optional[int] = Query(
 
 @app.get("/disease/predict")
 async def predictDisease(nombreCuartel: str):
-    output = [
-                {
-                    "fecha": "10-17-2024",
-                    "detalles": {
-                    "estado": "enfermo",
-                    "enfermedad": "Antracnosis",
-                    "impacto": "Alto",
-                    "descripcion": "Aparece en condiciones húmedas y cálidas.",
-                    "confiabilidad": 55,
-                    "recomendaciones": "Aplicar fungicida en base a cobre antes de una precipitación."
+
+    # codigo 
+    fecha = datetime.now().strftime("%d-%m-%Y")
+
+    if nombreCuartel == "p0s1":
+        output = [
+                    {
+                        "fecha": f"{fecha}",
+                        "detalles": {
+                            "estado": "Sano",
+                            "enfermedad": None,
+                            "impacto": None,
+                            "descripcion": "Tu plantación esta en buen estado.",
+                            "confiabilidad": 75,
+                            "recomendaciones": None
+                        }
                     }
-                },
-                {
-                    "fecha": "20-11-2024",
-                    "detalles": {
-                    "estado": "enfermo",
-                    "enfermedad": "Asfixia Radicular",
-                    "impacto": "Alto",
-                    "descripcion": "Aparece en condiciones de alta humedad.",
-                    "confiabilidad": 75,
-                    "recomendaciones": "No aplicar riego en exceso y usar emisores de similar caudal en el sector."
+                ]
+
+    else: 
+        output = [
+                    {
+                        "fecha": "10-11-2024",
+                        "detalles": {
+                            "estado": "enfermo",
+                            "enfermedad": "Antracnosis",
+                            "impacto": "Alto",
+                            "descripcion": "Aparece en condiciones húmedas y cálidas.",
+                            "confiabilidad": 55,
+                            "recomendaciones": "Aplicar fungicida en base a cobre antes de una precipitación."
+                        }
+                    },
+                    {
+                        "fecha": "13-11-2024",
+                        "detalles": {
+                        "estado": "enfermo",
+                            "enfermedad": "Asfixia Radicular",
+                            "impacto": "Alto",
+                            "descripcion": "Aparece en condiciones de alta humedad.",
+                            "confiabilidad": 75,
+                            "recomendaciones": "No aplicar riego en exceso y usar emisores de similar caudal en el sector."
+                        }
                     }
-                }
-            ]
+                ]
 
     return output
 

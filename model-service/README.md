@@ -1,3 +1,20 @@
+## IMPORTANTE CUARTELES DE PRUEBA
+- RESPECTO A ESTADO HIDRICO (prediccion de estado hidrico):
+    - p0s0: Normal.
+    - p0s1: Sobrehidratado.
+    - p0s2: Deshidratado.
+
+- RESPECTO A RECOMENDACION DE FERTILIZANTE:
+    - p0s1: Es necesario aplicar fertilizante de cada tipo.
+    - p0s2: NO es necesario aplicar ningun tipo de fertilizante.
+
+- RESPECTO A ENFERMEDADES:
+    - p0s1: Esta completamente sano.
+
+- RESPECTO A ESTADO DE SUELO:
+    - p0s1: Todos los valores en 'Deficiente'
+    - p0s2: Todos los valores en 'Alto'
+
 ## Instalacion de dependencias y ejecucion de la API
 
 ```bash

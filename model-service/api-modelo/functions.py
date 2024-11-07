@@ -3,7 +3,7 @@ import random
 
 
 
-def obtenerAguaDisponible(aguaDisponible, requerimientoDeAguaPorPlantaPorDia, cantidadDeDias):
+def obtenerAguaDisponible(aguaDisponible, requerimientoDeAguaPorPlantaPorDia, cantidadDeDias, cuartel = 0):
     # Dado los valores de agua disponible y requerimiento de agua por planta por día,
     # se puede calcular para un rango de fechas, la cantidad de agua disponible en cada planta
     # para cada día
@@ -21,13 +21,40 @@ def obtenerAguaDisponible(aguaDisponible, requerimientoDeAguaPorPlantaPorDia, ca
     fechasFormateadas = [fecha.strftime('%d-%m-%Y') for fecha in fechas]
 
     # Se asume que la cantidad de agua disponible es constante
-    for i in range(cantidadDeDias):
-        if aguaDisponible - requerimientoDeAguaPorPlantaPorDia < 0:
-            response[fechasFormateadas[i]] = 0
-        else:
-            # se resta ademas un numero random entre [-5, 5]
-            randomNum = random.randint(-5, 5)
-            response[fechasFormateadas[i]] = max(aguaDisponible - requerimientoDeAguaPorPlantaPorDia - randomNum, 0)
-            aguaDisponible = aguaDisponible - requerimientoDeAguaPorPlantaPorDia
+    if cuartel == 0:
+        for i in range(cantidadDeDias):
+            if aguaDisponible - requerimientoDeAguaPorPlantaPorDia < 0:
+                response[fechasFormateadas[i]] = 0
+            else:
+                # se resta ademas un numero random entre [-5, 5]
+                randomNum = random.randint(-5, 5)
+                response[fechasFormateadas[i]] = max(aguaDisponible - requerimientoDeAguaPorPlantaPorDia - randomNum, 0)
+                aguaDisponible = aguaDisponible - requerimientoDeAguaPorPlantaPorDia*0.7
+                aguaDisponible = round(aguaDisponible, 2)
+    # Fin en sobrehidratado
+    aguaDisponible = aguaDisponible*1.6
+    if cuartel == 1:
+        for i in range(cantidadDeDias):
+            if aguaDisponible - requerimientoDeAguaPorPlantaPorDia < 0:
+                response[fechasFormateadas[i]] = 0
+            else:
+                # se resta ademas un numero random entre [-5, 5]
+                randomNum = random.randint(-5, 5)
+                response[fechasFormateadas[i]] = max(aguaDisponible - requerimientoDeAguaPorPlantaPorDia - randomNum, 0)
+                aguaDisponible = aguaDisponible - requerimientoDeAguaPorPlantaPorDia
+                aguaDisponible = round(aguaDisponible, 2)
+
+    # Fin en Deshidratado
+    aguaDisponible = aguaDisponible*0.5
+    if cuartel == 2:
+        for i in range(cantidadDeDias):
+            if aguaDisponible - requerimientoDeAguaPorPlantaPorDia < 0:
+                response[fechasFormateadas[i]] = 0
+            else:
+                # se resta ademas un numero random entre [-5, 5]
+                randomNum = random.randint(-5, 5)
+                response[fechasFormateadas[i]] = max(aguaDisponible - requerimientoDeAguaPorPlantaPorDia - randomNum, 0)
+                aguaDisponible = aguaDisponible - requerimientoDeAguaPorPlantaPorDia*1.5
+                aguaDisponible = round(aguaDisponible, 2)
 
     return response
