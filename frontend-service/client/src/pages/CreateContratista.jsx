@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { CustomButton, CustomInput } from '@components/UI';
 import validateForm from '@interceptors/ValidateForm';
-import formFields from '@contexts/CreateUser';
+import formFields from '@contexts/CreateContratista';
 import FieldTypeIndicator from '@components/forms/FieldTypeIndicator';
-import { usePostUsuariosMutation } from '@services/apiSliceGestion';
+import { usePostContratistasMutation } from '@services/apiSliceGestion';
 
-function CreateUser() {
+function CreateContratista() {
 	const [formData, setFormData] = useState(
 		formFields.reduce((acc, field) => ({ ...acc, [field.id]: '' }), {})
 	);
 	const [errors, setErrors] = useState({});
-	const [postUsuario, { isLoading, isError, isSuccess }] =
-		usePostUsuariosMutation(); // Hook para la mutación
+	const [postContratista, { isLoading, isError, isSuccess }] =
+		usePostContratistasMutation(); // Hook para la mutación
 
 	const handleChange = e => {
 		const { name, value, type } = e.target;
@@ -31,14 +31,13 @@ function CreateUser() {
 				const formDataWithNomPredio = {
 					...formData,
 					nom_predio: 'El Roble',
-					rol: 'agronomo',
 					estado: true,
 				};
 				console.log(formDataWithNomPredio);
-				await postUsuario(formDataWithNomPredio).unwrap(); // Enviar los datos del formulario
-				console.log('Usuario creado con éxito');
+				await postContratista(formDataWithNomPredio).unwrap(); // Enviar los datos del formulario
+				console.log('Contratista creado con éxito');
 			} catch (err) {
-				console.error('Error al crear el usuario:', err);
+				console.error('Error al crear el Contratista:', err);
 			}
 		} else {
 			console.log('Hay errores en el formulario');
@@ -51,10 +50,11 @@ function CreateUser() {
 			className='space-y-6 bg-white p-6 rounded-lg shadow-md'
 		>
 			<h2 className='text-2xl font-semibold text-gray-900 mb-6'>
-				Añadir Usuario
+				Añadir Contratista
 			</h2>
 			<p className='text-gray-600 mb-4'>
-				Todos los campos deben ser completados para añadir un Usuario con éxito.
+				Todos los campos deben ser completados para añadir un Contratista con
+				éxito.
 				<span className='block mt-2'>
 					<FieldTypeIndicator type='number' /> indica un campo numérico,
 					<FieldTypeIndicator type='text' /> indica un campo de texto.
@@ -93,13 +93,15 @@ function CreateUser() {
 			</CustomButton>
 
 			{isSuccess && (
-				<p className='text-green-600 mt-4'>Usuario creado con éxito</p>
+				<p className='text-green-600 mt-4'>Contratista creado con éxito</p>
 			)}
 			{isError && (
-				<p className='text-red-600 mt-4'>Hubo un error al crear el Usuario</p>
+				<p className='text-red-600 mt-4'>
+					Hubo un error al crear el Contratista
+				</p>
 			)}
 		</form>
 	);
 }
 
-export default CreateUser;
+export default CreateContratista;

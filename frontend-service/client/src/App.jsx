@@ -9,6 +9,7 @@ import GestionRiego from '@pages/GestionRiego';
 import GestionPersonal from '@pages/GestionPersonal';
 import CreateUser from '@pages/CreateUser';
 import GestionPredio from './pages/GestionPredio';
+import CreateContratista from './pages/CreateContratista';
 import Page404 from '@pages/Page404';
 
 export default function App() {
@@ -76,6 +77,14 @@ export default function App() {
 					element={
 						<Layout>
 							<GestionPredio />
+						</Layout>
+					}
+				/>
+				<Route
+					path='crear-contratista'
+					element={
+						<Layout>
+							<CreateContratista />
 						</Layout>
 					}
 				/>
