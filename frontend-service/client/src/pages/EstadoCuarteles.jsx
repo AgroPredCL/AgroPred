@@ -5,7 +5,7 @@ import RenderCuartelDetails from '@components/estado-cuarteles/CuartelDetails';
 import EstadoSuelo from '@components/estado-cuarteles/EstadoSuelo';
 import SueloGraph from '@components/estado-cuarteles/SueloGraph';
 import HydriclPredict from '@components/estado-cuarteles/prediccion-hidrica/PrediccionHidrica';
-import { Table } from '@components/estado-cuarteles/TableSalud';
+import HeathState from '@components/estado-cuarteles/EstadoSalud';
 import FertilizerRecommendations from '@components/estado-cuarteles/FertilizerRecomendations';
 import { formatearFechaHora } from '@adapters/dd-mm-yyyy';
 import { useGetCuartelesQuery } from '@services/apiSliceGestion';
@@ -27,34 +27,6 @@ export default function EstadoCuarteles() {
 		setSelectedCuartel(cuartel);
 	};
 
-	// Datos de ejemplo para enfermedades actuales y predicciones
-	const actualidad = [
-		{
-			Enfermedad: 'Antracnosis',
-			Impacto: 'Alto',
-			Descripcion: 'Aparece en condiciones húmedas y cálidas.',
-			Confiabilidad: 55,
-			Recomendaciones: 'Aplicar fungicida en base a cobre antes de una precipitación.',
-		},
-	];
-
-	const predicciones = [
-		{
-			fecha: 'Enero',
-			Enfermedad: 'Asfixia Radicular',
-			Impacto: 'Alto',
-			Descripcion: 'Aparece en condiciones de alta humedad.',
-			Confiabilidad: 75,
-			Recomendaciones: 'No aplicar riego en exceso y usar emisores de similar audal en el sector',
-		},
-	];
-
-	const fechas = [
-		{ nombre: 'Enero', dia: 1 },
-		{ nombre: 'Febrero', dia: 28 },
-		{ nombre: 'Marzo', dia: 2 },
-		{ nombre: 'Abril', dia: 2 },
-	];
 
 	return (
 		<>
@@ -87,6 +59,7 @@ export default function EstadoCuarteles() {
 				
 				
 				
+<<<<<<< HEAD
 				<article className='pt-2'>
 					<div className='grid grid-cols-1 md:grid-cols-2 gap-x-44'>
 						<h2 className='text-xl font-semibold text-gray-700 mb-4'>
@@ -100,6 +73,9 @@ export default function EstadoCuarteles() {
 						fechas={fechas}
 					/>
 				</article>
+=======
+				<HeathState cuartel={selectedCuartel.nombre_Cuartel}  />
+>>>>>>> b3807d0f8798d9c70c34b535c361df4ad907d5be
 
 				<FertilizerRecommendations cuartel={selectedCuartel.nombre_Cuartel} />
 			</Seccion>

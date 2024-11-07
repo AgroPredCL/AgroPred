@@ -44,6 +44,9 @@ export const apiEstado = createApi({
     getRecomendacionFertilizante: builder.query({
       query: (cuartel) => `/recomendacion/fertilizante?nombreCuartel=${cuartel}`
     }),
+    getPrediccionEnfermedades: builder.query({
+      query: (cuartel) => `/disease/predict?nombreCuartel=${cuartel}`
+    }),
   })
 });
 
@@ -62,4 +65,5 @@ export const {
   useGetPredecirHidricoQuery,
   useGetAlertaHeladaQuery,
   useGetRecomendacionFertilizanteQuery,
+  useGetPrediccionEnfermedadesQuery,
 } = apiEstado;
