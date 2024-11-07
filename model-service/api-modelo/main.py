@@ -262,7 +262,6 @@ async def process_image_hoja(file: UploadFile = File(...), image_number: str | N
             "file_data": Binary(file_bytes),  # Convertir los bytes a formato binario para MongoDB
             "content_type": file.content_type,  # Guardar el tipo de contenido (opcional)
             "upload_time": datetime.now(),  # Guardar la hora de subida (opcional)
-            "queso":"eso",
         }
         
         # Insertar el documento en la colección
