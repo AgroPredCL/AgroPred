@@ -16,10 +16,11 @@ from functions import obtenerAguaDisponible
 # Prediccion de estado de nutrientes
 ## Generar fechas
 def generar_fechas(fecha_inicio, cantidadDiasPrediccion):
-    # Formato de entrada ajustado
+    # Cambiar el formato de la fecha a %Y-%m-%d (año-mes-día)
     fecha_inicio = datetime.strptime(fecha_inicio, "%Y-%m-%d")
     fechas = [(fecha_inicio + timedelta(days=i)).strftime("%d-%m-%Y") for i in range(cantidadDiasPrediccion)]
     return fechas
+
 
 ## Se utiliza el modelo para predecir hasta la fecha <fechaPrediccion>
 def predictController(nombreCuartel, cantidadDiasPrediccion):
@@ -76,7 +77,7 @@ def predictController(nombreCuartel, cantidadDiasPrediccion):
     predicciones['Fosforo'] = fosforoPred
     predicciones['Potasio'] = potasioPred
 
-    df_copy['FechaHora'] = pd.to_datetime(df_copy['FechaHora'])
+    df_copy['FechaHora'] = pd.to_datetime(df_copy['FechaHora'], format='%d-%m-%Y %H:%M:%S')
     df_copy.set_index('FechaHora', inplace=True)
 
     print("Generando fechas futuras...")
