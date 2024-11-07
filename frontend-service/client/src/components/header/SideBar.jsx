@@ -46,7 +46,7 @@ const SideBar = ({ isOpen, toggleSidebar }) => {
 						<SidebarItem
 							icon={<Trees size={24} />}
 							text='Gestión de Predio'
-							href='#'
+							href='/gestion-predio'
 						/>
 						<SidebarItem
 							icon={<Users size={24} />}
