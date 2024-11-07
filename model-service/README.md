@@ -1,4 +1,7 @@
 ## IMPORTANTE CUARTELES DE PRUEBA
+
+### DEBEN EXISTIR LOS CUARTELES p0s0, p0s1 y p0s2.
+
 - RESPECTO A ESTADO HIDRICO (prediccion de estado hidrico):
     - p0s0: Normal.
     - p0s1: Sobrehidratado.
