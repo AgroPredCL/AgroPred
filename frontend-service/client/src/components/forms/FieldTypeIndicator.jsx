@@ -10,7 +10,13 @@ const FieldTypeIndicator = ({ type }) => (
 					? 'text-green-800'
 					: type === 'date'
 						? 'text-purple-800'
-						: 'text-orange-800'
+						: type === 'datetime'
+							? 'text-orange-800'
+							: type === 'email'
+								? 'text-teal-800'
+								: type === 'password'
+									? 'text-red-800'
+									: ''
 		}`}
 		aria-label={
 			type === 'number'
@@ -19,7 +25,13 @@ const FieldTypeIndicator = ({ type }) => (
 					? 'Campo de texto'
 					: type === 'date'
 						? 'Campo de fecha'
-						: 'Campo de fecha y hora'
+						: type === 'datetime'
+							? 'Campo de fecha y hora'
+							: type === 'email'
+								? 'Campo de correo electrónico'
+								: type === 'password'
+									? 'Campo de contraseña'
+									: ''
 		}
 	>
 		{type === 'number'
@@ -28,12 +40,25 @@ const FieldTypeIndicator = ({ type }) => (
 				? 'Aa'
 				: type === 'date'
 					? '📅'
-					: '⏰'}
+					: type === 'datetime'
+						? '⏰'
+						: type === 'email'
+							? '📧'
+							: type === 'password'
+								? '🔒'
+								: ''}
 	</span>
 );
 
 FieldTypeIndicator.propTypes = {
-	type: PropTypes.oneOf(['number', 'text', 'date', 'datetime']).isRequired,
+	type: PropTypes.oneOf([
+		'number',
+		'text',
+		'date',
+		'datetime',
+		'email',
+		'password',
+	]).isRequired,
 };
 
 export default FieldTypeIndicator;
