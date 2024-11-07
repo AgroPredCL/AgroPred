@@ -18,8 +18,11 @@ def stateEnPeriodoEspecifico(nombreCuartel, startDate, endDate):
         if data_sensores['FechaHora'][i][:10] == endDate:
             hasta = i
             break
+    
+    
 
     # Obtener los valores de los sensores (+3 por que son 3 mediciones por dia y asi se cuenta el dia completo para HASTA)
+    
     nitrogeno = data_sensores['Nitrogeno'][desde:hasta+3]
     potasio = data_sensores['Potasio'][desde:hasta+3]
     fosforo = data_sensores['Fosforo'][desde:hasta+3]
