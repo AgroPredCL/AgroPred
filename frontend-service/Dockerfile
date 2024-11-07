@@ -18,4 +18,4 @@ RUN npm install -g serve
 # Expone el puerto en el que se servirá la aplicación
 EXPOSE 5173
 
-CMD ["npm", "run", "build"]
+CMD ["npm", "run", "dev"]
