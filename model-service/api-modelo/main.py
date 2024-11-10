@@ -29,6 +29,10 @@ import pandas as pd
 from predictionController import predictController, tieneAsfixiaRadicular, tieneEnfermedadFruta, predecirEstadoHidrico
 from stateController import stateEnPeriodoEspecifico, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad, hacerRecomendacionFertilizante, alertaPorHelada_helper
 
+from nitrogenoModelController import predictN
+from potasioModelController import predictK
+from fosforoModelController import predictP
+
 app = FastAPI()
 
 # Configurar CORS
@@ -39,6 +43,28 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/nitrogenoPredict")
+async def nitrogenoPredict(nombreCuartel: str):
+    output = predictN(nombreCuartel)
+
+    # considerando que predict() retorna un np.array, pasarlo a JSON
+    return output.tolist()
+
+@app.get("/fosforoPredict")
+async def fosforoPredict(nombreCuartel: str):
+    output = predictP(nombreCuartel)
+
+    # considerando que predict() retorna un np.array, pasarlo a JSON
+    return output.tolist()
+
+@app.get("/potasioPredict")
+async def potasioPredict(nombreCuartel: str):
+    output = predictK(nombreCuartel)
+
+    # considerando que predict() retorna un np.array, pasarlo a JSON
+    return output.tolist()
+
 
 
 @app.get("/")
