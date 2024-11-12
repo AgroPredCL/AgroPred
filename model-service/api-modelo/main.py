@@ -272,7 +272,7 @@ async def process_image_hoja(file: UploadFile = File(...)):
     # Give description of the state
     description = {
         "roña": "La roña es una enfermedad que afecta las hojas y el fruto del árbol de palta. Es causada por el hongo Elsinoe spp. y se caracteriza por manchas oscuras y elevadas en el fruto y las hojas.",
-        "sana": "El palta está sano y libre de cualquier enfermedad.",
+        "sana": "La palta está sana y libre de cualquier enfermedad.",
         "antracnosis": "La antracnosis es una enfermedad fúngica que afecta las hojas, el fruto y los tallos del árbol de palta. Es causada por el hongo Colletotrichum spp. y se caracteriza por lesiones oscuras y hundidas en el fruto y las hojas."
     }
     # Give impact of the state (bajo medio alto)
