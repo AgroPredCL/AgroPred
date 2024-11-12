@@ -19,6 +19,8 @@ COPY requirements.txt .
 # Instala las dependencias necesarias
 RUN pip install --no-cache-dir -r requirements.txt
 
+RUN pip install torch
+
 COPY api-modelo /model-service/api-modelo
 
 WORKDIR /model-service/api-modelo
