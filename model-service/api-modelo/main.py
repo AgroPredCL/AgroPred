@@ -227,10 +227,10 @@ async def process_image_hoja(file: UploadFile = File(...), image_number: str | N
 
     # Give description of the state
     description = {
-        "scab": "Scab is a disease that affects the leaves and fruit of the avocado tree. It is caused by the fungus Elsinoe spp. and is characterized by dark, raised spots on the fruit and leaves.",
-        "healthy": "The avocado is healthy and free from any disease.",
-        "anthracnose": "Anthracnose is a fungal disease that affects the leaves, fruit, and stems of the avocado tree. It is caused by the fungus Colletotrichum spp. and is characterized by dark, sunken lesions on the fruit and leaves.",
-        }
+        "roña": "La roña es una enfermedad que afecta las hojas y el fruto del árbol de palta. Es causada por el hongo Elsinoe spp. y se caracteriza por manchas oscuras y elevadas en el fruto y las hojas.",
+        "sana": "La palta está sana y libre de cualquier enfermedad.",
+        "antracnosis": "La antracnosis es una enfermedad fúngica que afecta las hojas, el fruto y los tallos del árbol de palta. Es causada por el hongo Colletotrichum spp. y se caracteriza por lesiones oscuras y hundidas en el fruto y las hojas."
+    }
     # Give impact of the state (bajo medio alto)
     impacto = {
         "scab": "medio",
