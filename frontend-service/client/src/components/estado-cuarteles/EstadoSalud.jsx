@@ -28,7 +28,9 @@ export default function HeathState({ cuartel }) {
 
     return (
         <article className='pt-2'>
-            <UploadImage/>
+            <UploadImage name="fruta"/>
+            <br></br>
+            <UploadImage name="hoja"/>
             <br />
             <h2 className='text-xl font-semibold text-gray-700 mb-4'>
                 Enfermedades

@@ -4,7 +4,7 @@ import CaptureButton from './camaraCopy';
 import PictureSelect from './archivos';
 import Enviar_foto from './EnviarFoto';
 
-export default function UploadImage({ onUploadSuccess }) {
+export default function UploadImage({ onUploadSuccess, name }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [uploadDate, setUploadDate] = useState(null);
   const [open, setOpen] = useState(false);
@@ -41,7 +41,7 @@ export default function UploadImage({ onUploadSuccess }) {
         className="px-2 py-1 bg-[#96C21F] rounded-md text-base cursor-pointer"
         onClick={handleOpen}
       >
-        Subir imagen
+        Subir imagen de {name}
       </button>
       {uploadDate && (
         <span style={{ marginLeft: '10px', fontSize: '14px', color: '#555' }}>
@@ -84,6 +84,7 @@ export default function UploadImage({ onUploadSuccess }) {
                 uploadDate={uploadDate}
                 onClose={handleClose}
                 onUploadSuccess={onUploadSuccess}
+                tipo = {name}
               />
               <button
                 className="bg-amber-700 text-white w-fit px-4 py-2 rounded cursor-pointer text-lg"
