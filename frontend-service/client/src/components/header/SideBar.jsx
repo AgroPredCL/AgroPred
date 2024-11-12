@@ -2,10 +2,10 @@ import {
 	Menu,
 	Home,
 	Users,
-	Trees,
 	Settings,
 	LandPlot,
 	CircleHelp,
+	Boxes,
 } from 'lucide-react';
 import { cn } from '@utils/Utils';
 
@@ -44,9 +44,9 @@ const SideBar = ({ isOpen, toggleSidebar }) => {
 							href='/estado-cuarteles'
 						/>
 						<SidebarItem
-							icon={<Trees size={24} />}
-							text='Gestión de Predio'
-							href='/gestion-predio'
+							icon={<Boxes size={24} />}
+							text='Inventario'
+							href='/inventario'
 						/>
 						<SidebarItem
 							icon={<Users size={24} />}

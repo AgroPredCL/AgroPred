@@ -3,21 +3,24 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
+// Importa dotenv para cargar las variables de entorno
+import dotenv from 'dotenv';
+dotenv.config();
+
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: '0.0.0.0', // Esto permite que Vite escuche en todas las interfaces
+    host: '0.0.0.0',
     proxy: {
-      // Esto redirige las solicitudes de /api a tu servidor backend
       '/apiGestion': {
-        target: 'http://localhost:3000', // Cambia esto a la URL de tu servidor backend
+        target: process.env.VITE_API_URL_3000, // Ahora usa process.env
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/apiGestion/, ''), // Opcional: reescribe el path
+        rewrite: (path) => path.replace(/^\/apiGestion/, ''),
       },
       '/apiModelos': {
-        target: 'http://localhost:8000', // Cambia esto a la URL de tu servidor backend
+        target: process.env.VITE_API_URL_8000, // Ahora usa process.env
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/apiModelos/, ''), // Opcional: reescribe el path
+        rewrite: (path) => path.replace(/^\/apiModelos/, ''),
       },
     },
   },
