@@ -1,7 +1,7 @@
 // src/components/ResponseModal.js
 import React from 'react';
 
-const ResponseModal = ({ isOpen, onClose, responseData }) => {
+const Message = ({ isOpen, onClose, responseData }) => {
   if (!isOpen) return null;
 
   return (
@@ -22,4 +22,4 @@ const ResponseModal = ({ isOpen, onClose, responseData }) => {
   );
 };
 
-export default ResponseModal;
+export default Message;
