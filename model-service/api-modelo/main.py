@@ -26,8 +26,12 @@ from tensorflow.keras.applications.inception_v3 import preprocess_input
 from typing import Optional
 import pandas as pd
 
-from predictionController import predictController, tieneAsfixiaRadicular, tieneEnfermedadFruta, predecirEstadoHidrico
+from predictionController import predictController, preprocess_image, tieneAsfixiaRadicular, tieneEnfermedadFruta, predecirEstadoHidrico
 from stateController import stateEnPeriodoEspecifico, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad, hacerRecomendacionFertilizante, alertaPorHelada_helper
+
+from nitrogenoModelController import predictN
+from potasioModelController import predictK
+from fosforoModelController import predictP
 
 app = FastAPI()
 
@@ -39,6 +43,28 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/nitrogenoPredict")
+async def nitrogenoPredict(nombreCuartel: str):
+    output = predictN(nombreCuartel)
+
+    # considerando que predict() retorna un np.array, pasarlo a JSON
+    return output
+
+@app.get("/fosforoPredict")
+async def fosforoPredict(nombreCuartel: str):
+    output = predictP(nombreCuartel)
+
+    # considerando que predict() retorna un np.array, pasarlo a JSON
+    return output.tolist()
+
+@app.get("/potasioPredict")
+async def potasioPredict(nombreCuartel: str):
+    output = predictK(nombreCuartel)
+
+    # considerando que predict() retorna un np.array, pasarlo a JSON
+    return output.tolist()
+
 
 
 @app.get("/")
@@ -107,10 +133,23 @@ async def currentStateConductividad(nombreCuartel: str):
 
 @app.get("/prediction/NPK")
 async def currentState(nombreCuartel: str, diasAPredecir: Optional[int] = Query(None, description="fecha hasta la cual predecir")):
+    output = predictController(nombreCuartel, diasAPredecir)
+
+    if not diasAPredecir:
+        return output
+    
+
+
+    return output
+
+"""
+@app.get("/prediction/NPK")
+async def currentState(nombreCuartel: str, diasAPredecir: Optional[int] = Query(None, description="fecha hasta la cual predecir")):
     if not diasAPredecir:
         return {"error": "por favor ingresa la cantida de dias a predecir."}
     output = predictController(nombreCuartel, diasAPredecir)
     return output
+"""
 
 @app.get("/disease/predict")
 async def predictDisease(nombreCuartel: str):
@@ -161,8 +200,9 @@ async def predictDisease(nombreCuartel: str):
 
     return output
 
+"""
 @app.get("/diseases")
-async def process_image_diseases(image_number: Optional[str] = Query(None, description="Image number")):
+async def process_image_diseases(file: UploadFile = File(...)):
     # Give description of the state
     description = {
         "scab": "Scab is a disease that affects the leaves and fruit of the avocado tree. It is caused by the fungus Elsinoe spp. and is characterized by dark, raised spots on the fruit and leaves.",
@@ -178,8 +218,14 @@ async def process_image_diseases(image_number: Optional[str] = Query(None, descr
         "asfixia radicular": "alto"
     }
 
-    if image_number:
-        stateImagen = tieneEnfermedadFruta(image_number)
+    # Lee el contenido de la imagen cargada
+    img_content = await file.read()
+    processed_image = preprocess_image(img_content)
+
+    # Obtiene el estado de la imagen
+    stateImagen = tieneEnfermedadFruta(processed_image)
+
+    return stateImagen
 
     flasAsfixiaRadicular = tieneAsfixiaRadicular()
     output = {}
@@ -205,14 +251,15 @@ async def process_image_diseases(image_number: Optional[str] = Query(None, descr
         "fecha": fecha,
         "enfermedades": output
     }
-
+"""
+    
 @app.get("/diseases/asfixiaRadicular")
 async def predecirAsfixiaRadicularEndpoint(nombreCuartel: str):
     output = tieneAsfixiaRadicular(nombreCuartel)
     return output
 
 @app.post("/uploadImage/fruta")
-async def process_image_hoja(file: UploadFile = File(...), image_number: str | None = None):
+async def process_image_hoja(file: UploadFile = File(...)):
 
     ca = certifi.where()
     uri = "mongodb+srv://admin:admin@modelcluster.5l2ez.mongodb.net/?retryWrites=true&w=majority"
@@ -222,23 +269,24 @@ async def process_image_hoja(file: UploadFile = File(...), image_number: str | N
     db = client['modelDatabase']
     collection = db['imagesFruits'] 
 
-    if not image_number:
-        image_number = "0005"
-
     # Give description of the state
     description = {
-        "scab": "Scab is a disease that affects the leaves and fruit of the avocado tree. It is caused by the fungus Elsinoe spp. and is characterized by dark, raised spots on the fruit and leaves.",
-        "healthy": "The avocado is healthy and free from any disease.",
-        "anthracnose": "Anthracnose is a fungal disease that affects the leaves, fruit, and stems of the avocado tree. It is caused by the fungus Colletotrichum spp. and is characterized by dark, sunken lesions on the fruit and leaves.",
-        }
+        "roña": "La roña es una enfermedad que afecta las hojas y el fruto del árbol de palta. Es causada por el hongo Elsinoe spp. y se caracteriza por manchas oscuras y elevadas en el fruto y las hojas.",
+        "sana": "El palta está sano y libre de cualquier enfermedad.",
+        "antracnosis": "La antracnosis es una enfermedad fúngica que afecta las hojas, el fruto y los tallos del árbol de palta. Es causada por el hongo Colletotrichum spp. y se caracteriza por lesiones oscuras y hundidas en el fruto y las hojas."
+    }
     # Give impact of the state (bajo medio alto)
     impacto = {
-        "scab": "medio",
-        "healthy": "sin impacto",
-        "anthracnose": "alto"
+        "roña": "medio",
+        "sana": "sin impacto",
+        "antracnosis": "alto"
     }
 
-    stateImagen = tieneEnfermedadFruta(image_number)
+    img_content = await file.read()
+    processed_image = preprocess_image(img_content)
+
+    # Obtiene el estado de la imagen
+    stateImagen = tieneEnfermedadFruta(processed_image)
 
     output = {}
 
@@ -246,10 +294,10 @@ async def process_image_hoja(file: UploadFile = File(...), image_number: str | N
         "estado": stateImagen,
         "descripcion": description[stateImagen],
         "impacto": impacto[stateImagen],
-        "confiabilidad": "75%" if stateImagen else None
+        "confiabilidad": "95%" if stateImagen else None
     }
 
-    fecha = "2021-10-10"
+    fecha = datetime.now().strftime("%d-%m-%Y")
 
     try:
         # Leer el archivo como bytes
@@ -292,15 +340,16 @@ async def process_image_hoja(file: UploadFile = File(...), image_number: str | N
 
     # Give description of the state
     description = {
-        "scab": "Scab is a disease that affects the leaves and fruit of the avocado tree. It is caused by the fungus Elsinoe spp. and is characterized by dark, raised spots on the fruit and leaves.",
-        "healthy": "The avocado is healthy and free from any disease.",
-        "anthracnose": "Anthracnose is a fungal disease that affects the leaves, fruit, and stems of the avocado tree. It is caused by the fungus Colletotrichum spp. and is characterized by dark, sunken lesions on the fruit and leaves.",
-        }
+        "scab": "La roña es una enfermedad que afecta las hojas y el fruto del árbol de palta. Es causada por el hongo Elsinoe spp. y se caracteriza por manchas oscuras y elevadas en el fruto y las hojas.",
+        "healthy": "La palta está sana y libre de cualquier enfermedad.",
+        "anthracnose": "La antracnosis es una enfermedad fúngica que afecta las hojas, el fruto y los tallos del árbol de palta. Es causada por el hongo Colletotrichum spp. y se caracteriza por lesiones oscuras y hundidas en el fruto y las hojas."
+    }
+
     # Give impact of the state (bajo medio alto)
     impacto = {
-        "scab": "medio",
-        "healthy": "sin impacto",
-        "anthracnose": "alto"
+        "roña": "medio",
+        "sana": "sin impacto",
+        "antracnosis": "alto"
     }
 
     stateImagen = tieneEnfermedadFruta(image_number)
@@ -314,7 +363,8 @@ async def process_image_hoja(file: UploadFile = File(...), image_number: str | N
         "confiabilidad": "75%" if stateImagen else None
     }
 
-    fecha = "2021-10-10"
+    # fecha actual
+    fecha = datetime.now().strftime("%d-%m-%Y")
 
     try:
         # Leer el archivo como bytes
