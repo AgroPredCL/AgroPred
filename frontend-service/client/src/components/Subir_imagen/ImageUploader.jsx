@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import CaptureButton from './camaraCopy';
 import PictureSelect from './archivos';
 import Enviar_foto from './EnviarFoto';
+import { CustomButton } from '@components/UI';
+
 
 export default function UploadImage({ onUploadSuccess, name }) {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -53,9 +55,10 @@ export default function UploadImage({ onUploadSuccess, name }) {
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl p-6 mx-4 overflow-y-auto max-h-[90vh]">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
-              <div>
+            <div className="ml-20 grid grid-cols-1 md:grid-cols-2 gap-x-6">
+              <div className="ml-20">
                 <PictureSelect onFileSelect={handleFileSelect} />
+                
               </div>
               <div>
                 <CaptureButton onCapture={handleCapture} />
@@ -78,7 +81,7 @@ export default function UploadImage({ onUploadSuccess, name }) {
             </div>
 
             <br />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-36">
+            <div className="ml-20 grid grid-cols-1 md:grid-cols-2 gap-x-36">
               <Enviar_foto
                 file={selectedImage}
                 uploadDate={uploadDate}

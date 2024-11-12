@@ -1,7 +1,7 @@
-// src/components/Enviar_foto.js
 import React, { useState, useEffect } from 'react';
 import Message from '../Message';
 import LoadingSpinner from '../Loading';
+import { usePostUploadFrutaMutation, usePostUploadHojaMutation } from '@services/apiSliceModelos';
 
 // Función para convertir base64 a Blob
 function base64ToBlob(base64, mime) {
@@ -21,6 +21,8 @@ const Enviar_foto = ({ file, uploadDate, onClose, onUploadSuccess, tipo }) => {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showImage, setShowImage] = useState(true); // Controla visibilidad de ImageUploader
+  const [uploadFruitImage] = usePostUploadFrutaMutation();
+  const [uploadLeafImage] = usePostUploadHojaMutation(); // Corregido aquí
 
   const mimeType = 'image/png'; // Tipo MIME de la imagen
 
@@ -38,21 +40,20 @@ const Enviar_foto = ({ file, uploadDate, onClose, onUploadSuccess, tipo }) => {
     try {
       const imageBlob = base64ToBlob(file, mimeType);
       const formData = new FormData();
-      formData.append('file', imageBlob, 'imagen.png');
+      formData.append('file', imageBlob, '01.png');
 
-      const response = await fetch(`http://127.0.0.1:8000/uploadImage/${tipo}?image_number=0001`, {
-        method: 'POST',
-        body: formData,
-      });
-
-      const responseData = await response.json();
-      if (!response.ok) {
-        throw new Error(`Error en la respuesta de la API: ${response.statusText}`);
+      let response;
+      if (tipo === 'fruta') {
+        response = await uploadFruitImage(formData).unwrap(); // Corregido aquí
+      } else if (tipo === 'hoja') {
+        response = await uploadLeafImage(formData).unwrap(); // Corregido aquí
+      } else {
+        throw new Error('Tipo de imagen no soportado');
       }
 
-      setData(responseData.enfermedades.healthy);
+      setData(response.enfermedades.healthy);
       setIsModalOpen(true); // Abrir el modal
-      console.log("contenido de response", responseData);
+      console.log("contenido de response", response);
 
     } catch (error) {
       console.error('Error al enviar la imagen:', error);

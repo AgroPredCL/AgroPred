@@ -47,6 +47,20 @@ export const apiEstado = createApi({
     getPrediccionEnfermedades: builder.query({
       query: (cuartel) => `/disease/predict?nombreCuartel=${cuartel}`
     }),
+    postUploadFruta: builder.mutation({
+      query: (formData) => ({
+        url: 'uploadImage/fruta?image_number=0001',
+        method: 'POST',
+        body: formData,
+      }),
+    }),
+    postUploadHoja: builder.mutation({
+      query: (formData) => ({
+        url: 'uploadImage/hoja?image_number=0001',
+        method: 'POST',
+        body: formData,
+      }),
+    })
   })
 });
 
@@ -66,4 +80,6 @@ export const {
   useGetAlertaHeladaQuery,
   useGetRecomendacionFertilizanteQuery,
   useGetPrediccionEnfermedadesQuery,
+  usePostUploadFrutaMutation, 
+  usePostUploadHojaMutation, 
 } = apiEstado;
