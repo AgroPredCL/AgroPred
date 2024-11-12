@@ -24,7 +24,7 @@ import tags from './routes/tags.routes.js'
 const app = express();
 
 app.use(cors({
-  origin: 'http://13.59.114.86:5173',  // Aquí especificas el origen permitido
+  origin: 'http://localhost:5173',  // Aquí especificas el origen permitido
   methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Métodos permitidos
   allowedHeaders: ['Content-Type', 'Authorization'],  // Headers permitidos
   credentials: true,  // Si necesitas permitir el envío de cookies
