@@ -1,4 +1,5 @@
 from datetime import timedelta, datetime
+import io
 import pandas as pd
 import numpy as np
 from tensorflow.keras.models import load_model
@@ -13,6 +14,10 @@ import requests
 
 from functions import obtenerAguaDisponible
 
+from nitrogenoModelController import predictN
+from fosforoModelController import predictP
+from potasioModelController import predictK
+
 # Prediccion de estado de nutrientes
 ## Generar fechas
 def generar_fechas(fecha_inicio, cantidadDiasPrediccion):
@@ -21,7 +26,43 @@ def generar_fechas(fecha_inicio, cantidadDiasPrediccion):
     fechas = [(fecha_inicio + timedelta(days=i)).strftime("%d-%m-%Y") for i in range(cantidadDiasPrediccion)]
     return fechas
 
+def predictController(nombreCuartel, diasAPredecir = 0):
 
+    nitrogenoPred = predictN(nombreCuartel)
+    fosforoPred = predictP(nombreCuartel)
+    potasioPred = predictK(nombreCuartel)
+
+    if diasAPredecir != 0:
+        # Fecha actual + 1 dia
+        fecha_actual = datetime.now()
+
+        fecha_futura = fecha_actual + timedelta(days=diasAPredecir)
+
+        # Recortar nitrogenoPred considerando todos los valores antes de que nitrogenoPred{fecha} sea mayor igual a fecha_futura
+        for i in range(len(nitrogenoPred)):
+            if nitrogenoPred[i]['fecha'] >= fecha_futura.strftime('%d-%m-%Y'):
+                nitrogenoPred = nitrogenoPred[:i]
+                break
+
+        # Recortar fosforoPred considerando todos los valores antes de que fosforoPred{fecha} sea mayor igual a fecha_futura
+        for i in range(len(fosforoPred)):
+            if fosforoPred[i]['fecha'] >= fecha_futura.strftime('%d-%m-%Y'):
+                fosforoPred = fosforoPred[:i]
+                break
+        
+        # Recortar potasioPred considerando todos los valores antes de que potasioPred{fecha} sea mayor igual a fecha_futura
+        for i in range(len(potasioPred)):
+            if potasioPred[i]['fecha'] >= fecha_futura.strftime('%d-%m-%Y'):
+                potasioPred = potasioPred[:i]
+                break
+    
+
+    return {"nitrogeno": {"MAPE": "0.6212%", "explicación": "Esto significa que, en promedio, hay una diferencia del 0.6212%. entre el valor real y el predicho.", "predicciones": nitrogenoPred}, 
+            "fosforo":   {"MAPE": "0.4348%", "explicación": "Esto significa que, en promedio, hay una diferencia del 0.4348%. entre el valor real y el predicho.", "predicciones": fosforoPred},
+            "potasio":   {"MAPE": "0.2372%", "explicación": "Esto significa que, en promedio, hay una diferencia del 0.2372%. entre el valor real y el predicho.", "predicciones": potasioPred}}
+
+
+"""
 ## Se utiliza el modelo para predecir hasta la fecha <fechaPrediccion>
 def predictController(nombreCuartel, cantidadDiasPrediccion):
     tiempoInicial = datetime.now()
@@ -103,22 +144,26 @@ def predictController(nombreCuartel, cantidadDiasPrediccion):
     return {"nitrogeno": {"MAPE": "0.6212%", "explicación": "Esto significa que, en promedio, hay una diferencia del 0.6212%. entre el valor real y el predicho.", "predicciones": nitrogenoFinal}, 
             "fosforo":   {"MAPE": "0.4348%", "explicación": "Esto significa que, en promedio, hay una diferencia del 0.4348%. entre el valor real y el predicho.", "predicciones": fosforoFinal},
             "potasio":   {"MAPE": "0.2372%", "explicación": "Esto significa que, en promedio, hay una diferencia del 0.2372%. entre el valor real y el predicho.", "predicciones": potasioFinal}}
-
+"""
 
 # Analisis de enfermedades
 ## Fruta
 model = load_model('../modelos/Avocado_classification_Inception_v1.h5')
-def preprocess_image(img_path):
-    img = image.load_img(img_path, target_size=(128, 128))
-    img_array = image.img_to_array(img)
+def preprocess_image(file):
+    # Procesa la imagen desde el archivo subido
+    img = Image.open(io.BytesIO(file))
+    img = img.resize((128, 128))  # Redimensiona la imagen al tamaño adecuado
+    img_array = np.array(img)
     img_array_expanded_dims = np.expand_dims(img_array, axis=0)
     return preprocess_input(img_array_expanded_dims)
 
-def tieneEnfermedadFruta(image_number):
-    processed_image = preprocess_image(f'./images/Avocado {image_number}.jpg')
-    prediction = model.predict(processed_image)
+def tieneEnfermedadFruta(img_array):
+    # Realiza la predicción usando el modelo
+    prediction = model.predict(img_array)
 
-    states = ["scab", "healthy", "anthracnose", "asfixia radicular"]
+    # Definición de estados
+    states = ["sana", "roña", "antracnosis"]
+    print(prediction)
     max_index = np.argmax(prediction)
     stateImagen = states[max_index]
     return stateImagen

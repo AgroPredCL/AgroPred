@@ -1,3 +1,4 @@
+import datetime
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -73,9 +74,9 @@ def predictN(nombreCuartel):
 
     window_size = 20
     
-    data_N = data_N[['fecha hora', 'Nitrogeno']]
+    data_N = data_N[['FechaHora', 'Nitrogeno']]
     
-    data_N.drop('fecha hora', axis=1, inplace=True)
+    data_N.drop('FechaHora', axis=1, inplace=True)
     data_N2 = data_N.rolling(window=window_size).mean()
 
     data_N = pd.concat([data_N[:21], data_N2[21:]], ignore_index=True)
@@ -114,4 +115,29 @@ def predictN(nombreCuartel):
     # Convertir las predicciones en un array numpy
     predictions = np.array(predictions).flatten()
 
-    return predictions
+    predictions = predictions.astype(float).tolist()
+
+    # Fecha de inicio
+    fechaActual = datetime.datetime.now()
+    start_date = datetime.datetime.strptime(fechaActual.strftime('%d-%m-%Y %H:%M:%S'), '%d-%m-%Y %H:%M:%S')
+
+
+    # Verifica si hay suficientes elementos en predictions para asignar a las mediciones
+    num_pred = len(predictions)
+    num_mediciones = num_pred  # Usamos la cantidad de predicciones
+
+    # Generar el array de mediciones cada 30 minutos con los valores de las predicciones
+    output = []
+    # Iterar solo cada 3 mediciones (tomando solo las mediciones correspondientes a 30 minutos)
+    for i in range(0, num_mediciones, 3):
+        medicion = {}
+        medicion['fecha'] = start_date.strftime('%d-%m-%Y')  # Solo la fecha
+        medicion['hora'] = start_date.strftime('%H:%M:%S')  # Solo la hora
+        medicion['valor'] = predictions[i]  # Asignamos el valor de la predicción
+        output.append(medicion)
+
+        # Sumar 30 minutos a la fecha de la medición
+        start_date += datetime.timedelta(minutes=30)
+
+    # Retornar las mediciones como un JSON
+    return output
