@@ -261,6 +261,7 @@ async def predecirAsfixiaRadicularEndpoint(nombreCuartel: str):
 @app.post("/uploadImage/fruta")
 async def process_image_hoja(file: UploadFile = File(...)):
 
+    """
     ca = certifi.where()
     uri = "mongodb+srv://admin:admin@modelcluster.5l2ez.mongodb.net/?retryWrites=true&w=majority"
 
@@ -268,6 +269,7 @@ async def process_image_hoja(file: UploadFile = File(...)):
 
     db = client['modelDatabase']
     collection = db['imagesFruits'] 
+    """
 
     # Give description of the state
     description = {
@@ -300,6 +302,7 @@ async def process_image_hoja(file: UploadFile = File(...)):
     fecha = datetime.now().strftime("%d-%m-%Y")
 
     try:
+        """
         # Leer el archivo como bytes
         file_bytes = await file.read()
         filename = f"{int(time.time())}{Path(file.filename).suffix}"
@@ -314,10 +317,14 @@ async def process_image_hoja(file: UploadFile = File(...)):
         
         # Insertar el documento en la colección
         result = collection.insert_one(document)
+        """
         
         return {
                 "fecha": fecha,
-                "enfermedades": output
+                "estado": stateImagen,
+                "descripcion": description[stateImagen],
+                "impacto": impacto[stateImagen],
+                "confiabilidad": "95%" if stateImagen else None
                 }
     
     except Exception as e:
@@ -327,6 +334,7 @@ async def process_image_hoja(file: UploadFile = File(...)):
 @app.post("/uploadImage/hoja")
 async def process_image_hoja(file: UploadFile = File(...)):
 
+    """
     ca = certifi.where()
     uri = "mongodb+srv://admin:admin@modelcluster.5l2ez.mongodb.net/?retryWrites=true&w=majority"
 
@@ -334,6 +342,7 @@ async def process_image_hoja(file: UploadFile = File(...)):
 
     db = client['modelDatabase']
     collection = db['imagesFruits'] 
+    """
 
     # Give description of the state
     description = {
@@ -365,7 +374,10 @@ async def process_image_hoja(file: UploadFile = File(...)):
 
     fecha = datetime.now().strftime("%d-%m-%Y")
 
+    
+
     try:
+        """
         # Leer el archivo como bytes
         file_bytes = await file.read()
         filename = f"{int(time.time())}{Path(file.filename).suffix}"
@@ -380,10 +392,14 @@ async def process_image_hoja(file: UploadFile = File(...)):
         
         # Insertar el documento en la colección
         result = collection.insert_one(document)
+        """
         
         return {
                 "fecha": fecha,
-                "enfermedades": output
+                "estado": stateImagen,
+                "descripcion": description[stateImagen],
+                "impacto": impacto[stateImagen],
+                "confiabilidad": "95%" if stateImagen else None
                 }
     
     except Exception as e:
