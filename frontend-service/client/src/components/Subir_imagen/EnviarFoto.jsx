@@ -21,8 +21,8 @@ const Enviar_foto = ({ file, uploadDate, onClose, onUploadSuccess, tipo }) => {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showImage, setShowImage] = useState(true); // Controla visibilidad de ImageUploader
-  const [uploadFruitImage] = usePostUploadFrutaMutation();
-  const [uploadLeafImage] = usePostUploadHojaMutation(); // Corregido aquí
+  const [uploadFrutaImage] = usePostUploadFrutaMutation();
+  const [uploadHojaImage] = usePostUploadHojaMutation(); // Corregido aquí
 
   const mimeType = 'image/png'; // Tipo MIME de la imagen
 
@@ -41,17 +41,17 @@ const Enviar_foto = ({ file, uploadDate, onClose, onUploadSuccess, tipo }) => {
       const imageBlob = base64ToBlob(file, mimeType);
       const formData = new FormData();
       formData.append('file', imageBlob, '01.png');
-
+      console.log("tipo",tipo)
       let response;
       if (tipo === 'fruta') {
-        response = await uploadFruitImage(formData).unwrap(); // Corregido aquí
-      } else if (tipo === 'hoja') {
-        response = await uploadLeafImage(formData).unwrap(); // Corregido aquí
+        response = await uploadFrutaImage(formData).unwrap(); // Corregido aquí
+      } else if (tipo === 'hoja') {ac
+        response = await uploadHojaImage(formData).unwrap(); // Corregido aquí
       } else {
         throw new Error('Tipo de imagen no soportado');
       }
 
-      setData(response.enfermedades.healthy);
+      setData(response.enfermedades);
       setIsModalOpen(true); // Abrir el modal
       console.log("contenido de response", response);
 

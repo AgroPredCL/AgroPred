@@ -54,34 +54,33 @@ export default function UploadImage({ onUploadSuccess, name }) {
       {/* Modal overlay and container */}
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          
+
           <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl p-6 mx-4 overflow-y-auto max-h-[90vh]">
-            <div className="ml-20 grid grid-cols-1 md:grid-cols-2 gap-x-6">
-              <div className="ml-20">
-                <PictureSelect onFileSelect={handleFileSelect} />
-                
-              </div>
-              <div>
-                <CaptureButton onCapture={handleCapture} />
-              </div>
+            <div className="flex justify-center gap-4 mb-4">
+              <PictureSelect onFileSelect={handleFileSelect} />
+
+              <CaptureButton onCapture={handleCapture} />
             </div>
 
             <div className="mt-6 text-center">
-              <h3 className="text-lg font-semibold">Imagen a cargar</h3>
-              {selectedImage ? (
-                <img
-                  src={selectedImage}
-                  alt="Selected"
-                  className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto"
-                />
-              ) : (
-                <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg h-64 bg-white border border-gray-300 mx-auto flex items-center justify-center">
-                  <span className="text-gray-500">No hay imagen seleccionada</span>
-                </div>
-              )}
-            </div>
 
+              <h3 className="text-lg font-semibold">Imagen a cargar</h3>
+                {selectedImage ? (
+                  <img
+                    src={selectedImage}
+                    alt="Selected"
+                    className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto"
+                  />
+                ) : (
+                  <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg h-64 bg-white border border-gray-300 mx-auto flex items-center justify-center">
+                    <span className="text-gray-500">No hay imagen seleccionada</span>
+                  </div>
+                )}
+            </div>
+                    
             <br />
-            <div className="ml-20 grid grid-cols-1 md:grid-cols-2 gap-x-36">
+            <div className="flex justify-center gap-4">
               <Enviar_foto
                 file={selectedImage}
                 uploadDate={uploadDate}
