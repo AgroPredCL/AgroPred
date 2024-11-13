@@ -325,7 +325,7 @@ async def process_image_hoja(file: UploadFile = File(...)):
 
 
 @app.post("/uploadImage/hoja")
-async def process_image_hoja(file: UploadFile = File(...), image_number: str | None = None):
+async def process_image_hoja(file: UploadFile = File(...)):
 
     ca = certifi.where()
     uri = "mongodb+srv://admin:admin@modelcluster.5l2ez.mongodb.net/?retryWrites=true&w=majority"
@@ -333,18 +333,14 @@ async def process_image_hoja(file: UploadFile = File(...), image_number: str | N
     client = MongoClient(uri, tlsCAFile=ca)
 
     db = client['modelDatabase']
-    collection = db['imagesLeafs'] 
-
-    if not image_number:
-        image_number = "0005"
+    collection = db['imagesFruits'] 
 
     # Give description of the state
     description = {
-        "scab": "La roña es una enfermedad que afecta las hojas y el fruto del árbol de palta. Es causada por el hongo Elsinoe spp. y se caracteriza por manchas oscuras y elevadas en el fruto y las hojas.",
-        "healthy": "La palta está sana y libre de cualquier enfermedad.",
-        "anthracnose": "La antracnosis es una enfermedad fúngica que afecta las hojas, el fruto y los tallos del árbol de palta. Es causada por el hongo Colletotrichum spp. y se caracteriza por lesiones oscuras y hundidas en el fruto y las hojas."
+        "roña": "La roña es una enfermedad que afecta las hojas y el fruto del árbol de palta. Es causada por el hongo Elsinoe spp. y se caracteriza por manchas oscuras y elevadas en el fruto y las hojas.",
+        "sana": "La palta está sana y libre de cualquier enfermedad.",
+        "antracnosis": "La antracnosis es una enfermedad fúngica que afecta las hojas, el fruto y los tallos del árbol de palta. Es causada por el hongo Colletotrichum spp. y se caracteriza por lesiones oscuras y hundidas en el fruto y las hojas."
     }
-
     # Give impact of the state (bajo medio alto)
     impacto = {
         "roña": "medio",
@@ -352,7 +348,11 @@ async def process_image_hoja(file: UploadFile = File(...), image_number: str | N
         "antracnosis": "alto"
     }
 
-    stateImagen = tieneEnfermedadFruta(image_number)
+    img_content = await file.read()
+    processed_image = preprocess_image(img_content)
+
+    # Obtiene el estado de la imagen
+    stateImagen = tieneEnfermedadFruta(processed_image)
 
     output = {}
 
@@ -360,10 +360,9 @@ async def process_image_hoja(file: UploadFile = File(...), image_number: str | N
         "estado": stateImagen,
         "descripcion": description[stateImagen],
         "impacto": impacto[stateImagen],
-        "confiabilidad": "75%" if stateImagen else None
+        "confiabilidad": "95%" if stateImagen else None
     }
 
-    # fecha actual
     fecha = datetime.now().strftime("%d-%m-%Y")
 
     try:
@@ -377,7 +376,6 @@ async def process_image_hoja(file: UploadFile = File(...), image_number: str | N
             "file_data": Binary(file_bytes),  # Convertir los bytes a formato binario para MongoDB
             "content_type": file.content_type,  # Guardar el tipo de contenido (opcional)
             "upload_time": datetime.now(),  # Guardar la hora de subida (opcional)
-            "queso":"eso",
         }
         
         # Insertar el documento en la colección
