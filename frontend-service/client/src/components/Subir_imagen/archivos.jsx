@@ -14,7 +14,6 @@ const PictureSelect = ({ onFileSelect, onCloseCamera  }) => {
     if (file && validTypes.includes(file.type)) {
 
       onFileSelect(file);
-      console.log("AAAA",onCloseCamera)
       if(undefined !== onCloseCamera){
         onCloseCamera(); // Cierra la cámara cuando se selecciona un archivo
       }

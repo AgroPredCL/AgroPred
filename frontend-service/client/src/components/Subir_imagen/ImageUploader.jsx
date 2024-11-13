@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import CaptureButton from './camaraCopy';
 import PictureSelect from './archivos';
 import Enviar_foto from './EnviarFoto';
-import { CustomButton } from '@components/UI';
 
 
 export default function UploadImage({ onUploadSuccess, name }) {
