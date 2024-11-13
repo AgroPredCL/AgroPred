@@ -9,7 +9,7 @@ export default function CuartelSelector({ cuarteles, onSelectCuartel }) {
 	const opcionesCuarteles = [{ nombre_Cuartel: 'Vista General' }, ...cuarteles];
 
 	const [isOpen, setIsOpen] = useState(false);
-	const [selectedCuartel, setSelectedCuartel] = useState(opcionesCuarteles[0]);
+	const [selectedCuartel, setSelectedCuartel] = useState(opcionesCuarteles[5]);
 
 	const toggleDropdown = () => setIsOpen(!isOpen);
 
