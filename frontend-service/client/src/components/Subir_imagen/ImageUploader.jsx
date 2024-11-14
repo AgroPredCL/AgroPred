@@ -62,7 +62,7 @@ export default function UploadImage({ onUploadSuccess, name }) {
           <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl p-6 mx-4 overflow-y-auto max-h-[90vh]">
             <div className="flex justify-center gap-4 mb-4">
               <PictureSelect onFileSelect={handleFileSelect} />
-              {isPC && <CaptureButton onCapture={handleCapture} />}
+              
             </div>
 
             <div className="mt-6 text-center">
