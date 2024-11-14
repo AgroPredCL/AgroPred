@@ -47,3 +47,6 @@ curl -X GET "http://127.0.0.1:8000/state/nitrogeno"
 curl 'http://127.0.0.1:8000/prediction/NPK?diasAPredecir=<dias a predecir>' -H 'accept: application/json'
 
 ```
+
+
+### ESTE MENSAJE ES UN TEST PARA HACER EL MERGE CON DEVELOP

@@ -36,7 +36,7 @@ const Enviar_foto = ({ file, uploadDate, onClose, onUploadSuccess, tipo }) => {
     }
 
     setLoading(true); // Mostrar el spinner de carga
-
+    //console.log("file",file)
     try {
       const imageBlob = base64ToBlob(file, mimeType);
       const formData = new FormData();
@@ -50,6 +50,8 @@ const Enviar_foto = ({ file, uploadDate, onClose, onUploadSuccess, tipo }) => {
       } else {
         throw new Error('Tipo de imagen no soportado');
       }
+
+
 
       setData(response);
       setIsModalOpen(true); // Abrir el modal

@@ -47,6 +47,7 @@ const Logo = () => (
 			className='hidden md:block h-10 w-auto'
 			src='/Logo-horizontal.png'
 			alt='Logo AgroPred'
+			href='/'
 		/>
 	</div>
 );

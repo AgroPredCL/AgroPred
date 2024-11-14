@@ -111,30 +111,33 @@ def stateNitrogeno(nombreCuartel):
     data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
     valorActual = data_sensores['Nitrogeno'].iloc[-1]
 
-    if valorActual < 100:
+    # Clasificación del valor actual de nitrógeno
+    if valorActual < 20:
         estadoActual = "Deficiente"
-    elif 90 <= valorActual < 100:
+    elif 20 <= valorActual < 30:
         estadoActual = "Bajo"
-    elif 100 <= valorActual < 120:
+    elif 30 <= valorActual < 50:
         estadoActual = "Adecuado"
-    elif 120 <= valorActual < 180:
+    elif 50 <= valorActual < 70:
         estadoActual = "Alto"
     else:
         estadoActual = "Excesivo"
 
+    # Promedio del valor de nitrógeno en los datos
     valorPromedio = data_sensores['Nitrogeno'].mean()
-    if valorPromedio < 100:
+
+    # Clasificación del valor promedio de nitrógeno
+    if valorPromedio < 20:
         estadoPromedio = "Deficiente"
-    elif 90 <= valorPromedio < 100:
+    elif 20 <= valorPromedio < 30:
         estadoPromedio = "Bajo"
-    elif 100 <= valorPromedio < 120:
+    elif 30 <= valorPromedio < 50:
         estadoPromedio = "Adecuado"
-    elif 120 <= valorPromedio < 180:
+    elif 50 <= valorPromedio < 70:
         estadoPromedio = "Alto"
     else:
         estadoPromedio = "Excesivo"
-    
-    print(valorActual, valorPromedio)
+
 
     return {"estadoActual": estadoActual , "valorActual": round(valorActual, 2), "estadoPromedio": estadoPromedio, "valorPromedio": round(valorPromedio, 2)}
 
@@ -151,25 +154,29 @@ def statePotasio(nombreCuartel):
     data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
     valorActual = data_sensores['Potasio'].iloc[-1]
 
-    if valorActual < 145:
+    # Clasificación del valor actual de potasio
+    if valorActual < 100:
         estadoActual = "Deficiente"
-    elif 145 <= valorActual < 150:
+    elif 100 <= valorActual < 150:
         estadoActual = "Bajo"
-    elif 150 <= valorActual < 155:
+    elif 150 <= valorActual < 200:
         estadoActual = "Adecuado"
-    elif 155 <= valorActual < 160:
+    elif 200 <= valorActual < 250:
         estadoActual = "Alto"
     else:
         estadoActual = "Excesivo"
 
+    # Promedio del valor de potasio en los datos
     valorPromedio = data_sensores['Potasio'].mean()
-    if valorPromedio < 145:
+
+    # Clasificación del valor promedio de potasio
+    if valorPromedio < 100:
         estadoPromedio = "Deficiente"
-    elif 145 <= valorPromedio < 150:
+    elif 100 <= valorPromedio < 150:
         estadoPromedio = "Bajo"
-    elif 150 <= valorPromedio < 155:
+    elif 150 <= valorPromedio < 200:
         estadoPromedio = "Adecuado"
-    elif 155 <= valorPromedio < 160:
+    elif 200 <= valorPromedio < 250:
         estadoPromedio = "Alto"
     else:
         estadoPromedio = "Excesivo"
@@ -189,28 +196,33 @@ def stateFosforo(nombreCuartel):
     data_sensores = pd.read_csv(f'../modelos/{nombreCuartel}.csv')
     valorActual = data_sensores['Fosforo'].iloc[-1]
 
-    if valorActual < 40:
+    # Clasificación del valor actual de fósforo
+    if valorActual < 10:
         estadoActual = "Deficiente"
-    elif 40 <= valorActual < 45:
+    elif 10 <= valorActual < 15:
         estadoActual = "Bajo"
-    elif 45 <= valorActual < 50:
+    elif 15 <= valorActual < 30:
         estadoActual = "Adecuado"
-    elif 50 <= valorActual < 60:
+    elif 30 <= valorActual < 40:
         estadoActual = "Alto"
     else:
         estadoActual = "Excesivo"
 
+    # Promedio del valor de fósforo en los datos
     valorPromedio = data_sensores['Fosforo'].mean()
-    if valorPromedio < 40:
+
+    # Clasificación del valor promedio de fósforo
+    if valorPromedio < 10:
         estadoPromedio = "Deficiente"
-    elif 40 <= valorPromedio < 45:
+    elif 10 <= valorPromedio < 15:
         estadoPromedio = "Bajo"
-    elif 45 <= valorPromedio < 50:
+    elif 15 <= valorPromedio < 30:
         estadoPromedio = "Adecuado"
-    elif 50 <= valorPromedio < 60:
+    elif 30 <= valorPromedio < 40:
         estadoPromedio = "Alto"
     else:
         estadoPromedio = "Excesivo"
+
 
     return {"estadoActual": estadoActual , "valorActual": round(valorActual, 2), "estadoPromedio": estadoPromedio, "valorPromedio": round(valorPromedio, 2)}
 

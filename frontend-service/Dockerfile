@@ -1,6 +1,9 @@
 # Usa una imagen base de Node.js
 FROM node:18-alpine
 
+# Instala serve globalmente
+RUN npm install -g serve
+
 # Establece el directorio de trabajo
 WORKDIR /frontend-service
 
@@ -10,17 +13,11 @@ COPY client/package.json client/package-lock.json* ./
 # Instala dependencias sin modificar el package-lock.json
 RUN npm ci --verbose
 
-# Instala dotenv
-RUN npm install dotenv
-
 # Copia el resto del código de la aplicación
 COPY client/ .
 
-# Construye la aplicación
+# Compila la aplicación para producción
 RUN npm run build
-
-# Instala un servidor estático para servir los archivos construidos
-RUN npm install -g serve
 
 # Expone el puerto en el que se servirá la aplicación
 EXPOSE 5173
