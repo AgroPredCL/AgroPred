@@ -36,12 +36,13 @@ const Enviar_foto = ({ file, uploadDate, onClose, onUploadSuccess, tipo }) => {
     }
 
     setLoading(true); // Mostrar el spinner de carga
-
+    console.log("file",file)
     try {
       const imageBlob = base64ToBlob(file, mimeType);
       const formData = new FormData();
       formData.append('file', imageBlob, '01.png');
       console.log("tipo",tipo)
+      console.log("formData",formData)
       let response;
       if (tipo === 'fruta') {
         response = await uploadFrutaImage(formData).unwrap(); // Corregido aquí
@@ -50,6 +51,8 @@ const Enviar_foto = ({ file, uploadDate, onClose, onUploadSuccess, tipo }) => {
       } else {
         throw new Error('Tipo de imagen no soportado');
       }
+
+
 
       setData(response);
       setIsModalOpen(true); // Abrir el modal
@@ -63,7 +66,6 @@ const Enviar_foto = ({ file, uploadDate, onClose, onUploadSuccess, tipo }) => {
       setLoading(false); // Ocultar el spinner de carga
     }
   };
-  const colorEstado = data.estado.toLowerCase() === 'sana';
   
   // useEffect para crear el mensaje cuando data cambia
   useEffect(() => {
@@ -72,6 +74,8 @@ const Enviar_foto = ({ file, uploadDate, onClose, onUploadSuccess, tipo }) => {
         setMensaje(data.error);
       } else {
         console.log("contenido de data", data);
+        const colorEstado = data.estado === 'sana';
+
         setMensaje(
           <div>
             <p className="font-semibold mb-2">
