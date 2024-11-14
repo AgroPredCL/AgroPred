@@ -1,14 +1,20 @@
-// UploadImage.js
-import React, { useState } from 'react';
-import CaptureButton from './camaraCopy';
+import React, { useState, useEffect } from 'react';
+import CaptureButton from './camara';
 import PictureSelect from './archivos';
 import Enviar_foto from './EnviarFoto';
-
+import { CustomButton } from '@components/UI';
 
 export default function UploadImage({ onUploadSuccess, name }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [uploadDate, setUploadDate] = useState(null);
   const [open, setOpen] = useState(false);
+  const [isPC, setIsPC] = useState(false);
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isPCDevice = !/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+    setIsPC(isPCDevice);
+  }, []);
 
   const handleFileSelect = (file) => {
     clearPreviousImage();
@@ -54,14 +60,9 @@ export default function UploadImage({ onUploadSuccess, name }) {
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl p-6 mx-4 overflow-y-auto max-h-[90vh]">
-            <div className="ml-20 grid grid-cols-1 md:grid-cols-2 gap-x-6">
-              <div className="ml-20">
-                <PictureSelect onFileSelect={handleFileSelect} />
-                
-              </div>
-              <div>
-                <CaptureButton onCapture={handleCapture} />
-              </div>
+            <div className="flex justify-center gap-4 mb-4">
+              <PictureSelect onFileSelect={handleFileSelect} />
+              {isPC && <CaptureButton onCapture={handleCapture} />}
             </div>
 
             <div className="mt-6 text-center">
@@ -78,15 +79,15 @@ export default function UploadImage({ onUploadSuccess, name }) {
                 </div>
               )}
             </div>
-
+                    
             <br />
-            <div className="ml-20 grid grid-cols-1 md:grid-cols-2 gap-x-36">
+            <div className="flex justify-center gap-4">
               <Enviar_foto
                 file={selectedImage}
                 uploadDate={uploadDate}
                 onClose={handleClose}
                 onUploadSuccess={onUploadSuccess}
-                tipo = {name}
+                tipo={name}
               />
               <button
                 className="bg-amber-700 text-white w-fit px-4 py-2 rounded cursor-pointer text-lg"
