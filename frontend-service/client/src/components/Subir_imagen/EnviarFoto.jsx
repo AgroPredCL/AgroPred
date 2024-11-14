@@ -45,13 +45,13 @@ const Enviar_foto = ({ file, uploadDate, onClose, onUploadSuccess, tipo }) => {
       let response;
       if (tipo === 'fruta') {
         response = await uploadFrutaImage(formData).unwrap(); // Corregido aquí
-      } else if (tipo === 'hoja') {ac
+      } else if (tipo === 'hoja') {
         response = await uploadHojaImage(formData).unwrap(); // Corregido aquí
       } else {
         throw new Error('Tipo de imagen no soportado');
       }
 
-      setData(response.enfermedades);
+      setData(response);
       setIsModalOpen(true); // Abrir el modal
       console.log("contenido de response", response);
 
@@ -63,7 +63,7 @@ const Enviar_foto = ({ file, uploadDate, onClose, onUploadSuccess, tipo }) => {
       setLoading(false); // Ocultar el spinner de carga
     }
   };
-
+  
   // useEffect para crear el mensaje cuando data cambia
   useEffect(() => {
     if (data) {
@@ -71,7 +71,19 @@ const Enviar_foto = ({ file, uploadDate, onClose, onUploadSuccess, tipo }) => {
         setMensaje(data.error);
       } else {
         console.log("contenido de data", data);
-        setMensaje(`La palta se encuentra en estado ${data.estado}, lo que significa que ${data.descripcion} con un ${data.confiabilidad}% de confiabilidad`);
+        const colorEstado = data.estado.toLowerCase() === 'sana';
+
+        setMensaje(
+          <div>
+            <p className="font-semibold mb-2">
+              La palta se encuentra en estado: <span className={`${colorEstado ? 'text-green-600' : 'text-red-600'} ml-2`}>{data.estado}</span>
+            </p>
+            <p className="mb-2">{data.descripcion}</p>
+            <p className="text-sm text-gray-600">
+              Confiabilidad: <span className="font-bold">{data.confiabilidad}%</span>
+            </p>
+          </div>
+        );
       }
     }
   }, [data]);
@@ -110,6 +122,7 @@ const Enviar_foto = ({ file, uploadDate, onClose, onUploadSuccess, tipo }) => {
         isOpen={isModalOpen}
         onClose={handleClose} // Cierra modal e imagen
         responseData={mensaje}
+        titleData={"Resultado del análisis"}
       />
     </div>
   );
