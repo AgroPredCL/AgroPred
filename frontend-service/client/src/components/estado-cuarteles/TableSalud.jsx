@@ -2,15 +2,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Tab from '@components/Tab';
 
-const DiseaseTable = ({ data, selectedMonth }) => {
+const DiseaseTable = ({ data }) => {
   return (
     <div className='overflow-x-auto shadow-md rounded-lg'>
-      {selectedMonth === '' && data.length > 0 ? (
-        <p className='text-gray-500 text-center text-xl font-normal py-8'>
-          Seleccionar fecha
-        </p>
-      ) : data.length > 0 ? (
-        <table className='w-full bg-white'>
+      { data.enfermedad==true ? (
+      <table className='w-full bg-white'>
           <thead className='bg-gray-50'>
             <tr>
               <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
@@ -31,33 +27,36 @@ const DiseaseTable = ({ data, selectedMonth }) => {
             </tr>
           </thead>
           <tbody className='bg-white divide-y divide-gray-200'>
-            {data.map((entry, index) => (
+            
               <tr
-                key={index}
-                className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
+                
               >
                 <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>
-                  {entry.detalles.enfermedad}
+                  {data.estado}
                 </td>
                 <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                  {entry.detalles.impacto}
+                  {data.impacto}
                 </td>
                 <td className='px-6 py-4 text-sm text-gray-500'>
-                  {entry.detalles.descripcion}
+                  {data.descripcion}
                 </td>
                 <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                  {entry.detalles.confiabilidad}%
+                  {data.confiabilidad}
                 </td>
                 <td className='px-6 py-4 text-sm text-gray-500'>
-                  {entry.detalles.recomendaciones}
+                  <ul className='list-disc list-inside'>
+                    {data.recomendaciones.map((recomendacion, index) => (
+                      <li key={index}>{recomendacion}</li>
+                    ))}
+                  </ul>
                 </td>
               </tr>
-            ))}
+           
           </tbody>
-        </table>
+      </table>
       ) : (
         <p className='text-gray-500 text-center text-xl font-normal py-8'>
-          No hay enfermedades
+          No se predicen enfermedades para este cuartel
         </p>
       )}
     </div>
@@ -67,38 +66,32 @@ const DiseaseTable = ({ data, selectedMonth }) => {
 DiseaseTable.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      detalles: PropTypes.shape({
-        enfermedad: PropTypes.string.isRequired,
-        impacto: PropTypes.string.isRequired,
-        descripcion: PropTypes.string.isRequired,
-        confiabilidad: PropTypes.number.isRequired,
-        recomendaciones: PropTypes.string.isRequired,
-      }).isRequired,
+      estado: PropTypes.string.isRequired,
+      impacto: PropTypes.string.isRequired,
+      descripcion: PropTypes.string.isRequired,
+      confiabilidad: PropTypes.number.isRequired,
+      recomendaciones: PropTypes.arrayOf(PropTypes.string).isRequired,
     })
   ).isRequired,
-  selectedMonth: PropTypes.string.isRequired,
+
 };
 
-export function Table({ actualidad, predicciones, fechas }) {
+export function Table({ actualidad, predicciones, nombreCuartel }) {
   const [activeTab, setActiveTab] = useState('actualidad');
-  const [selectedMonth, setSelectedMonth] = useState('');
+  //const [selectedMonth, setSelectedMonth] = useState('');
   
 
   const handleTabChange = tab => {
     setActiveTab(tab);
-    setSelectedMonth('');
+    //setSelectedMonth('');
   };
 
   const handleMonthChange = event => {
-    setSelectedMonth(event.target.value);
+    //setSelectedMonth(event.target.value);
   };
 
-  const filteredData =
-    activeTab === 'predicciones' && selectedMonth
-      ? predicciones.filter(entry => entry.fecha === selectedMonth)
-      : activeTab === 'predicciones'
-        ? []
-        : actualidad;
+  //console.log('actualidad:', actualidad);
+  console.log('predicciones:', predicciones);
 
   return (
     <div className='bg-white rounded-lg shadow-md overflow-hidden'>
@@ -119,39 +112,39 @@ export function Table({ actualidad, predicciones, fechas }) {
 
       {activeTab === 'predicciones' && (
         <div className='px-4 py-3 border-b border-gray-200'>
-          {fechas.length > 0 ? (
-            <select
-              id='month-select'
-              value={selectedMonth}
-              onChange={handleMonthChange}
-              className='block w-full px-3 py-2 text-base border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md'
-            >
-              <option value=''>Elige una fecha</option>
-              {fechas.map(fecha => (
-                <option key={fecha} value={fecha}>
-                  {fecha}
-                </option>
-              ))}
-            </select>
-          ) : (
+          {predicciones !=undefined ? (
+            <DiseaseTable data={predicciones}  />
+            ) : (
             <p className='text-gray-500 text-center text-xl font-normal py-8'>
-              No se predicen enfermedades
+              No se predicen enfermedades paara este cuartel
             </p>
-          )}
+          )}  
         </div>
       )}
+        
+        {activeTab === 'actualidad' && (
+        <div className='px-4 py-3 border-b border-gray-200'>
+          {actualidad.length>0 ? (
+            <div></div>
+            ) : (
+            <p className='text-gray-500 text-center text-xl font-normal py-8'>
+              Actualmente no hay enfermedades presentes en el cuartel {nombreCuartel}
+            </p>
+          )}  
+        </div>
+      )}
+        
 
-      <div className='p-4'>
+      {/* <div className='p-4'>
         <DiseaseTable data={filteredData} selectedMonth={selectedMonth} />
-      </div>
+      </div> */}
     </div>
+
   );
 }
 
 Table.propTypes = {
   actualidad: PropTypes.array.isRequired,
   predicciones: PropTypes.array.isRequired,
-  fechas: PropTypes.arrayOf(
-    PropTypes.string.isRequired
-  ).isRequired,
+
 };

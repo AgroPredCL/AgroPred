@@ -41,7 +41,7 @@ const Enviar_foto = ({ file, uploadDate, onClose, onUploadSuccess, tipo }) => {
       const imageBlob = base64ToBlob(file, mimeType);
       const formData = new FormData();
       formData.append('file', imageBlob, '01.png');
-      console.log("tipo",tipo)
+      //console.log("tipo",tipo)
       let response;
       if (tipo === 'fruta') {
         response = await uploadFrutaImage(formData).unwrap(); // Corregido aquí
@@ -70,7 +70,7 @@ const Enviar_foto = ({ file, uploadDate, onClose, onUploadSuccess, tipo }) => {
       if (data.error) {
         setMensaje(data.error);
       } else {
-        console.log("contenido de data", data);
+        //console.log("contenido de data", data);
         const colorEstado = data.estado.toLowerCase() === 'sana';
 
         setMensaje(
@@ -80,7 +80,7 @@ const Enviar_foto = ({ file, uploadDate, onClose, onUploadSuccess, tipo }) => {
             </p>
             <p className="mb-2">{data.descripcion}</p>
             <p className="text-sm text-gray-600">
-              Confiabilidad: <span className="font-bold">{data.confiabilidad}%</span>
+              Confiabilidad: <span className="font-bold">{data.confiabilidad}</span>
             </p>
           </div>
         );
