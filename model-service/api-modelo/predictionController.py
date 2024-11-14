@@ -15,8 +15,11 @@ import requests
 from functions import obtenerAguaDisponible
 
 from nitrogenoModelController import predictN
-from fosforoModelController import predictP
 from potasioModelController import predictK
+from fosforoModelController import predictP
+from phModelController import predictPH
+from humedadModelController import predictHumedad
+from temperaturaModelController import predictTemperatura
 
 # Prediccion de estado de nutrientes
 ## Generar fechas
@@ -168,6 +171,7 @@ def tieneEnfermedadFruta(img_array):
     stateImagen = states[max_index]
     return stateImagen
 
+
 ## NPK
 def check_asfixia_radicular(ph, temperature, humidity):
     if 5 < ph < 8 and 13 < temperature < 32 and 80 < humidity < 100:
@@ -183,6 +187,33 @@ def tieneAsfixiaRadicular(nombreCuartel):
     temperatura = data_sensores['Temperatura']
     humedad = data_sensores['Humedad']
 
+    # Considerando el ultimo 25% de los datos, si la mayoria es True, se considera que hay asfixia radicular
+    valuesAsfixia = [check_asfixia_radicular(ph[i], temperatura[i], humedad[i]) for i in range(int(len(ph)*0.75), len(ph))]
+
+    # Si la mayoria de valores en valuesAsfixia es True, entonces se considera que tiene asfixia radicular
+    if valuesAsfixia.count(True) > len(valuesAsfixia) * 0.5:
+        return False
+
+    return True
+
+def predecirAsfixiaRadicular():
+
+    ph = predictPH("p9s9")
+    humedad = predictHumedad("p9s9")
+    temperatura = predictTemperatura("p9s9")
+
+    ph = [item["valor"] for item in ph]
+    humedad = [item["valor"] for item in humedad]
+    temperatura = [item["valor"] for item in temperatura]
+
+    # Que todas las listas tengan sus ultimos 700 datos respectivamente
+
+
+    # Obtener los ultimos 700 datos de cada array de mediciones
+    ph = ph[-140:]
+    humedad = humedad[-140:]
+    temperatura = temperatura[-140:]
+    
     # Considerando el ultimo 25% de los datos, si la mayoria es True, se considera que hay asfixia radicular
     valuesAsfixia = [check_asfixia_radicular(ph[i], temperatura[i], humedad[i]) for i in range(int(len(ph)*0.75), len(ph))]
 
