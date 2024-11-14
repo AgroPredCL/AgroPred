@@ -18,4 +18,4 @@ COPY client/ .
 EXPOSE 5173
 
 # Comando para servir la aplicación
-CMD ["npm", "run", "dev"]
+CMD ["serve","-s","dist","-l","5173"]
