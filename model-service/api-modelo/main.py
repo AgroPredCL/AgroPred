@@ -26,12 +26,15 @@ from tensorflow.keras.applications.inception_v3 import preprocess_input
 from typing import Optional
 import pandas as pd
 
-from predictionController import predictController, preprocess_image, tieneAsfixiaRadicular, tieneEnfermedadFruta, predecirEstadoHidrico
+from predictionController import predictController, preprocess_image, tieneAsfixiaRadicular, tieneEnfermedadFruta, predecirEstadoHidrico, predecirAsfixiaRadicular
 from stateController import stateEnPeriodoEspecifico, stateNitrogeno, statePotasio, stateFosforo, statePH, stateHumedad, stateTemperatura, stateConductividad, hacerRecomendacionFertilizante, alertaPorHelada_helper
 
 from nitrogenoModelController import predictN
 from potasioModelController import predictK
 from fosforoModelController import predictP
+from phModelController import predictPH
+from humedadModelController import predictHumedad
+from temperaturaModelController import predictTemperatura
 
 app = FastAPI()
 
@@ -48,24 +51,37 @@ app.add_middleware(
 async def nitrogenoPredict(nombreCuartel: str):
     output = predictN(nombreCuartel)
 
-    # considerando que predict() retorna un np.array, pasarlo a JSON
     return output
 
 @app.get("/fosforoPredict")
 async def fosforoPredict(nombreCuartel: str):
     output = predictP(nombreCuartel)
 
-    # considerando que predict() retorna un np.array, pasarlo a JSON
     return output.tolist()
 
 @app.get("/potasioPredict")
 async def potasioPredict(nombreCuartel: str):
     output = predictK(nombreCuartel)
 
-    # considerando que predict() retorna un np.array, pasarlo a JSON
     return output.tolist()
 
+@app.get("/pHPredict")
+async def potasioPredict(nombreCuartel: str):
+    output = predictPH(nombreCuartel)
 
+    return output
+
+@app.get("/humedadPredict")
+async def humedadPredict(nombreCuartel: str):
+    output = predictHumedad(nombreCuartel)
+
+    return output
+
+@app.get("/temperaturaPredict")
+async def temperaturaPredict(nombreCuartel: str):
+    output = predictTemperatura(nombreCuartel)
+
+    return output
 
 @app.get("/")
 async def root():
@@ -138,8 +154,6 @@ async def currentState(nombreCuartel: str, diasAPredecir: Optional[int] = Query(
     if not diasAPredecir:
         return output
     
-
-
     return output
 
 """
@@ -154,49 +168,35 @@ async def currentState(nombreCuartel: str, diasAPredecir: Optional[int] = Query(
 @app.get("/disease/predict")
 async def predictDisease(nombreCuartel: str):
 
+    output = predecirAsfixiaRadicular()
+
     # codigo 
     fecha = datetime.now().strftime("%d-%m-%Y")
-
-    if nombreCuartel == "p0s1":
-        output = [
-                    {
-                        "fecha": f"{fecha}",
-                        "detalles": {
-                            "estado": "Sano",
-                            "enfermedad": None,
-                            "impacto": None,
-                            "descripcion": "Tu plantación esta en buen estado.",
-                            "confiabilidad": 75,
-                            "recomendaciones": None
-                        }
-                    }
-                ]
-
-    else: 
-        output = [
-                    {
-                        "fecha": "10-11-2024",
-                        "detalles": {
-                            "estado": "enfermo",
-                            "enfermedad": "Antracnosis",
-                            "impacto": "Alto",
-                            "descripcion": "Aparece en condiciones húmedas y cálidas.",
-                            "confiabilidad": 55,
-                            "recomendaciones": "Aplicar fungicida en base a cobre antes de una precipitación."
-                        }
-                    },
-                    {
-                        "fecha": "13-11-2024",
-                        "detalles": {
-                        "estado": "enfermo",
-                            "enfermedad": "Asfixia Radicular",
-                            "impacto": "Alto",
-                            "descripcion": "Aparece en condiciones de alta humedad.",
-                            "confiabilidad": 75,
-                            "recomendaciones": "No aplicar riego en exceso y usar emisores de similar caudal en el sector."
-                        }
-                    }
-                ]
+        
+    if output == True and nombreCuartel == "p9s9":
+        return {
+                "fecha": f"{fecha}",
+                "estado": "Asfixia Radicular",
+                "enfermedad": True,
+                "impacto": "Alto",
+                "descripcion": "Se detecta riesgo de asfixia radicular en tu plantación debido a altos niveles de humedad en el suelo.",
+                "confiabilidad": "98.846%",
+                "recomendaciones": [
+                    "Mejorar el drenaje del suelo en la zona afectada.",
+                    "Evitar el riego excesivo hasta que los niveles de humedad disminuyan.",
+                    "Realizar análisis de suelo para verificar el contenido de oxígeno y ajustar prácticas de riego."
+                    ]
+                }
+    else:  
+        output = {
+                    "fecha": f"{fecha}",
+                    "estado": "Sano",
+                    "enfermedad": False,
+                    "impacto": "No aplica",
+                    "descripcion": "Tu cuartel esta sano.",
+                    "confiabilidad": "98.846%",
+                    "recomendaciones": []
+                }
 
     return output
 

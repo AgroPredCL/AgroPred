@@ -7,3 +7,4 @@
 /model-service/modelos/model_fit_N.joblib
 /model-service/modelos/Avocado_classification_Inception_v1.h5
 *agropred.pem
+**/Dockerfile
