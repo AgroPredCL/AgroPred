@@ -36,13 +36,13 @@ const Enviar_foto = ({ file, uploadDate, onClose, onUploadSuccess, tipo }) => {
     }
 
     setLoading(true); // Mostrar el spinner de carga
-    console.log("file",file)
+    //console.log("file",file)
     try {
       const imageBlob = base64ToBlob(file, mimeType);
       const formData = new FormData();
       formData.append('file', imageBlob, '01.png');
-      console.log("tipo",tipo)
-      console.log("formData",formData)
+      //console.log("tipo",tipo)
+      //console.log("formData",formData)
       let response;
       if (tipo === 'fruta') {
         response = await uploadFrutaImage(formData).unwrap(); // Corregido aquí
