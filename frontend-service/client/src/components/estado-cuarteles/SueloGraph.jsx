@@ -22,7 +22,7 @@ const formatDateForDisplay = dateString => {
 export default function SueloGraph({ cuartel }) {
 	const [dateRange, setDateRange] = useState({
 		start: '01-01-2023',
-		end: '01-03-2023',
+		end: '10-01-2023',
 	});
 	const [predictDays, setPredictDays] = useState('');
 	const [predictedData, setPredictedData] = useState(null);
